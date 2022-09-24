@@ -6,3 +6,8 @@ function laCajaDePandora(numero) {
     return (numero >>> 0).toString(16)
 
 }
+
+function Belen(){
+
+    return {nombre: 'Belen', edad:'18', nacionalidad: 'Argentina'}
+}
