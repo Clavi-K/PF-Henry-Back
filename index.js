@@ -8,3 +8,7 @@ function laCajaDePandora(numero) {
     }
 
 }
+
+function luciano() {
+    return {edad: 21, nacionalidad: "Argentina"}
+}
