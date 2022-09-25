@@ -5,3 +5,10 @@ function laCajaDePandora(numero) {
     }
     return (numero).toString(16)
 }
+
+function Angela() {
+    return{
+        edad:25,
+        nacionalidad:'Narnia'
+    }
+}
