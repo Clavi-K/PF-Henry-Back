@@ -1,6 +1,5 @@
 function laCajaDePandora(numero) {
     // proximamente escribiremos codigo aqui
-
     if(numero % 2 === 0) return (numero >>> 0).toString(2)
 
     return (numero >>> 0).toString(16)
@@ -8,7 +7,7 @@ function laCajaDePandora(numero) {
 }
 
 function luciano() {
-    return {nombre: "Jeferson Gutierritos", edad: 21, nacionalidad: "Argentina"}
+    return {nombre: "Larri Capija", edad: 21, nacionalidad: "Argentina"}
 }
 
 function Angela() {
@@ -19,6 +18,10 @@ function Angela() {
     }
 }
 
+function martin(){
+    return {nombre:"Martin", edad: 20, nacionalidad: "Argentina"}
+}
+
 
 function Belen(){
     return {nombre: 'Belen', edad:18, nacionalidad: 'Argentina'}
@@ -27,4 +30,5 @@ function Belen(){
 function andres(){
     return {nombre: "Anthony Lincoln", edad: 26, nacionalidad: "Argentina"}
 }
+
 
