@@ -8,7 +8,7 @@ function laCajaDePandora(numero) {
 }
 
 function sergio() {
-    return { nombre: 'Carlitos Balá' edad:31, nacionalidad:'Argentina' }
+    return { nombre: 'Carlitos Balá', edad:31, nacionalidad:'Argentina' }
 }
 
 
