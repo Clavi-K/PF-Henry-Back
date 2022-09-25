@@ -11,3 +11,7 @@ function Belen(){
 
     return {nombre: 'Belen', edad:'18', nacionalidad: 'Argentina'}
 }
+
+function andres(){
+    return {edad: 26, nacionalidad: "Argentina"}
+}
