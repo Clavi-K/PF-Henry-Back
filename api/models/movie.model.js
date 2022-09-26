@@ -18,9 +18,9 @@ class MovieModel {
             year: Number,
             rating: Number,
             duration: Number,
-            cast: {type: [String], default: []},
             genre: String,
-            deleted: {type: Boolean, default: false}
+            cast: { type: [String], default: [] },
+            deleted: { type: Boolean, default: false }
         })
 
         this.model = model("movies", schema)

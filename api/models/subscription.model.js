@@ -6,18 +6,18 @@ const { Schema, model } = require("mongoose")
 
 /* ===== DATABASE MODEL ===== */
 
-class FunctionModel {
+class SubscriptionModel {
 
     constructor() {
 
         const schema = new Schema({
-            movie: String,
-            dateTime: Date,
-            room: String,
+            user: String,
+            price: Number,
+            startedAt: Date,
             deleted: { type: Boolean, default: false }
         })
 
-        this.model = model("functions", schema)
+        this.model = model("subscriptions", schema)
 
     }
 
@@ -27,6 +27,6 @@ class FunctionModel {
 
 /* ===== MODEL EXPORT ===== */
 
-module.exports = new FunctionModel()
+module.exports = new SubscriptionModel()
 
 /* ========== */
