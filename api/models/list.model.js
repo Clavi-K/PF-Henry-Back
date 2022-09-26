@@ -12,6 +12,7 @@ class ListModel {
 
         const schema = new Schema({
             author: String,
+            name: String,
             contributors: {type: [String], default: []},
             movies: {type: [String], default: []}
         })
