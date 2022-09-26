@@ -16,7 +16,8 @@ class UserModel {
             email: String,
             username: String,
             password: String,
-            reservations: {type: [String], default: []}
+            reservations: {type: [String], default: []},
+            deleted: {type: Boolean, default: false}
         })
 
         this.model = model("users", schema)

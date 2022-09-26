@@ -13,7 +13,8 @@ class FunctionModel {
         const schema = new Schema({
             movie: String,
             dateTime: Date,
-            room: String
+            room: String,
+            deleted: {type: Boolean, default: false}
         })
 
         this.model = model("functions", schema)

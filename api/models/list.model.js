@@ -14,7 +14,8 @@ class ListModel {
             author: String,
             name: String,
             contributors: {type: [String], default: []},
-            movies: {type: [String], default: []}
+            movies: {type: [String], default: []},
+            deleted: {type: Boolean, default: false}
         })
 
         this.model = model("lists", schema)
