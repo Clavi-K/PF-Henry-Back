@@ -21,7 +21,7 @@ class UserModel {
             deleted: {type: Boolean, default: false}
         })
 
-        this.model = model("users", schema)
+        this.model = model('users', schema)
 
     }
 

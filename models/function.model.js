@@ -6,17 +6,18 @@ const { Schema, model } = require("mongoose")
 
 /* ===== DATABASE MODEL ===== */
 
-class RoomModel {
+class FunctionModel {
 
     constructor() {
 
         const schema = new Schema({
-            number: Number,
-            seats: { type: [String], default: [] },
-            deleted: {type: Boolean, default: false}
+            movie: String,
+            dateTime: Date,
+            room: String,
+            deleted: { type: Boolean, default: false }
         })
 
-        this.model = model("rooms", schema)
+        this.model = model('functions', schema)
 
     }
 
@@ -26,6 +27,6 @@ class RoomModel {
 
 /* ===== MODEL EXPORT ===== */
 
-module.exports = new RoomModel()
+module.exports = new FunctionModel()
 
 /* ========== */
