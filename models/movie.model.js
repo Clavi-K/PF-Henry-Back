@@ -23,7 +23,7 @@ class MovieModel {
             deleted: { type: Boolean, default: false }
         })
 
-        this.model = model("movies", schema)
+        this.model = model('movies', schema)
 
     }
 
