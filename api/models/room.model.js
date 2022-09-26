@@ -11,7 +11,7 @@ class RoomModel {
     constructor() {
 
         const schema = new Schema({
-            capacity: Number,
+            number: Number,
             seats: { type: [String], default: [] }
         })
 
