@@ -9,6 +9,7 @@ module.exports = {
     },
     moviesApi: {
         MOVIESPOPULARURL: process.env.MOVIESPOPULARURL,
-        SEARCHURL: process.env.MOVIESSEARCHURL
+        SEARCHURL: process.env.MOVIESSEARCHURL,
+        GENRESURL: process.env.GENRESURL
     }
 }

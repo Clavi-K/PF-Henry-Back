@@ -15,6 +15,8 @@ const router = new Router()
 
 router.get("/popular", controller.getAllPopular)
 
+router.get("/genres", controller.getAllGenres)
+
 /* ========== */
 
 /* ===== ROUTER EXPORT ===== */
