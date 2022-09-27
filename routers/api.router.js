@@ -14,9 +14,9 @@ const router = new Router()
 /* ===== ROUTES ===== */
 
 router.get("/popular", controller.getAllPopular)
+router.get("/genres", controller.getAllGenres)
 router.get("/:movieId", controller.getMovie)
 
-router.get("/genres", controller.getAllGenres)
 
 /* ========== */
 
