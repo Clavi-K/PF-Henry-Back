@@ -11,10 +11,10 @@ class ListModel {
     constructor() {
 
         const schema = new Schema({
-            author: String,
+            userId: String,
             name: String,
-            contributors: {type: [String], default: []},
-            movies: {type: [String], default: []},
+            contributorsId: {type: [String], default: []},
+            moviesId: {type: [String], default: []},
             deleted: {type: Boolean, default: false}
         })
 
