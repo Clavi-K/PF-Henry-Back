@@ -5,15 +5,17 @@ const service = require('../services/api.service.js')
 
 module.exports = {
     
-    getAllPopular: async (req, res) => {
+    getAllPopular: async (req,res,next) => {
 
         try {
             const movies = await service.getAllPopular()
-            return res.status(200).send(movies)
+             res.status(200).send(movies)
+             
+            
 
         } catch(e) {
-            console.log(e)
-            res.status(400).send(e)
+            //llama al middleware para manejar el error
+            next(e)
         }
 
     }
