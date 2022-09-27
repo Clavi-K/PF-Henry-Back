@@ -11,9 +11,9 @@ class FunctionModel {
     constructor() {
 
         const schema = new Schema({
-            movie: String,
+            movieId: String,
+            roomId: String,
             dateTime: Date,
-            room: String,
             deleted: { type: Boolean, default: false }
         })
 
