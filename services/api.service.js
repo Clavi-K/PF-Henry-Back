@@ -53,7 +53,6 @@ module.exports = {
 
         try {
             const response = await axios.get(config.moviesApi.GENRESURL)
-         
             return response.data.genres
         } catch (e) {
             throw new Error(e)
