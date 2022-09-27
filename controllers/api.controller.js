@@ -18,6 +18,18 @@ module.exports = {
             next(e)
         }
 
+    },
+
+    getAllGenres: async (req,res,next) => {
+
+        try {
+            const genres = await service.getAllGenres()
+             res.status(200).send(genres)
+        } catch(e) {
+            
+            next(e)
+        }
+
     }
     
 }

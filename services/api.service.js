@@ -1,6 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const axios = require('axios')
+const { response } = require('express')
 const config = require('../config')
 
 /* ========== */
@@ -42,6 +43,18 @@ module.exports = {
 
             return movies
 
+        } catch (e) {
+            throw new Error(e)
+        }
+
+    },
+
+    getAllGenres: async () => {
+
+        try {
+            const response = await axios.get(config.moviesApi.GENRESURL)
+         
+            return response.data.genres
         } catch (e) {
             throw new Error(e)
         }
