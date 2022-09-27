@@ -9,8 +9,9 @@ require('dotenv').config({ path: '.env' })
 const express = require('express')
 const mongoose = require('mongoose')
 const config = require('./config')
+const routes = require('./routers/index');
 
-const apiMoviesRouter = require('./routers/api.router.js')
+
 
 /* ========== */
 
@@ -39,7 +40,7 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
     /* ===== ROUTERS ===== */
 
-    app.use("/api", apiMoviesRouter)
+    app.use("/", routes)
 
     /* ========== */
 
