@@ -11,7 +11,7 @@ class SubscriptionModel {
     constructor() {
 
         const schema = new Schema({
-            user: String,
+            userId: String,
             price: Number,
             startedAt: Date,
             deleted: { type: Boolean, default: false }
