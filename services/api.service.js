@@ -40,9 +40,7 @@ module.exports = {
             
             }
 
-            console.log(movies)
-
-            return {...movies, count: movies.length}
+            return movies
 
         } catch (e) {
             throw new Error(e)
