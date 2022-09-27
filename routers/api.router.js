@@ -14,6 +14,7 @@ const router = new Router()
 /* ===== ROUTES ===== */
 
 router.get("/popular", controller.getAllPopular)
+router.get("/:movieId", controller.getMovie)
 
 /* ========== */
 
