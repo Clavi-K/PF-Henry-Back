@@ -11,15 +11,16 @@ class MovieModel {
     constructor() {
 
         const schema = new Schema({
-            name: String,
+            _id: Number,
+            title: String,
             summary: String,
-            director: String,
-            image: String,
-            year: Number,
             rating: Number,
+            vote_count: Number,
             duration: Number,
-            genre: String,
-            cast: { type: [String], default: [] },
+            release_date: String,
+            image: String,
+            onCinema: {type: Boolean, default: true},
+            genres: {type: [Number], default: []},
             deleted: { type: Boolean, default: false }
         })
 
