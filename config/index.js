@@ -6,5 +6,9 @@ module.exports = {
         DATABASE: process.env.ATLASDATABASE,
         OPTIONS: process.env.ATLASOPTIONS,
         HOSTNAME: process.env.ATLASHOSTNAME
+    },
+    moviesApi: {
+        MOVIESPOPULARURL: process.env.MOVIESPOPULARURL,
+        SEARCHURL: process.env.MOVIESSEARCHURL
     }
 }

@@ -10,6 +10,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const config = require('./config')
 
+const apiMoviesRouter = require('./routers/api.router.js')
+
 /* ========== */
 
 /* ===== VARIABLES ===== */
@@ -32,6 +34,12 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
+
+    /* ========== */
+
+    /* ===== ROUTERS ===== */
+
+    app.use("/moviesApi", apiMoviesRouter)
 
     /* ========== */
 
