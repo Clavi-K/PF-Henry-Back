@@ -16,6 +16,8 @@ const router = new Router()
 router.get("/popular", controller.getAllPopular)
 router.get("/:movieId", controller.getMovie)
 
+router.get("/genres", controller.getAllGenres)
+
 /* ========== */
 
 /* ===== ROUTER EXPORT ===== */

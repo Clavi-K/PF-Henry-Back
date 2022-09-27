@@ -47,6 +47,19 @@ module.exports = {
             throw new Error(e)
         }
 
+    },
+    
+    getAllGenres: async () => {
+
+        try {
+            const response = await axios.get(config.moviesApi.GENRESURL)
+         
+            return response.data.genres
+        } catch (e) {
+            throw new Error(e)
+        }
+
+
     }
 
 }
@@ -69,8 +82,7 @@ function movieParser(m) {
         onCinema: false,
         deleted: false,
         genres: m.genre_ids
-    }
-
+        }
 }
 
 /* ========== */
