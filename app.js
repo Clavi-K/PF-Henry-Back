@@ -39,7 +39,7 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
     /* ===== ROUTERS ===== */
 
-    app.use("/moviesApi", apiMoviesRouter)
+    app.use("/api", apiMoviesRouter)
 
     /* ========== */
 
