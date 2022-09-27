@@ -15,7 +15,7 @@ class FunctionModel {
             dateTime: Date,
             room: String,
             deleted: { type: Boolean, default: false }
-        })
+        }, { versionKey: false })
 
         this.model = model('functions', schema)
 
