@@ -11,8 +11,7 @@ const mongoose = require('mongoose')
 const config = require('./config')
 const routes = require('./routers/index');
 const cors = require('cors')
-
-
+const logger = require("./utils/logger")
 
 /* ========== */
 
@@ -68,11 +67,13 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
     const status = err.status || 500;
     const message = err.message || err;
+    logger.error(err.message)
+
     res.status(status).send(message);
-    
+
   });
 
-  app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
+  app.listen(PORT, () => logger.log(`Listening on port ${PORT}`))
 
   /* ========== */
 
