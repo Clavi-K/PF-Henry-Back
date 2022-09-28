@@ -68,7 +68,10 @@ module.exports = {
 
         try {
             const response = await axios.get(config.moviesApi.GETUPCOMINGURL)
-            return response.data.results
+            const formattedMovies = response.data.results.map(m => {
+                return movieParser(m)
+            })
+            return formattedMovies
         } catch (e) {
             logger.error(e)
             throw new Error(e)
