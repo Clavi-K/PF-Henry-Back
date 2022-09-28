@@ -13,6 +13,7 @@ const router = Router();
 
 /* ===== ROUTES ===== */
 
+router.get('/getAllFunctions', controller.getAllFunctions)
 router.post('/postFunction', controller.postFunction)
 
 /* ========== */

@@ -18,8 +18,20 @@ module.exports = {
     } catch (e) {
       next(e)
     }
-  }
+  },
 
+  getAllFunctions: async (req, res, next) => {
+
+    try {
+
+      const functions = await service.getAllFunctions()
+      return res.status(200).send(functions)
+
+    } catch(e) {
+      next(e)
+    }
+
+  }
 }
 
 /* ========== */

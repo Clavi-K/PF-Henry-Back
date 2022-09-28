@@ -1,6 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const model = require("../models/function.model.js")
+const functionModel = require("../models/function.model.js")
+const logger = require("../utils/logger.js")
 
 /* ========== */
 
@@ -23,8 +24,20 @@ module.exports = {
         }
 
         try {
-            return await model.save(obj)
+            return await functionModel.save(obj)
         } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getAllFunctions: async () => {
+
+        try {
+            return await functionModel.getAll()
+        } catch(e) {
+            logger.error(e)
             throw new Error(e)
         }
 

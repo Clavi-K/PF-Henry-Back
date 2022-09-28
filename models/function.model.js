@@ -28,6 +28,11 @@ class FunctionModel {
         return result
     }
 
+    async getAll() {
+        const functions = await this.model.find({}).lean()
+        return functions
+    }
+
     /* ========== */
 
 }
