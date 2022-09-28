@@ -18,7 +18,7 @@ module.exports = {
 
     getMovie: async (req, res, next) => {
 
-        const {movieId} = req.params
+        const { movieId } = req.params
 
         try {
             const movie = await service.getMovie(movieId)
@@ -29,13 +29,13 @@ module.exports = {
 
     },
 
-    getAllGenres: async (req,res,next) => {
+    getAllGenres: async (req, res, next) => {
 
         try {
             const genres = await service.getAllGenres()
-             res.status(200).send(genres)
-        } catch(e) {
-            
+            res.status(200).send(genres)
+        } catch (e) {
+
             next(e)
         }
 
