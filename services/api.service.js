@@ -2,6 +2,7 @@
 
 const axios = require('axios')
 const config = require('../config')
+const logger = require('../utils/logger')
 
 /* ========== */
 
@@ -31,6 +32,7 @@ module.exports = {
             return movies
 
         } catch (e) {
+            logger.error(e)
             throw new Error(e)
         }
 
@@ -43,18 +45,20 @@ module.exports = {
         try {
             const movie = await axios.get(axiosURL)
             return movie.data
-        } catch(e) {
+        } catch (e) {
+            logger.error(e)
             throw new Error(e)
         }
 
     },
-    
+
     getAllGenres: async () => {
 
         try {
             const response = await axios.get(config.moviesApi.GENRESURL)
             return response.data.genres
         } catch (e) {
+            logger.error(e)
             throw new Error(e)
         }
 
@@ -81,7 +85,7 @@ function movieParser(m) {
         onCinema: false,
         deleted: false,
         genres: m.genre_ids
-        }
+    }
 }
 
 /* ========== */

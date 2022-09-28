@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Schema, model } = require("mongoose")
+const { Schema, model, Types } = require("mongoose")
 
 /* ========== */
 
@@ -13,13 +13,34 @@ class FunctionModel {
         const schema = new Schema({
             movieId: String,
             dateTime: Date,
-            room: String,
+            roomId: String,
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
 
         this.model = model('functions', schema)
 
     }
+
+    /* ===== MODEL METHODS ===== */
+
+    async save(obj) {
+        const result = await this.model.create(obj)
+        return result
+    }
+
+    async getAll() {
+        const functions = await this.model.find({}).lean()
+        return functions
+    }
+
+    async update(obj) {
+
+        const original = await this.model.updateOne({ _id: Types.ObjectId(obj._id) }, obj)
+        return original
+
+    }
+
+    /* ========== */
 
 }
 
