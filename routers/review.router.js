@@ -12,7 +12,8 @@ const router = Router();
 /* ========== */
 
 /* ===== ROUTES ===== */
-
+router.get('/getAll', controller.getAll)
+router.post('/post', controller.post)
 /* ========== */
 
 /* ===== ROUTER EXPORT ===== */
