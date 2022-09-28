@@ -1,33 +1,43 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Schema, model } = require("mongoose")
+const { Schema, model } = require("mongoose");
 
 /* ========== */
 
 /* ===== DATABASE MODEL ===== */
 
 class ReviewModel {
+  constructor() {
+    const schema = new Schema(
+      {
+        userId: String,
+        movieId: String,
+        stars: Number,
+        description: String,
+        deleted: { type: Boolean, default: false },
+      },
+      { versionKey: false }
+    );
 
-    constructor() {
+    this.model = model("reviews", schema);
+  }
 
-        const schema = new Schema({
-            userId: String,
-            movieId: String,
-            stars: Number,
-            description: String,
-            deleted: {type: Boolean, default: false}
-        })
+  /* ===== MODEL METHODS ===== */
+  async save(obj) {
+    const result = await this.model.create(obj);
+    return result;
+  }
 
-        this.model = model('reviews', schema)
-
-    }
-
+  async getAll() {
+    const reviews = await this.model.find({}).lean();
+    return reviews;
+  }
 }
 
 /* ========== */
 
 /* ===== MODEL EXPORT ===== */
 
-module.exports = new ReviewModel()
+module.exports = new ReviewModel();
 
 /* ========== */

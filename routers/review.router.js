@@ -1,7 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Router } = require('express')
-const controller = require('../controllers/review.controller.js')
+const { Router } = require("express");
+const controller = require("../controllers/review.controller.js");
 
 /* ==========*/
 
@@ -12,8 +12,8 @@ const router = Router();
 /* ========== */
 
 /* ===== ROUTES ===== */
-router.get('/getAll', controller.getAll)
-router.post('/post', controller.post)
+router.get("/getAll", controller.getAll);
+router.post("/post", controller.post);
 /* ========== */
 
 /* ===== ROUTER EXPORT ===== */
