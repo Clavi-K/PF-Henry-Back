@@ -17,6 +17,7 @@ class UserModel {
             username: String,
             password: String,
             role: String,
+            avatar: String,
             reservations: {type: [String], default: []},
             deleted: {type: Boolean, default: false}
         })
