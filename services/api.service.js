@@ -16,7 +16,7 @@ module.exports = {
 
             let movies = []
 
-            for (let i = 1; i < 21; i++) {
+            for (let i = 1; i < 2; i++) {
 
                 const response = await axios.get(`${config.moviesApi.MOVIESPOPULARURL}&page=${i}`)
 
