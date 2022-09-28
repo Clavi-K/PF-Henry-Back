@@ -11,6 +11,7 @@ module.exports = {
         MOVIESPOPULARURL: process.env.MOVIESPOPULARURL,
         SEARCHURL: process.env.MOVIESSEARCHURL,
         GETMOVIE: process.env.GETMOVIE,
-        GENRESURL: process.env.GENRESURL
+        GENRESURL: process.env.GENRESURL,
+        GETUPCOMINGURL: process.env.GETUPCOMINGURL
     }
 }
