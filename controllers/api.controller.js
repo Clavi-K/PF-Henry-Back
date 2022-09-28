@@ -39,6 +39,18 @@ module.exports = {
             next(e)
         }
 
+    },
+
+    getUpcoming: async (req, res, next) => {
+
+
+        try {
+            const results = await service.getUpcoming()
+            res.status(200).send(results)
+        } catch (e) {
+            next(e)
+        }
+
     }
 
 }

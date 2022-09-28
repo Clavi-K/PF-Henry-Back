@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const functionModel = require("../models/function.model.js")
+const model = require("../models/function.model.js")
 const logger = require("../utils/logger.js")
 
 /* ========== */
@@ -9,7 +9,7 @@ const logger = require("../utils/logger.js")
 
 module.exports = {
 
-    postFunction: async (obj) => {
+    post: async (obj) => {
 
         if (!obj.movieId) {
             throw new Error("Missing movie ID")
@@ -24,7 +24,7 @@ module.exports = {
         }
 
         try {
-            return await functionModel.save(obj)
+            return await model.save(obj)
         } catch (e) {
             logger.error(e)
             throw new Error(e)
@@ -32,10 +32,10 @@ module.exports = {
 
     },
 
-    getAllFunctions: async () => {
+    getAll: async () => {
 
         try {
-            return await functionModel.getAll()
+            return await model.getAll()
         } catch(e) {
             logger.error(e)
             throw new Error(e)
@@ -43,7 +43,7 @@ module.exports = {
 
     },
 
-    updateFunction: async (obj) => {
+    update: async (obj) => {
 
         if (!obj._id) {
             throw new Error("Missing function ID")
@@ -62,7 +62,7 @@ module.exports = {
         }
 
         try {
-            return await functionModel.update(obj)
+            return await model.update(obj)
         } catch (e) {
             logger.error(e)
             throw new Error(e)
