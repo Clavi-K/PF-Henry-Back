@@ -41,7 +41,34 @@ module.exports = {
             throw new Error(e)
         }
 
-    }
+    },
+
+    updateFunction: async (obj) => {
+
+        if (!obj._id) {
+            throw new Error("Missing function ID")
+        }
+
+        if (!obj.movieId) {
+            throw new Error("Missing movie ID")
+        }
+
+        if (!obj.room) {
+            throw new Error("Missing room ID")
+        }
+
+        if (!isValidDate(obj.dateTime)) {
+            throw new Error("Invalid function date")
+        }
+
+        try {
+            return await functionModel.update(obj)
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
 
 }
 
