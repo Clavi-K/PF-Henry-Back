@@ -1,6 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/review.model.js");
+const apiService = require("../services/api.service")
 const logger = require("../utils/logger.js");
 
 /* ========== */
@@ -8,20 +9,27 @@ const logger = require("../utils/logger.js");
 /* ===== EXPORT SERVICE ===== */
 
 module.exports = {
+
   post: async (obj) => {
-    if (!obj.movieId) {
-      throw new Error("Missing movie ID");
+
+    if (!obj.userId || typeof obj.userId !== "string") {
+      throw new Error("Missing  or invalid user ID");
     }
 
-    if (!obj.userId) {
-      throw new Error("Missing user ID");
+    if (!obj.movieId || isNaN(Number(obj.movieId))) {
+      throw new Error("Missing or invalid movie ID");
+    }
+    
+    const movieTest = await apiService.getMovie(obj.movieId)
+    if(!movieTest.title) {
+      throw new Error("Missing or invalid movie ID");
     }
 
-    if (!obj.description) {
+    if (!obj.description || typeof obj.description !== "string" || obj.description.trim(" ").length === 0) {
       throw new Error("Missing description");
     }
 
-    if (!obj.stars) {
+    if (!obj.stars || isNaN(Number(obj.stars))) {
       throw new Error("Missing stars");
     }
 

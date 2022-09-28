@@ -11,7 +11,7 @@ class ReviewModel {
     const schema = new Schema(
       {
         userId: String,
-        movieId: String,
+        movieId: Number,
         stars: Number,
         description: String,
         deleted: { type: Boolean, default: false },
