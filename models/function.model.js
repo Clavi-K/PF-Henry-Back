@@ -13,13 +13,22 @@ class FunctionModel {
         const schema = new Schema({
             movieId: String,
             dateTime: Date,
-            room: String,
+            roomId: String,
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
 
         this.model = model('functions', schema)
 
     }
+
+    /* ===== MODEL METHODS ===== */
+
+    async save(obj) {
+        const result = await this.model.create(obj)
+        return result
+    }
+
+    /* ========== */
 
 }
 
