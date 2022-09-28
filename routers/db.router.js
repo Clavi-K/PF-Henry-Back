@@ -15,7 +15,7 @@ const router = Router();
 
 router.get('/getAllFunctions', controller.getAllFunctions)
 router.post('/postFunction', controller.postFunction)
-
+router.put('/updateFunction', controller.updateFunction)
 /* ========== */
 
 /* ===== ROUTER EXPORT ===== */

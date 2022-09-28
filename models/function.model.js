@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Schema, model } = require("mongoose")
+const { Schema, model, Types } = require("mongoose")
 
 /* ========== */
 
@@ -31,6 +31,13 @@ class FunctionModel {
     async getAll() {
         const functions = await this.model.find({}).lean()
         return functions
+    }
+
+    async update(obj) {
+
+        const original = await this.model.updateOne({ _id: Types.ObjectId(obj._id) }, obj)
+        return original
+
     }
 
     /* ========== */

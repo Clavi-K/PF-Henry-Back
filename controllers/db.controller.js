@@ -31,7 +31,20 @@ module.exports = {
       next(e)
     }
 
-  }
+  },
+
+  updateFunction: async (req, res, next) => {
+    const updatedFunction = req.body
+
+    try {
+
+      const result = await service.updateFunction(updatedFunction)
+      return res.status(201).send(result)
+
+    } catch (e) {
+      next(e)
+    }
+  },
 }
 
 /* ========== */
