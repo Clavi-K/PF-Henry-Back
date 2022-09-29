@@ -88,6 +88,7 @@ function movieParser(m) {
         vote_count: m.vote_count,
         duration: m.runtime,
         release_date: m.release_date,
+        backdrop_path: m.backdrop_path,
         image: m.poster_path,
         onCinema: false,
         deleted: false,
