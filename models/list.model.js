@@ -14,7 +14,7 @@ class ListModel {
             userId: String,
             name: String,
             contributorsId: {type: [String], default: []},
-            moviesId: {type: [String], default: []},
+            moviesId: {type: [Number], default: []},
             deleted: {type: Boolean, default: false}
         })
 
