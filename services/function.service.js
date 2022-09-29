@@ -1,7 +1,9 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/function.model.js")
+const apiService = require("../services/api.service.js")
 const logger = require("../utils/logger.js")
+
 
 /* ========== */
 
@@ -11,16 +13,25 @@ module.exports = {
 
     post: async (obj) => {
 
-        if (!obj.movieId) {
-            throw new Error("Missing movie ID")
+        if (!obj.movieId || isNaN(Number(obj.movieId))) {
+            throw new Error("Missing or invalid movie ID")
         }
 
-        if (!obj.room) {
-            throw new Error("Missing room ID")
+        const movieTest = await apiService.getMovie(obj.movieId)
+        if (!movieTest.title) {
+            throw new Error("Missing or invalid movie ID")
+        }
+
+        if (!obj.roomId || typeof obj.roomId !== "string") {
+            throw new Error("Missing or invalid room ID")
+        }
+        
+        if (!obj.format || typeof obj.format !== "string" || obj.format.trim(" ").length === 0) {
+            throw new Error("Missing or invalid format")
         }
 
         if (!isValidDate(obj.dateTime)) {
-            throw new Error("Invalid function date")
+            throw new Error("Missing or invalid function date-time")
         }
 
         try {
@@ -36,7 +47,7 @@ module.exports = {
 
         try {
             return await model.getAll()
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }
@@ -45,16 +56,25 @@ module.exports = {
 
     update: async (obj) => {
 
-        if (!obj._id) {
+        if (!obj._id || typeof obj._id !== "string") {
             throw new Error("Missing function ID")
         }
 
-        if (!obj.movieId) {
-            throw new Error("Missing movie ID")
+        if (!obj.movieId || isNaN(Number(obj.movieId))) {
+            throw new Error("Missing or invalid movie ID")
         }
 
-        if (!obj.room) {
+        const movieTest = await apiService.getMovie(obj.movieId)
+        if (!movieTest.title) {
+            throw new Error("Missing or invalid movie ID")
+        }
+
+        if (!obj.roomId || typeof obj.roomId !== "string") {
             throw new Error("Missing room ID")
+        }
+
+        if (!obj.format || typeof obj.format !== "string" || obj.format.trim(" ").length === 0) {
+            throw new Error("Missing or invalid format")
         }
 
         if (!isValidDate(obj.dateTime)) {

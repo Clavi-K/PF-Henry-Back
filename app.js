@@ -67,7 +67,7 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
     const status = err.status || 500;
     const message = err.message || err;
-    logger.error(err.message)
+    logger.error(err)
 
     res.status(status).send(message);
 
