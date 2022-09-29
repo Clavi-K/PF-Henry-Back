@@ -91,7 +91,8 @@ function movieParser(m) {
         image: m.poster_path,
         onCinema: false,
         deleted: false,
-        genres: m.genre_ids
+        genres: m.genre_ids,
+        language: m.original_language
     }
 }
 
