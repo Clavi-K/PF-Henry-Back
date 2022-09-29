@@ -19,9 +19,9 @@ module.exports = {
     if (!obj.movieId || isNaN(Number(obj.movieId))) {
       throw new Error("Missing or invalid movie ID");
     }
-    
+
     const movieTest = await apiService.getMovie(obj.movieId)
-    if(!movieTest.title) {
+    if (!movieTest.title) {
       throw new Error("Missing or invalid movie ID");
     }
 
@@ -49,6 +49,21 @@ module.exports = {
       throw new Error(e);
     }
   },
+
+  getByMovie: async (movieId) => {
+
+    if(!movieId || isNaN(Number(movieId))) {
+      throw new Error("Invalid movie ID")
+    }
+
+    try {
+      return await model.getByMovie(movieId)
+    } catch (e) {
+      logger.error(e);
+      throw new Error(e);
+    }
+  }
+
 };
 
 /* ========== */

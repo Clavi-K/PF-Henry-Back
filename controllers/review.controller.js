@@ -25,6 +25,17 @@ module.exports = {
       next(e);
     }
   },
+
+  getByMovie: async (req, res, next) => {
+    const {movieId} = req.params
+    try {
+      const reviews = await service.getByMovie(movieId)
+      return res.status(200).send(reviews)
+    } catch(e) {
+      next(e)
+    }
+  }
+
 };
 
 /* ========== */

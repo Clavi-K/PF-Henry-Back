@@ -1,6 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const { Schema, model } = require("mongoose");
+const logger = require("../utils/logger");
 
 /* ========== */
 
@@ -32,6 +33,12 @@ class ReviewModel {
     const reviews = await this.model.find({}).lean();
     return reviews;
   }
+
+  async getByMovie(movieId) {
+    const reviews = this.model.find({movieId}).lean()
+    return reviews
+  }
+
 }
 
 /* ========== */
