@@ -3,6 +3,7 @@
 const axios = require('axios')
 const config = require('../config')
 const logger = require('../utils/logger')
+const Promise = require('bluebird')
 
 /* ========== */
 
@@ -16,20 +17,13 @@ module.exports = {
         try {
 
             let movies = []
+            let promises = []
 
-            for (let i = 1; i < 2; i++) {
-
-                const response = await axios.get(`${config.moviesApi.MOVIESPOPULARURL}&page=${i}`)
-
-                const formattedMovies = response.data.results.map(m => {
-                    return movieParser(m)
-                })
-
-                movies = [...movies, ...formattedMovies]
-
+            for (let i = 1; i < 21; i++) {
+                promises.push(axios.get(`${config.moviesApi.MOVIESPOPULARURL}&page=${i}`).then(response => response.data.results.map(m => movies = [...movies, movieParser(m)])))
             }
 
-            return movies
+           return Promise.all(promises).then(r => {return movies})
 
         } catch (e) {
             logger.error(e)
