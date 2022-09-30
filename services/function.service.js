@@ -22,6 +22,8 @@ module.exports = {
             throw new Error("Missing or invalid movie ID")
         }
 
+        obj.movieTitle = movieTest.title
+
         if (!obj.roomId || typeof obj.roomId !== "string") {
             throw new Error("Missing or invalid room ID")
         }
@@ -68,6 +70,8 @@ module.exports = {
         if (!movieTest.title) {
             throw new Error("Missing or invalid movie ID")
         }
+
+        obj.movieTitle = movieTest.title
 
         if (!obj.roomId || typeof obj.roomId !== "string") {
             throw new Error("Missing room ID")

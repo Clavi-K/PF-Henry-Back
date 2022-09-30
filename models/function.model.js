@@ -12,8 +12,9 @@ class FunctionModel {
 
         const schema = new Schema({
             movieId: Number,
+            movieTitle: String,
             dateTime: Date,
-            roomId: String, 
+            roomId: String,
             format: String,
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
