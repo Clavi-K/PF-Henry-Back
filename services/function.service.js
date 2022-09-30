@@ -98,6 +98,7 @@ module.exports = {
 
 function isValidDate(date) {
     const testDate = new Date(date)
+    if (testDate < Date.now()) return false
     return testDate && Object.prototype.toString.call(testDate) === "[object Date]" && !isNaN(testDate);
 }
 
