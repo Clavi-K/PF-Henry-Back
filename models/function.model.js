@@ -13,6 +13,7 @@ class FunctionModel {
         const schema = new Schema({
             movieId: Number,
             movieTitle: String,
+            image: String,
             dateTime: Date,
             roomId: String,
             format: String,
