@@ -13,6 +13,10 @@ const routes = require('./routers/index');
 const cors = require('cors')
 const logger = require("./utils/logger")
 
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
+const passport = require('passport')
+
 /* ========== */
 
 /* ===== VARIABLES ===== */
@@ -35,6 +39,21 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
+
+  app.use(session({
+    secret: "auth",
+    resave: true,
+    saveUninitialized: true,
+    store: new MongoStore({
+      mongoUrl: `${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.PASSWORD}@${config.atlas.HOSTNAME}/${config.atlas.DATABASE}?${config.atlas.OPTIONS}`,
+      ttl: 10 * 60,
+      expires: 1000 * 10 * 60,
+      autoRemove: "native"
+    })
+  }))
+
+  app.use(passport.initialize())
+  app.use(passport.session())
 
   //cors añadido 
   app.use(cors())
