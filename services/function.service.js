@@ -23,7 +23,7 @@ module.exports = {
         }
 
         obj.movieTitle = movieTest.title
-        obj.image = movieTest.image
+        obj.image = movieTest.poster_path
 
         if (!obj.roomId || typeof obj.roomId !== "string") {
             throw new Error("Missing or invalid room ID")
@@ -73,7 +73,7 @@ module.exports = {
         }
 
         obj.movieTitle = movieTest.title
-        obj.image = movieTest.image
+        obj.image = movieTest.poster_path
 
         if (!obj.roomId || typeof obj.roomId !== "string") {
             throw new Error("Missing room ID")
