@@ -13,5 +13,10 @@ module.exports = {
         GETMOVIE: process.env.GETMOVIE,
         GENRESURL: process.env.GENRESURL,
         GETUPCOMINGURL: process.env.GETUPCOMINGURL
+    },
+    auth: {
+        GOOGLECLIENTID: process.env.GOOGLECLIENTID,
+        GOOGLESECRET: process.env.GOOGLESECRET,
+        CLIENTURL: process.env.CLIENTURL
     }
 }

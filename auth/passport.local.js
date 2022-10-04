@@ -1,7 +1,13 @@
+/* ===== REQUIRED IMPORTS ===== */
+
 const Strategy = require('passport-local').Strategy
 
 const userModel = require('../models/user.model')
 const logger = require('../utils/logger')
+
+/* ========== */
+
+/* ===== EXPORT STRATEGY ===== */
 
 module.exports = (passport) => {
 
@@ -17,7 +23,13 @@ module.exports = (passport) => {
 
         try {
             const user = await userModel.getByEmail(email)
-            return done(null, user)
+
+            if (!user.password) {
+                return done(null, false, { message: "Google Acount User (Has no password)" })
+            } else {
+                return done(null, user)
+            }
+
         } catch (e) {
             logger.error(e)
             return done(e)
@@ -58,11 +70,12 @@ module.exports = (passport) => {
                 lastname,
                 username,
             })
-            return done(null, { ...user, _id: user._id.toString() })
+
+            return done(null, user)
 
         } catch (e) {
             logger.error(e)
-            return done(e)
+            done(e)
         }
 
     }
@@ -70,11 +83,13 @@ module.exports = (passport) => {
     passport.use("login", new Strategy({ usernameField: "email" }, authenticateUser))
     passport.use("register", new Strategy({ usernameField: "email", passReqToCallback: true }, registerUser))
 
-    passport.serializeUser((user,done) => done(null, user._id))
+    passport.serializeUser((user, done) => done(null, user._id))
 
     passport.deserializeUser(async (id, done) => {
-        logger.log(id);
+        id = id.toString()
         done(null, await userModel.getById(id));
     });
 
 }
+
+/* ========== */
