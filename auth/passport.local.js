@@ -73,7 +73,7 @@ module.exports = (passport) => {
     passport.serializeUser((user,done) => done(null, user._id))
 
     passport.deserializeUser(async (id, done) => {
-        logger.info(id);
+        logger.log(id);
         done(null, await userModel.getById(id));
     });
 
