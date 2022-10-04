@@ -1,6 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const {Schema, model} = require("mongoose")
+const bcrypt = require('bcrypt')
 
 /* ========== */
 
@@ -26,6 +27,13 @@ class UserModel {
 
     }
 
+    /* ===== MODEL METHODS ===== */
+
+    async save(obj) {
+        obj.password
+    }
+
+    /* ========== */
 }
 
 /* ========== */
