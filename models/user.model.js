@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const {Schema, model} = require("mongoose")
+const { Schema, model } = require("mongoose")
 const bcrypt = require('bcrypt')
 
 /* ========== */
@@ -19,8 +19,8 @@ class UserModel {
             password: String,
             role: String,
             avatar: String,
-            reservations: {type: [String], default: []},
-            deleted: {type: Boolean, default: false}
+            reservations: { type: [String], default: [] },
+            deleted: { type: Boolean, default: false }
         })
 
         this.model = model('users', schema)
@@ -30,7 +30,24 @@ class UserModel {
     /* ===== MODEL METHODS ===== */
 
     async save(obj) {
-        obj.password
+        obj.password = await bcrypt.hash(obj.password, 10)
+        const user = await this.model.create(obj)
+
+        return { ...user, _id: user._id.toString() }
+    }
+
+    async existsByEmail(email) {
+        return this.model.exists({ email })
+    }
+
+    async getByEmail(email) {
+        const user = await this.model.findOne({ email }).lean()
+        return { ...user, _id: user._id.toString() }
+    }
+
+    async isPasswordValid(email, password) {
+        const user = await this.model.findOne({ email }).lean()
+        return await bcrypt.compare(password, user.password)
     }
 
     /* ========== */
@@ -38,7 +55,7 @@ class UserModel {
 
 /* ========== */
 
-/* ===== MODEL EXPORT ===== */ 
+/* ===== MODEL EXPORT ===== */
 
 module.exports = new UserModel()
 
