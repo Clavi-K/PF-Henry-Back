@@ -17,6 +17,8 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const passport = require('passport')
 
+const initializeLocalPassport = require('./auth/passport.local')
+
 /* ========== */
 
 /* ===== VARIABLES ===== */
@@ -36,6 +38,8 @@ const app = express()
 mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.PASSWORD}@${config.atlas.HOSTNAME}/${config.atlas.DATABASE}?${config.atlas.OPTIONS}`).then(() => {
 
   /* ===== MIDDLEWWARES ===== */
+
+  initializeLocalPassport(passport)
 
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))

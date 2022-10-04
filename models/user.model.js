@@ -12,11 +12,11 @@ class UserModel {
     constructor() {
 
         const schema = new Schema({
+            email: String,
+            password: String,
             firstname: String,
             lastname: String,
-            email: String,
             username: String,
-            password: String,
             role: String,
             avatar: String,
             reservations: { type: [String], default: [] },
@@ -47,7 +47,11 @@ class UserModel {
 
     async isPasswordValid(email, password) {
         const user = await this.model.findOne({ email }).lean()
-        return await bcrypt.compare(password, user.password)
+        return bcrypt.compare(password, user.password)
+    }
+
+    async getById(id) {
+        return await this.model.findById(id).lean();
     }
 
     /* ========== */
