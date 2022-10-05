@@ -1,7 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const { Router } = require('express')
-const controller = require('../controllers/function.controller.js')
+const controller = require('../controllers/showtime.controller.js')
 
 /* ==========*/
 

@@ -37,9 +37,9 @@ class UserModel {
         const user = await this.model.create(obj)
         return user
     }
-    
-    async getActive() {
-        const users = this.model.find({deleted: false}).lean()
+
+    async getAll() {
+        const users = this.model.find({ deleted: false }).lean()
         return users
     }
 
@@ -54,7 +54,7 @@ class UserModel {
 
     async isPasswordValid(email, password) {
         const user = await this.model.findOne({ email }).lean()
-        
+
         if (!user.password) return false
         return bcrypt.compare(password, user.password)
     }
@@ -67,6 +67,10 @@ class UserModel {
     async findOrCreateByEmail(email, obj) {
         const user = await this.model.findOneAndUpdate({ email }, obj, { upsert: true, new: true }).lean()
         return user
+    }
+
+    async logicDelete(id) {
+        await this.model.updateOne({ _id: id }, { deleted: true })
     }
 
     /* ========== */

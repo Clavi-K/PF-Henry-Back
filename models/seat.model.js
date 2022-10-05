@@ -14,7 +14,7 @@ class SeatModel {
         const schema = new Schema({
             location: String,
             userId: String,
-            functionId: String,
+            showtimeId: String,
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
 
@@ -39,17 +39,23 @@ class SeatModel {
         return seats
     }
 
-    async getByFunction(functionId) {
-        const seats = this.model.find({ functionId, deleted: false }).lean()
+    async getByShowtime(showtimeId) {
+        const seats = await this.model.find({ showtimeId, deleted: false }).lean()
         return seats
     }
-    
-    async getById(id){
-        const result = await this.model.findById(id)
+
+    async getById(id) {
+        const seat = await this.model.findById(id)
+        return seat
     }
 
     async setUserId(seatId, userId) {
-        const seat = await this.model.updateOne({_id: seatId}, {userId})
+        const updated = await this.model.updateOne({ _id: seatId }, { userId }, { new: true })
+        return updated
+    }
+
+    async logicDelete(id) {
+        await this.model.updateOne({ _id: id }, { deleted: true })
     }
 
     /* ========== */
