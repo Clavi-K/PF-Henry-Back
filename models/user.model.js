@@ -2,6 +2,7 @@
 
 const { Schema, model } = require("mongoose")
 const bcrypt = require('bcrypt')
+const logger = require("../utils/logger")
 
 /* ========== */
 
@@ -30,10 +31,11 @@ class UserModel {
     /* ===== MODEL METHODS ===== */
 
     async save(obj) {
-        obj.password = await bcrypt.hash(obj.password, 10)
+        if (obj.password) obj.password = await bcrypt.hash(obj.password, 10)
+        obj.role = "USER"
+    
         const user = await this.model.create(obj)
-
-        return { ...user, _id: user._id.toString() }
+        return user
     }
 
     async existsByEmail(email) {
@@ -42,16 +44,23 @@ class UserModel {
 
     async getByEmail(email) {
         const user = await this.model.findOne({ email }).lean()
-        return { ...user, _id: user._id.toString() }
+        return user
     }
 
     async isPasswordValid(email, password) {
         const user = await this.model.findOne({ email }).lean()
+        if (!user.password) return false
         return bcrypt.compare(password, user.password)
     }
 
     async getById(id) {
-        return await this.model.findById(id).lean();
+        const user = await this.model.findById(id).lean()
+        return user
+    }
+
+    async findOrCreateByEmail(email, obj) {
+        const user = await this.model.findOneAndUpdate({ email }, obj, { upsert: true, new: true }).lean()
+        return user
     }
 
     /* ========== */

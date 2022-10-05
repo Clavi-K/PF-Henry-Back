@@ -24,20 +24,23 @@ class ReviewModel {
   }
 
   /* ===== MODEL METHODS ===== */
+
   async save(obj) {
     const result = await this.model.create(obj);
     return result;
   }
 
   async getAll() {
-    const reviews = await this.model.find({}).lean();
-    return reviews;
+    const reviews = await this.model.find({}).lean()
+    return reviews
   }
 
   async getByMovie(movieId) {
-    const reviews = this.model.find({movieId}).lean()
+    const reviews = await this.model.find({ movieId }).lean()
     return reviews
   }
+
+  /* ========== */
 
 }
 

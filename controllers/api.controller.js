@@ -1,5 +1,8 @@
+/* ===== REQUIRED IMPORTS ===== */
 
 const service = require('../services/api.service.js')
+
+/* ========== */
 
 /* ===== EXPORT CONTROLLER ===== */
 
