@@ -9,6 +9,7 @@ const config = require('../config')
 module.exports = {
 
     login: async (req, res, next) => {
+        console.log(req.user)
         try {
             if (req.user) return res.status(200).send(req.user)
             return res.status(403).send({ error: true, message: "Not authorized" })
@@ -18,12 +19,10 @@ module.exports = {
     },
 
     logout: async (req, res, next) => {
-        try{
-            req.logout()
-            return res.redirect(`${config.auth.GOOGLECLIENTID}/login`)
-        } catch(e){
-            next(e)
-        }
+        req.logout((e) => {
+            if (e) return next(e)
+            return res.redirect(`${config.auth.CLIENTURL}/login`)
+        })
     }
 
 }

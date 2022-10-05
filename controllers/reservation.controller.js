@@ -19,6 +19,19 @@ module.exports = {
             next(e)
         }
 
+    },
+
+    getByUser: async (req, res, next) => {
+
+        try {
+            const userId = req.user._id.toString()
+            const reservations = await service.getByUser(userId)
+
+            return res.status(200).send(reservations)
+        } catch (e) {
+            next(e)
+        }
+
     }
 
 }

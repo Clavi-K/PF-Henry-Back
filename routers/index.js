@@ -7,7 +7,6 @@ const showtimeRouter = require("./showtime.router.js")
 const reviewRouter = require("./review.router.js")
 const roomRouter = require("./room.router")
 const reservationRouter = require("./reservation.router")
-const authRouter = require("./auth.router")
 
 const router = express.Router();
 
@@ -17,7 +16,6 @@ router.use('/showtime', showtimeRouter)
 router.use('/review', reviewRouter)
 router.use('/room', roomRouter)
 router.use('/reservation', reservationRouter)
-router.use('/auth', authRouter)
 
 const userModel = require("../models/user.model")
 

@@ -52,7 +52,7 @@ module.exports = {
 
   getByMovie: async (movieId) => {
 
-    if(!movieId || isNaN(Number(movieId))) {
+    if (!movieId || isNaN(Number(movieId))) {
       throw new Error("Invalid movie ID")
     }
 

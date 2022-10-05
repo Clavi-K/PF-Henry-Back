@@ -51,7 +51,7 @@ module.exports = {
                 throw new Error("No seat with that ID!")
             }
 
-            if(obj.showtimeId !== seat.showtimeId) {
+            if (obj.showtimeId !== seat.showtimeId) {
                 throw new Error("That seat does not belong to that function!")
             }
 
@@ -60,10 +60,31 @@ module.exports = {
             }
 
             await seatModel.setUserId(obj.seatId, obj.userId)
-            console.log(obj)
             return await model.save(obj)
 
-        } catch(e){
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getByUser: async (userId) => {
+
+        if (!userId || typeof userId !== "string") {
+            throw new Error("Missing or invalid user ID")
+        }
+
+        try {
+
+            const user = userModel.getById(userId)
+            if (!user) {
+                throw new Error("No user with that ID !")
+            }
+
+            return await model.getByUser(userId)
+
+        } catch(e) {
             logger.error(e)
             throw new Error(e)
         }
