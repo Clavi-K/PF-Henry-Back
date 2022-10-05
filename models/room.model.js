@@ -39,7 +39,7 @@ class RoomModel {
     }
 
     async logicDelete(id) {
-        await this.model.updateOne({ _id: id }, { deleted: true })
+        await this.model.updateOne({ _id: id }, { deleted: true }, { upsert: false })
     }
 
     /* ========== */

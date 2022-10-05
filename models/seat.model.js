@@ -50,12 +50,16 @@ class SeatModel {
     }
 
     async setUserId(seatId, userId) {
-        const updated = await this.model.updateOne({ _id: seatId }, { userId }, { new: true })
+        const updated = await this.model.updateOne({ _id: seatId }, { userId }, { new: true, upsert: false })
         return updated
     }
 
+    async clearRoom(showtimeId) {
+        await this.model.updateMany({ showtimeId }, { userId: "", showtimeId: "" }, { new: true, upsert: false })
+    }
+
     async logicDelete(id) {
-        await this.model.updateOne({ _id: id }, { deleted: true })
+        await this.model.updateOne({ _id: id }, { deleted: true }, { upsert: false })
     }
 
     /* ========== */

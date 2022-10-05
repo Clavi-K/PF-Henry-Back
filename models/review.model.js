@@ -18,7 +18,7 @@ class ReviewModel {
     }, { versionKey: false });
 
     this.model = model("reviews", schema);
-    
+
   }
 
   /* ===== MODEL METHODS ===== */
@@ -29,12 +29,12 @@ class ReviewModel {
   }
 
   async getAll() {
-    const reviews = await this.model.find({deleted: false}).lean()
+    const reviews = await this.model.find({ deleted: false }).lean()
     return reviews
   }
 
   async getByMovie(movieId) {
-    const reviews = await this.model.find({ movieId }).lean()
+    const reviews = await this.model.find({ movieId, deleted: false }).lean()
     return reviews
   }
 

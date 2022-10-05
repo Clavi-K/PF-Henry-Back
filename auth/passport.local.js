@@ -39,7 +39,7 @@ module.exports = (passport) => {
 
     const registerUser = async (req, email, password, done) => {
 
-        const { firstname, lastname, username, role, avatar, password2 } = req.body
+        const { firstname, lastname, username, avatar, password2 } = req.body
 
         if (await userModel.existsByEmail(email)) {
             return done(null, false, { message: "User already exists!" })

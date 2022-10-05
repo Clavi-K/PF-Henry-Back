@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Schema, model } = require("mongoose")
+const { Schema, Types, model } = require("mongoose")
 const bcrypt = require('bcrypt')
 const logger = require("../utils/logger")
 

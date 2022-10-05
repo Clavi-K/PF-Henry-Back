@@ -37,8 +37,13 @@ class ShowtimeModel {
         return showtimes
     }
 
+    async getById(id) {
+        const showtime = await this.model.findById(id).lean()
+        return showtime
+    }
+
     async update(obj) {
-        const updated = await this.model.updateOne({ _id: obj._id }, obj, { new: true })
+        const updated = await this.model.updateOne({ _id: obj._id }, obj, { new: true, upsert: false })
         return updated
     }
 
