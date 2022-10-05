@@ -13,12 +13,12 @@ class ReservationModel {
         const schema = new Schema({
             userId: String,
             functionId: String,
-            seat: Number,
+            seatId: String,
             type: String,
             price: Number,
             payed: Boolean,
             deleted: {type: Boolean, default: false}
-        })
+        }, { versionKey: false })
 
         this.model = model('reservations', schema)
 

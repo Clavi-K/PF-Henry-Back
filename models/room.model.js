@@ -12,7 +12,7 @@ class RoomModel {
 
         const schema = new Schema({
             number: Number,
-            seats: { type: [String], default: [] },
+            capacity: Number,
             deleted: {type: Boolean, default: false}
         })
 

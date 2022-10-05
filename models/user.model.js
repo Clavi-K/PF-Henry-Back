@@ -22,7 +22,7 @@ class UserModel {
             avatar: String,
             reservations: { type: [String], default: [] },
             deleted: { type: Boolean, default: false }
-        })
+        }, { versionKey: false })
 
         this.model = model('users', schema)
 
@@ -33,9 +33,14 @@ class UserModel {
     async save(obj) {
         if (obj.password) obj.password = await bcrypt.hash(obj.password, 10)
         obj.role = "USER"
-    
+
         const user = await this.model.create(obj)
         return user
+    }
+    
+    async getActive() {
+        const users = this.model.find({deleted: false}).lean()
+        return users
     }
 
     async existsByEmail(email) {
@@ -49,6 +54,7 @@ class UserModel {
 
     async isPasswordValid(email, password) {
         const user = await this.model.findOne({ email }).lean()
+        
         if (!user.password) return false
         return bcrypt.compare(password, user.password)
     }

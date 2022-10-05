@@ -9,18 +9,16 @@ const logger = require("../utils/logger");
 
 class ReviewModel {
   constructor() {
-    const schema = new Schema(
-      {
-        userId: String,
-        movieId: Number,
-        stars: Number,
-        description: String,
-        deleted: { type: Boolean, default: false },
-      },
-      { versionKey: false }
-    );
+    const schema = new Schema({
+      userId: String,
+      movieId: Number,
+      stars: Number,
+      description: String,
+      deleted: { type: Boolean, default: false },
+    }, { versionKey: false });
 
     this.model = model("reviews", schema);
+    
   }
 
   /* ===== MODEL METHODS ===== */
@@ -31,7 +29,7 @@ class ReviewModel {
   }
 
   async getAll() {
-    const reviews = await this.model.find({}).lean()
+    const reviews = await this.model.find({deleted: false}).lean()
     return reviews
   }
 

@@ -17,6 +17,7 @@ class FunctionModel {
             dateTime: Date,
             roomId: String,
             format: String,
+            seats: {type: [[String]], default: [[]]},
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
 
@@ -32,15 +33,13 @@ class FunctionModel {
     }
 
     async getAll() {
-        const functions = await this.model.find({}).lean()
+        const functions = await this.model.find({deleted: false}).lean()
         return functions
     }
 
     async update(obj) {
-
         const original = await this.model.updateOne({ _id: Types.ObjectId(obj._id) }, obj)
         return original
-
     }
 
     /* ========== */

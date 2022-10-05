@@ -13,7 +13,6 @@ const logger = require('../utils/logger')
 module.exports = (passport) => {
     const auth = async (accessToken, refreshToken, profile, done) => {
         const user = {
-            role: "USER",
             firstname: profile._json.given_name,
             lastname: profile._json.family_name,
             username: `${profile._json.given_name}${profile._json.family_name}`,
