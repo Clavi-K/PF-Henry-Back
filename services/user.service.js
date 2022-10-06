@@ -42,10 +42,33 @@ module.exports = {
             const result = await model.save(obj)
 
             if (reservations.length) {
+
                 reservations = reservations.map(r => {
-                    return { ...r, userId: result._id.toString() }
+                    reservationService.post({ ...r, userId: result._id.toString() })
                 })
+
             }
+
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getById: async (userId) => {
+
+        if (!userId || typeof userId !== "string") {
+            throw new Error("Missing or invalid user ID")
+        }
+
+        try {
+
+            if (!user) {
+                throw new Error("Invalid user!")
+            }
+
+            return user
 
         } catch (e) {
             logger.error(e)

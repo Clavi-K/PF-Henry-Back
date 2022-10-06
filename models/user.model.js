@@ -20,7 +20,6 @@ class UserModel {
             username: String,
             role: String,
             avatar: String,
-            reservations: { type: [String], default: [] },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
 
@@ -71,12 +70,6 @@ class UserModel {
 
     async logicDelete(id) {
         await this.model.updateOne({ _id: id }, { deleted: true })
-    }
-
-    async addReservation(userId, reservationId) {
-        const user = await this.model.findById(userId)
-        user.reservations.push(reservationId)
-        await user.save()
     }
 
     async getUserSession(id) {
