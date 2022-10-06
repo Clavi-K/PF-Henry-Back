@@ -13,7 +13,6 @@ module.exports = {
     register: async (req, res, next) => {
 
         const {user, reservations} = req.body
-        console.log(req.body)
 
         try {
             const response = await userService.post(user, reservations)

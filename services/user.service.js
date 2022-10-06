@@ -41,9 +41,9 @@ module.exports = {
             obj.reservations = []
             const result = await model.save(obj)
 
-            if (reservations) {
+            if (reservations.length) {
                 reservations = reservations.map(r => {
-                    return {...r, userId: result._id.toString()}
+                    return { ...r, userId: result._id.toString() }
                 })
             }
 
