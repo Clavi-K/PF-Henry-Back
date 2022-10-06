@@ -5,7 +5,8 @@ const logger = require("../utils/logger")
 const ApiRouter = require("./api.router.js")
 const functionRouter = require("./function.router.js")
 const reviewRouter =  require("./review.router.js")
-const autrhRouter = require("./auth.router")
+const autrhRouter = require("./auth.router.js")
+const paymentRouter = require ("./payment.router.js")
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.use('/api', ApiRouter)// ejemplo:http://localhost:8082/api/popular
 router.use('/function', functionRouter)
 router.use ('/review', reviewRouter)
 router.use('/auth', autrhRouter)
+router.use('/payment', paymentRouter)
 
 
 //Por si se ingresa una ruta no definida previamente
