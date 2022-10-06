@@ -1,7 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const config = require('../config')
-const userService = require("../models/user.model")
+const userService = require("../services/user.service")
 const logger = require('../utils/logger')
 
 /* ========== */
