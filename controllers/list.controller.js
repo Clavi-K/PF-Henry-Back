@@ -9,10 +9,10 @@ const service = require("../services/list.service.js");
 module.exports = {
 
     post: async (req, res, next) => {
-        const newRoom = req.body
+        const newList = req.body
 
         try {
-            const result = await service.post(newRoom)
+            const result = await service.post(newList)
             return res.status(201).send(result)
 
         } catch (e) {
