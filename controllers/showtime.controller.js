@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const service = require('../services/function.service.js')
+const service = require('../services/showtime.service.js')
 
 /* ========== */
 
@@ -9,11 +9,11 @@ const service = require('../services/function.service.js')
 module.exports = {
 
     post: async (req, res, next) => {
-        const newFunction = req.body
+        const newShowtime = req.body
 
         try {
 
-            const result = await service.post(newFunction)
+            const result = await service.post(newShowtime)
             return res.status(201).send(result)
 
         } catch (e) {
@@ -24,10 +24,8 @@ module.exports = {
     getAll: async (req, res, next) => {
 
         try {
-
-            const functions = await service.getAll()
-            return res.status(200).send(functions)
-
+            const showtimes = await service.getAll()
+            return res.status(200).send(showtimes)
         } catch (e) {
             next(e)
         }
@@ -35,13 +33,11 @@ module.exports = {
     },
 
     update: async (req, res, next) => {
-        const updatedFunction = req.body
+        const updatedShowtime = req.body
 
         try {
-
-            const result = await service.update(updatedFunction)
+            const result = await service.update(updatedShowtime)
             return res.status(201).send(result)
-
         } catch (e) {
             next(e)
         }

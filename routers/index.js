@@ -3,19 +3,28 @@ const logger = require("../utils/logger")
 
 //Se importan todas las rutas
 const ApiRouter = require("./api.router.js")
-const functionRouter = require("./function.router.js")
-const reviewRouter =  require("./review.router.js")
-const autrhRouter = require("./auth.router")
+const showtimeRouter = require("./showtime.router.js")
+const reviewRouter = require("./review.router.js")
+const roomRouter = require("./room.router")
+const reservationRouter = require("./reservation.router")
+const authRouter = require("./auth.router")
 
 const router = express.Router();
 
-
 //Se definen las rutas base 
+router.use("/auth", authRouter)
 router.use('/api', ApiRouter)// ejemplo:http://localhost:8082/api/popular
-router.use('/function', functionRouter)
-router.use ('/review', reviewRouter)
-router.use('/auth', autrhRouter)
+router.use('/showtime', showtimeRouter)
+router.use('/review', reviewRouter)
+router.use('/room', roomRouter)
+router.use('/reservation', reservationRouter)
 
+const userModel = require("../models/user.model")
+
+router.post("/test", async (req, res) => {
+  console.log(await userModel.getById("633cb93893ae09e5243ac4ca"))
+  res.send(await userModel.getById("633cb93893ae09e5243ac4ca"))
+})
 
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {

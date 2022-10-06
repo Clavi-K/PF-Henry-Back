@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Schema, model } = require("mongoose")
+const { Schema, Types, model } = require("mongoose")
 const bcrypt = require('bcrypt')
 const logger = require("../utils/logger")
 
@@ -22,7 +22,7 @@ class UserModel {
             avatar: String,
             reservations: { type: [String], default: [] },
             deleted: { type: Boolean, default: false }
-        })
+        }, { versionKey: false })
 
         this.model = model('users', schema)
 
@@ -33,9 +33,14 @@ class UserModel {
     async save(obj) {
         if (obj.password) obj.password = await bcrypt.hash(obj.password, 10)
         obj.role = "USER"
-    
+
         const user = await this.model.create(obj)
         return user
+    }
+
+    async getAll() {
+        const users = this.model.find({ deleted: false }).lean()
+        return users
     }
 
     async existsByEmail(email) {
@@ -49,6 +54,7 @@ class UserModel {
 
     async isPasswordValid(email, password) {
         const user = await this.model.findOne({ email }).lean()
+
         if (!user.password) return false
         return bcrypt.compare(password, user.password)
     }
@@ -61,6 +67,24 @@ class UserModel {
     async findOrCreateByEmail(email, obj) {
         const user = await this.model.findOneAndUpdate({ email }, obj, { upsert: true, new: true }).lean()
         return user
+    }
+
+    async logicDelete(id) {
+        await this.model.updateOne({ _id: id }, { deleted: true })
+    }
+
+    async getUserSession(id) {
+        const user = await this.model.findById(id).lean()
+
+        return {
+            _id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            reservations: user.reservations
+        }
     }
 
     /* ========== */

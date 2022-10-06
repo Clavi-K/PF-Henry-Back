@@ -16,7 +16,7 @@ class ListModel {
             contributorsId: {type: [String], default: []},
             moviesId: {type: [Number], default: []},
             deleted: {type: Boolean, default: false}
-        })
+        }, { versionKey: false })
 
         this.model = model('lists', schema)
 
