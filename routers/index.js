@@ -7,10 +7,12 @@ const showtimeRouter = require("./showtime.router.js")
 const reviewRouter = require("./review.router.js")
 const roomRouter = require("./room.router")
 const reservationRouter = require("./reservation.router")
+const authRouter = require("./auth.router")
 
 const router = express.Router();
 
 //Se definen las rutas base 
+router.use("/auth", authRouter)
 router.use('/api', ApiRouter)// ejemplo:http://localhost:8082/api/popular
 router.use('/showtime', showtimeRouter)
 router.use('/review', reviewRouter)

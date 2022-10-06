@@ -73,6 +73,20 @@ class UserModel {
         await this.model.updateOne({ _id: id }, { deleted: true })
     }
 
+    async getUserSession(id) {
+        const user = await this.model.findById(id).lean()
+
+        return {
+            _id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            email: user.email,
+            role: user.role,
+            reservations: user.reservations
+        }
+    }
+
     /* ========== */
 }
 

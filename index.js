@@ -15,6 +15,9 @@ const logger = require("./utils/logger")
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 
+const passport = require("passport")
+const localStrat = require("./auth/passport")
+
 /* ========== */
 
 /* ===== VARIABLES ===== */
@@ -36,6 +39,8 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
   /* ===== MIDDLEWWARES ===== */
 
   /* ===== STRATEGY INITIALIZATION ===== */
+
+  localStrat(passport)
 
   /* =========== */
 
@@ -59,6 +64,9 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
   /* =========== */
 
   /* ===== PASSPORT INITIALIZATION ===== */
+
+  app.use(passport.initialize())
+  app.use(passport.session())
 
   /* =========== */
 
