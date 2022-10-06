@@ -73,6 +73,12 @@ class UserModel {
         await this.model.updateOne({ _id: id }, { deleted: true })
     }
 
+    async addReservation(userId, reservationId) {
+        const user = await this.model.findById(userId)
+        user.reservations.push(reservationId)
+        await user.save()
+    }
+
     async getUserSession(id) {
         const user = await this.model.findById(id).lean()
 
