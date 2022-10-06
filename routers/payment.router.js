@@ -44,7 +44,7 @@ mercadopago.configure({
           id: "item-ID-1234",
           title: "Tickets",
           currency_id: "ARS",
-          picture_url: "https://www.smashmexico.com.mx/wp-content/uploads/sites/2/2018/02/09103129/first-movie-poster-released-for-venom-the-trailer-is-coming-tomorrow11-e1518193898324.jpg",
+          picture_url: "img",
           description: "Descripción del Item",
           quantity: 1,
           unit_price: 750,
