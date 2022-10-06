@@ -14,10 +14,9 @@ const cors = require('cors')
 const logger = require("./utils/logger")
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
-const passport = require('passport')
 
-const initializeLocalPassport = require('./auth/passport.local')
-const initializeGooglePassport = require('./auth/passport.google')
+const passport = require("passport")
+const localStrat = require("./auth/passport")
 
 /* ========== */
 
@@ -41,8 +40,7 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
   /* ===== STRATEGY INITIALIZATION ===== */
 
-  initializeGooglePassport(passport)
-  initializeLocalPassport(passport)
+  localStrat(passport)
 
   /* =========== */
 
@@ -72,7 +70,7 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
   /* =========== */
 
-  //cors añadido 
+  // cors añadido 
   app.use(cors({ origin: "http://localhost:3000" }))
 
   app.use((req, res, next) => {

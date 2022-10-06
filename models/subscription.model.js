@@ -15,7 +15,7 @@ class SubscriptionModel {
             price: Number,
             startedAt: Date,
             deleted: { type: Boolean, default: false }
-        })
+        }, { versionKey: false })
 
         this.model = model('subscriptions', schema)
 

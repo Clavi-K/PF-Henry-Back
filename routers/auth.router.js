@@ -1,9 +1,9 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Router } = require('express')
-const controller = require('../controllers/auth.controller')
-const config = require('../config')
-const passport = require('passport')
+const { Router } = require("express");
+const passport = require("passport")
+const controller = require("../controllers/auth.controller.js");
+const config = require("../config/")
 
 /* ========== */
 
@@ -16,28 +16,24 @@ const router = Router()
 /* ===== ROUTES ===== */
 
 router.post("/login", passport.authenticate("login", {
-    successRedirect: `${config.auth.CLIENTURL}`,
-    failureRedirect: `${config.auth.CLIENTURL}/login`
+    successRedirect: "/auth/success",
+    failureRedirect: `${config.auth.CLIENTURL}`
 }))
 
-router.post("/register", passport.authenticate("register", {
-    successRedirect: `${config.auth.CLIENTURL}`,
-    failureRedirect: `${config.auth.CLIENTURL}/register`
-}))
+router.post("/register", controller.register)
 
 router.get("/google", passport.authenticate("google", ["profile", "email"]))
 router.get("/google/callback", passport.authenticate("google", {
-    successRedirect: `${config.auth.CLIENTURL}`,
-    failureRedirect: `${config.auth.CLIENTURL}/login`
+    successRedirect: "/auth/success",
+    failureRedirect: `${config.auth.CLIENTURL}`
 }))
 
-router.get("/login/success", controller.login)
-router.get("/logout", controller.logout)
+router.get("/success", controller.success)
 
 /* ========== */
 
 /* ===== ROUTER EXPORT ===== */
 
-module.exports = router
+module.exports = router;
 
 /* ========== */

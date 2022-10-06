@@ -6,7 +6,7 @@ const { Schema, model, Types } = require("mongoose")
 
 /* ===== DATABASE MODEL ===== */
 
-class FunctionModel {
+class ShowtimeModel {
 
     constructor() {
 
@@ -17,10 +17,11 @@ class FunctionModel {
             dateTime: Date,
             roomId: String,
             format: String,
+            seats: { type: [[String]], default: [[]] },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
 
-        this.model = model('functions', schema)
+        this.model = model('showtimes', schema)
 
     }
 
@@ -32,15 +33,22 @@ class FunctionModel {
     }
 
     async getAll() {
-        const functions = await this.model.find({}).lean()
-        return functions
+        const showtimes = await this.model.find({ deleted: false }).lean()
+        return showtimes
+    }
+
+    async getById(id) {
+        const showtime = await this.model.findById(id).lean()
+        return showtime
     }
 
     async update(obj) {
+        const updated = await this.model.updateOne({ _id: obj._id }, obj, { new: true, upsert: false })
+        return updated
+    }
 
-        const original = await this.model.updateOne({ _id: Types.ObjectId(obj._id) }, obj)
-        return original
-
+    async loigcDelete(id) {
+        await this.model.updateOne({ _id: id }, { deleted: true })
     }
 
     /* ========== */
@@ -51,6 +59,6 @@ class FunctionModel {
 
 /* ===== MODEL EXPORT ===== */
 
-module.exports = new FunctionModel()
+module.exports = new ShowtimeModel()
 
 /* ========== */

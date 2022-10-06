@@ -1,7 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const model = require("../models/function.model.js")
-const apiService = require("../services/api.service.js")
+const model = require("../models/showtime.model.js")
+const apiService = require("./api.service.js")
 const logger = require("../utils/logger.js")
 
 
@@ -34,7 +34,7 @@ module.exports = {
         }
 
         if (!isValidDate(obj.dateTime)) {
-            throw new Error("Missing or invalid function date-time")
+            throw new Error("Missing or invalid showtime date-time")
         }
 
         try {
@@ -60,7 +60,7 @@ module.exports = {
     update: async (obj) => {
 
         if (!obj._id || typeof obj._id !== "string") {
-            throw new Error("Missing function ID")
+            throw new Error("Missing showtime ID")
         }
 
         if (!obj.movieId || isNaN(Number(obj.movieId))) {
@@ -84,7 +84,7 @@ module.exports = {
         }
 
         if (!isValidDate(obj.dateTime)) {
-            throw new Error("Invalid function date")
+            throw new Error("Invalid showtime date")
         }
 
         try {
