@@ -52,7 +52,7 @@ module.exports = (passport) => {
     passport.use("google", new GoogleStrategy({
         clientID: config.auth.GOOGLECLIENTID,
         clientSecret: config.auth.GOOGLESECRET,
-        callbackURL: "https://pf-henry-back.herokuapp.com/auth/google/callback",
+        callbackURL: "/auth/google/callback",
         scope: ["profile", "email"]
     }, googleAuth))
 
