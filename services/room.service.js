@@ -19,7 +19,7 @@ module.exports = {
             throw new Error("Missing or invalid room rows number")
         }
 
-        if (Number(obj.rows) > 26) {
+        if (Number(obj.rows) > 24) {
             throw new Error("Room rows cant be more than 26")
         }
 

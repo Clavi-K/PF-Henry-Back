@@ -35,7 +35,7 @@ class ListModel {
     }
 
     async getByUser(userId) {
-        const lists = await this.model.find({ userId, deletd: false }).lean()
+        const lists = await this.model.find({ userId, deleted: false }).lean()
         return lists
     }
 

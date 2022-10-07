@@ -23,20 +23,6 @@ router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
 router.use("/list", listRouter)
 
-const seatService = require("../services/seat.service")
-router.post("/bulkPost", async (req, res, next) => {
-
-  const room = req.body
-
-  try {
-    await seatService.bulkPost(room)
-
-  } catch (e) {
-    next(e)
-  }
-
-})
-
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {
   logger.warn(

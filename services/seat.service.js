@@ -39,16 +39,16 @@ module.exports = {
 
     bulkPost: async (room) => {
 
-        // if (!showtime) {
-        //     throw new Error("Missing or invalid seats showtime!")
-        // }
+        if (!showtime) {
+            throw new Error("Missing or invalid seats showtime!")
+        }
 
         try {
 
-            // const room = roomService.getById(showtime.roomId)
-            // if (!room) {
-            //     throw new Error("Missing or invalid showtime room!")
-            // }
+            const room = roomService.getById(showtime.roomId)
+            if (!room) {
+                throw new Error("Missing or invalid showtime room!")
+            }
 
             console.log(room)
 
@@ -63,7 +63,7 @@ module.exports = {
 
                     row.push({
                         location: `${rowsArr[i]}${j}`,
-                        showtimeId: "showtimeIdPlaceholder",
+                        showtimeId: `${showtime._id.toString()}`,
                         userId: "",
 
                     })
