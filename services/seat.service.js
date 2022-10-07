@@ -83,9 +83,9 @@ module.exports = {
 
     },
 
-    hardDeleteByShowtime: async(showtimeId) => {
+    hardDeleteByShowtime: async (showtimeId) => {
 
-        if(!showtimeId || typeof showtimeId !== "string") {
+        if (!showtimeId || typeof showtimeId !== "string") {
             throw new Error("Missing or not valid showtime ID")
         }
 
@@ -93,6 +93,28 @@ module.exports = {
 
             const response = await model.hardDelete(showtimeId)
             console.log(response)
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getById: async (seatId) => {
+
+        if (!seatId || typeof seatId !== "string") {
+            throw new Error("Missing or invalid seat ID")
+        }
+
+        try {
+
+            const seat = await model.getById(seatId)
+            if(!seat) {
+                throw new Error("Seat ID not valid")
+            }
+
+            return seat
+
         } catch(e) {
             logger.error(e)
             throw new Error(e)
