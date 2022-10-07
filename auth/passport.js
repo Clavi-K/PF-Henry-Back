@@ -22,7 +22,7 @@ module.exports = (passport) => {
             const user = await userModel.getByEmail(email)
             done(null, user)
 
-        } catch (err) {
+        } catch (e) {
             logger.error(e)
             done(e)
         }
