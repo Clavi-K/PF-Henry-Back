@@ -106,13 +106,35 @@ module.exports = {
         if (!movie.title) {
             throw new Error("Invalid movie ID!")
         }
+        
+        try {
+            
+            const result = await model.getByMovie(movieId)
+            return result
+            
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+        
+    },
+
+    getById: async (showtimeId) => {
+        
+        if(!showtimeId || typeof showtimeId !== "string") {
+            throw new Error("Invalid showtime ID!")
+        }
 
         try {
 
-            const result = await model.getByMovie(movieId)
-            return result
+            const showtime = await model.getById(showtimeId)
+            if(!showtime) {
+                throw new Error("Invalid showtime ID")
+            }
 
-        } catch(e){
+            return showtime
+
+        } catch(e) {
             logger.error(e)
             throw new Error(e)
         }

@@ -29,14 +29,32 @@ class ListModel {
         return list
     }
 
-    async getByUser(userId) {
-        const lists = await this.model.find({ userId }).lean()
+    async getAll() {
+        const lists = await this.model.find({deleted: false}).lean()
         return lists
+    }
+
+    async getByUser(userId) {
+        const lists = await this.model.find({ userId, deletd: false }).lean()
+        return lists
+    }
+
+    async getById(id) {
+        return await this.model.findById(id)
     }
 
     async addMovie(listId, movieId) {
         const list = await this.model.findById(listId)
         list.moviesId.push(movieId)
+        return await list.save()
+    }
+
+    async removeMovie(listId, movieId) {
+        const list = await this.model.findById(listId)
+
+        const newMovies = list.moviesId.filter(m => m != movieId)
+        list.moviesId = newMovies
+
         return await list.save()
     }
 

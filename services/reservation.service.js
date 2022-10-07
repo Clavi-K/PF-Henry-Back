@@ -1,8 +1,8 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/reservation.model.js");
-const userModel = require("../models/user.model")
-const showtimeModel = require("../models/showtime.model")
+const userService = require("./user.service")
+const showtimeService = require("../models/showtime.model")
 const seatModel = require("../models/seat.model")
 const logger = require("../utils/logger.js");
 
@@ -36,12 +36,12 @@ module.exports = {
 
 
         try {
-            const user = await userModel.getById(obj.userId)
+            const user = await userService.getById(obj.userId)
             if (!user) {
                 throw new Error("No user with that ID!")
             }
 
-            const showtime = await showtimeModel.getById(obj.showtimeId)
+            const showtime = await showtimeService.getById(obj.showtimeId)
             if (!showtime) {
                 throw new Error("No showtime with that ID!")
             }
@@ -77,7 +77,7 @@ module.exports = {
 
         try {
 
-            const user = userModel.getById(userId)
+            const user = userService.getById(userId)
             if (!user) {
                 throw new Error("No user with that ID !")
             }
@@ -89,7 +89,9 @@ module.exports = {
             throw new Error(e)
         }
 
-    }
+    },
+
+    
 
 }
 

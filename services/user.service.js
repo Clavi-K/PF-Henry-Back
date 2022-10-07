@@ -64,6 +64,8 @@ module.exports = {
 
         try {
 
+            const user = await model.getById(userId)
+
             if (!user) {
                 throw new Error("Invalid user!")
             }

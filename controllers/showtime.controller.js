@@ -55,6 +55,19 @@ module.exports = {
             next(e)
         }
 
+    },
+
+    getById: async (req, res, next) => {
+        const { showtimeId } = req.params
+
+        try {
+
+            const result = await service.getById(showtimeId)
+            return res.status(200).send(result)
+
+        } catch(e) {
+            next(e)
+        }
     }
 }
 

@@ -9,6 +9,8 @@ const roomRouter = require("./room.router");
 const reservationRouter = require("./reservation.router");
 const authRouter = require("./auth.router");
 const paymentRouter = require("./payment.router");
+const listRouter = require("./list.router")
+
 const router = express.Router();
 
 //Se definen las rutas base
@@ -19,13 +21,7 @@ router.use("/review", reviewRouter);
 router.use("/room", roomRouter);
 router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
-
-const userModel = require("../models/user.model");
-
-router.post("/test", async (req, res) => {
-  console.log(await userModel.getById("633cb93893ae09e5243ac4ca"));
-  res.send(await userModel.getById("633cb93893ae09e5243ac4ca"));
-});
+router.use("/list", listRouter)
 
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {

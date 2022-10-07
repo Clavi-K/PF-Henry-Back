@@ -19,6 +19,43 @@ module.exports = {
             next(e)
         }
 
+    },
+
+    getByUser: async (req, res, next) => {
+
+        try {
+            const lists = await service.getByUser(req.user._id.toString())
+            return res.status(200).send(lists)
+
+        } catch (e) {
+            next(e)
+        }
+    },
+
+    addMovie: async (req, res, next) => {
+        const { listId, movieId } = req.params
+
+        try {
+            const result = await service.addMovie(listId, movieId)
+            return res.status(200).send(result)
+
+        } catch (e) {
+            next(e)
+        }
+
+    },
+
+    removeMovie: async (req, res, next) => {
+        const { listId, movieId } = req.params
+
+        try {
+            const result = await service.removeMovie(listId, movieId)
+            return res.status(200).send(result)
+
+        } catch (e) {
+            next(e)
+        }
+
     }
 
 }

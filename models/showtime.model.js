@@ -38,12 +38,12 @@ class ShowtimeModel {
     }
 
     async getById(id) {
-        const showtime = await this.model.findById(id).lean()
+        const showtime = await this.model.findById(id)
         return showtime
     }
 
     async getByMovie(movieId) {
-        const showtimes = await this.model.find({movieId}).lean()
+        const showtimes = await this.model.find({movieId, deleted: false}).lean()
         return showtimes
     }
 
