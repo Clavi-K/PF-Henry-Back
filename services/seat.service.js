@@ -37,7 +37,7 @@ module.exports = {
 
     },
 
-    bulkPost: async (room) => {
+    bulkPost: async (showtime) => {
 
         if (!showtime) {
             throw new Error("Missing or invalid seats showtime!")
@@ -45,7 +45,7 @@ module.exports = {
 
         try {
 
-            const room = roomService.getById(showtime.roomId)
+            const room = await roomService.getById(showtime.roomId)
             if (!room) {
                 throw new Error("Missing or invalid showtime room!")
             }
@@ -74,9 +74,26 @@ module.exports = {
 
             }
 
-            console.log(seats)
+            return await model.bulkSave(seats)
 
         } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    hardDeleteByShowtime: async(showtimeId) => {
+
+        if(!showtimeId || typeof showtimeId !== "string") {
+            throw new Error("Missing or not valid showtime ID")
+        }
+
+        try {
+
+            const response = await model.hardDelete(showtimeId)
+            console.log(response)
+        } catch(e) {
             logger.error(e)
             throw new Error(e)
         }

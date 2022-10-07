@@ -62,6 +62,10 @@ class SeatModel {
         await this.model.updateOne({ _id: id }, { deleted: true }, { upsert: false })
     }
 
+    async hardDelete(showtimeId)  {
+        await this.model.deleteMany({showtimeId})
+    }
+
     /* ========== */
 
 }

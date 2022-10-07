@@ -3,6 +3,7 @@
 const model = require("../models/showtime.model.js")
 const apiService = require("./api.service.js")
 const roomService = require("./room.service")
+const seatService = require("./seat.service")
 const logger = require("../utils/logger.js")
 
 
@@ -10,7 +11,7 @@ const logger = require("../utils/logger.js")
 
 /* ===== EXPORT SERVICE ===== */
 
-module.exports = {
+const showtimeService = {
 
     post: async (obj) => {
 
@@ -41,16 +42,21 @@ module.exports = {
         try {
 
             const room = await roomService.getById(obj.roomId)
-            if(!room) {
+            if (!room) {
                 throw new Error("Invaid room ID")
             }
 
-            const showtimes = await this.getByRoomId(obj.roomId)
-            if(showtimes.length > 0) {
+
+            const showtimes = await getByRoomId(obj.roomId)
+            if (showtimes.length > 0) {
                 throw new Error("There is already a showtime for that room")
             }
 
-            return await model.save(obj)
+            const newShowtime = await model.save(obj)
+            seatService.bulkPost(newShowtime)
+
+            return newShowtime
+
         } catch (e) {
             logger.error(e)
             throw new Error(e)
@@ -118,64 +124,66 @@ module.exports = {
         if (!movie.title) {
             throw new Error("Invalid movie ID!")
         }
-        
+
         try {
-            
+
             const result = await model.getByMovie(movieId)
             return result
-            
+
         } catch (e) {
             logger.error(e)
             throw new Error(e)
         }
-        
+
     },
 
     getById: async (showtimeId) => {
-        
-        if(!showtimeId || typeof showtimeId !== "string") {
+
+        if (!showtimeId || typeof showtimeId !== "string") {
             throw new Error("Invalid showtime ID!")
         }
 
         try {
 
             const showtime = await model.getById(showtimeId)
-            if(!showtime) {
+            if (!showtime) {
                 throw new Error("Invalid showtime ID")
             }
 
             return showtime
 
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }
 
     },
 
-    getByRoomId: async(roomId) => {
+    endById: async(showtimeId) => {
 
-        if(!roomId || typeof roomId !== "string") {
-            throw new Error("Missing or invalid room ID")
+        if (!showtimeId || typeof showtimeId !== "string") {
+            throw new Error("Invalid showtime ID!")
         }
 
-        try {
-         
-            const room = await model.getById(roomId)
-            if(!room) {
-                throw new Error("Invalid rooms ID")
+        try{
+            
+            const showtime = await model.getById(showtimeId)
+            if(!showtime) {
+                throw new Error("Invalid showtime ID")
             }
 
-            return await model.getByRoomId(roomId)
+            await model.loigcDelete(showtimeId)
+            await seatService.hardDeleteByShowtime(showtimeId)
 
         } catch(e) {
-            logger.error(e)
-            throw new Error(e)
+
         }
 
     }
 
 }
+
+module.exports = showtimeService
 
 /* ========== */
 
@@ -185,6 +193,28 @@ function isValidDate(date) {
     const testDate = new Date(date)
     if (testDate < Date.now()) return false
     return testDate && Object.prototype.toString.call(testDate) === "[object Date]" && !isNaN(testDate);
+}
+
+async function getByRoomId(roomId) {
+
+    if (!roomId || typeof roomId !== "string") {
+        throw new Error("Missing or invalid room ID")
+    }
+
+    try {
+
+        const room = await roomService.getById(roomId)
+        if (!room) {
+            throw new Error("Invalid rooms ID")
+        }
+
+        return await model.getByRoomId(roomId)
+
+    } catch (e) {
+        logger.error(e)
+        throw new Error(e)
+    }
+
 }
 
 /* ========== */

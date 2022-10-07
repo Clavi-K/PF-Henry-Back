@@ -17,6 +17,7 @@ router.post('/post', controller.post)
 router.get('/getAll', controller.getAll)
 router.put('/update', controller.update)
 router.get("/getById/:showtimeId", controller.getById)
+router.delete("/endById/:showtimeId", controller.endById)
 router.get('/getByMovie/:movieId', controller.getByMovie)
 
 /* ========== */
