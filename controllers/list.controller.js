@@ -24,7 +24,8 @@ module.exports = {
     getByUser: async (req, res, next) => {
 
         try {
-            const lists = await service.getByUser(req.user._id.toString())
+            const { userId } = req.params
+            const lists = await service.getByUser(userId)
             return res.status(200).send(lists)
 
         } catch (e) {

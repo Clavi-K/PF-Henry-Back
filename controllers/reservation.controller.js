@@ -24,7 +24,7 @@ module.exports = {
     getByUser: async (req, res, next) => {
 
         try {
-            const userId = req.user._id.toString()
+            const { userId } = req.params
             const reservations = await service.getByUser(userId)
 
             return res.status(200).send(reservations)
