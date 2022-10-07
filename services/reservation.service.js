@@ -84,7 +84,7 @@ module.exports = {
 
             return await model.getByUser(userId)
 
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }

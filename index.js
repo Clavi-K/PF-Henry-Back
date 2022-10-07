@@ -40,15 +40,14 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
   /* ===== STRATEGY INITIALIZATION ===== */
 
-  localStrat(passport)
-
+  
   /* =========== */
-
+  
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-
+  
   /* ===== SESSION SETTINGS ===== */
-
+  
   app.use(session({
     secret: "auth",
     resave: true,
@@ -62,29 +61,17 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
   }))
 
   /* =========== */
-
+  
   /* ===== PASSPORT INITIALIZATION ===== */
-
+  
   app.use(passport.initialize())
   app.use(passport.session())
-
+  localStrat(passport)
+  
   /* =========== */
 
   // cors añadido 
-  app.use(cors({ origin: "http://localhost:3000" }))
-
-  app.use((req, res, next) => {
-
-    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header("Access-Control-Allow-Credentials", 'true');
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-
-    next();
-  })
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }))
 
   /* ========== */
 

@@ -1,6 +1,8 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/user.model.js");
+const reservationService = require("../services/reservation.service")
+
 const logger = require("../utils/logger.js");
 
 /* ========== */
@@ -9,7 +11,7 @@ const logger = require("../utils/logger.js");
 
 module.exports = {
 
-    post: async (obj) => {
+    post: async (obj, reservations) => {
 
         if (!obj.email || typeof obj.email !== "string") {
             throw new Error("Missing or invalid email!")
@@ -24,20 +26,51 @@ module.exports = {
         }
 
         if (!obj.firstname || typeof obj.firstname !== "string" || obj.firstname.trim(" ").length === 0) {
-            return done(null, false, { message: "First name not valid!" })
+            throw new Error("First name not valid!")
         }
 
         if (!obj.lastname || typeof obj.lastname !== "string" || obj.lastname.trim(" ").length === 0) {
-            return done(null, false, { message: "Last name not valid!" })
+            throw new Error("Last name not valid!")
         }
 
         if (!obj.username || typeof obj.username !== "string" || obj.username.trim(" ").length === 0) {
-            return done(null, false, { message: "User name not valid!" })
+            throw new Error("Username not valid!")
         }
 
         try {
-            await model.save(obj)
-        } catch(e) {
+            obj.reservations = []
+            const result = await model.save(obj)
+
+            if (reservations.length) {
+
+                reservations = reservations.map(r => {
+                    reservationService.post({ ...r, userId: result._id.toString() })
+                })
+
+            }
+
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getById: async (userId) => {
+
+        if (!userId || typeof userId !== "string") {
+            throw new Error("Missing or invalid user ID")
+        }
+
+        try {
+
+            if (!user) {
+                throw new Error("Invalid user!")
+            }
+
+            return user
+
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }

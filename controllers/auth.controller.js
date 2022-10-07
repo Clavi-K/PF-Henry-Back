@@ -12,10 +12,10 @@ module.exports = {
 
     register: async (req, res, next) => {
 
-        const user = req.body
+        const {user, reservations} = req.body
 
         try {
-            const response = await userService.post(user)
+            const response = await userService.post(user, reservations)
             return res.status(201).send(response)
         } catch (e) {
             logger.error(e)
