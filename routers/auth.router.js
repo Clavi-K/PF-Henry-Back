@@ -16,11 +16,9 @@ const router = Router()
 /* ===== ROUTES ===== */
 
 router.post("/login", passport.authenticate("login", {
-    //successRedirect: `${config.auth.CLIENTURL}`,
+    successRedirect: `${config.auth.CLIENTURL}`,
     failureRedirect: `/auth/failed`
-}), (req, res) => {
-    res.send(req.user)
-})
+}))
 
 router.post("/register", controller.register)
 
