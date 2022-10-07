@@ -38,11 +38,6 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
   /* ===== MIDDLEWWARES ===== */
 
-  /* ===== STRATEGY INITIALIZATION ===== */
-
-
-  /* =========== */
-
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
 
@@ -52,13 +47,12 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
     secret: "auth",
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: true }
-    // store: new MongoStore({
-    //   mongoUrl: `${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.PASSWORD}@${config.atlas.HOSTNAME}/${config.atlas.DATABASE}?${config.atlas.OPTIONS}`,
-    //   ttl: 10 * 60,
-    //   expires: 1000 * 10 * 60,
-    //   autoRemove: "native"
-    // })
+    store: new MongoStore({
+      mongoUrl: `${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.PASSWORD}@${config.atlas.HOSTNAME}/${config.atlas.DATABASE}?${config.atlas.OPTIONS}`,
+      ttl: 10 * 60,
+      expires: 1000 * 10 * 60,
+      autoRemove: "native"
+    })
   }))
 
   /* =========== */
