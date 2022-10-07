@@ -15,8 +15,8 @@ const router = Router()
 
 router.post("/post", controller.post)
 router.get("/getByUser/:userId", controller.getByUser)
-router.get("/addMovie/:listId/:movieId", controller.addMovie)
-router.get("/removeMovie/:listId/:movieId", controller.removeMovie)
+router.put("/addMovie/:listId/:movieId", controller.addMovie)
+router.put("/removeMovie/:listId/:movieId", controller.removeMovie)
 
 /* ========== */
 

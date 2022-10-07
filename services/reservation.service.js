@@ -1,9 +1,10 @@
 /* ===== REQUIRED IMPORTS ===== */
 
+
 const model = require("../models/reservation.model.js");
-const userService = require("./user.service")
-const showtimeService = require("../models/showtime.model")
-const seatService = require("./seat.service")
+const userModel = require("../models/user.model.js")
+const seatModel = require("../models/seat.model")
+const showtimeModel = require("../models/showtime.model")
 const logger = require("../utils/logger.js");
 
 /* ========== */
@@ -14,54 +15,52 @@ module.exports = {
 
     post: async (obj) => {
 
-        if (!obj.userId || typeof obj.userId !== "string") {
+        if (!obj.userId || typeof obj.userId !== "string" || obj.userId.trim(" ").length === 0) {
             throw new Error("Missing or invalid user ID")
         }
 
-        if (!obj.showtimeId || typeof obj.showtimeId !== "string") {
+        if (!obj.showtimeId || typeof obj.showtimeId !== "string" || obj.showtimeId.trim(" ").length === 0) {
             throw new Error("Missing or invalid showtime ID")
         }
 
-        if (!obj.seatId || typeof obj.seatId !== "string") {
-            throw new Error("Missing or invalid seat ID")
-        }
-
-        if (!obj.type || typeof obj.type !== "string") {
-            throw new Error("Missing or invalid reservation format")
+        if (!obj.seatIds || !obj.seatIds.length) {
+            throw new Error("Missing or invalid reservations seats IDs")
         }
 
         if (!obj.price || isNaN(Number(obj.price)) || Number(obj.price) < 0) {
             throw new Error("Missing or invalid reservation price")
         }
 
-
         try {
-            const user = await userService.getById(obj.userId)
+
+            const user = await userModel.getById(obj.userId)
             if (!user) {
-                throw new Error("No user with that ID!")
+                throw new Error("Invalid reservation user ID")
             }
 
-            const showtime = await showtimeService.getById(obj.showtimeId)
+            const showtime = await showtimeModel.getById(obj.showtimeId)
             if (!showtime) {
-                throw new Error("No showtime with that ID!")
+                throw new Error("Invalid reservation showtime ID")
             }
 
-            const seat = await seatService.getById(obj.seatId)
-            if (!seat) {
-                throw new Error("No seat with that ID!")
+
+            for (const seatId of obj.seatIds) {
+                const seat = await seatModel.getById(seatId)
+                if (!seat) {
+                    throw new Error("Invalid reservation seat ID")
+                }
+
+                if (seat.showtimeId !== obj.showtimeId) {
+                    throw new Error("One seat does not belong to this showtime")
+                }
+
+                if (seat.userId !== "") {
+                    throw new Error("One seat is already taken")
+                }
+
+                seatModel.setUserId(seat._id.toString(), user._id.toString())
             }
 
-            obj.seatLocation = seat.location
-
-            if (obj.showtimeId !== seat.showtimeId) {
-                throw new Error("That seat does not belong to that function!")
-            }
-
-            if (seat.userId) {
-                throw new Error("That seat is already taken!")
-            }
-
-            await seatService.setUserId(obj.seatId, obj.userId)
             return await model.save(obj)
 
         } catch (e) {
@@ -79,7 +78,7 @@ module.exports = {
 
         try {
 
-            const user = userService.getById(userId)
+            const user = userModel.getById(userId)
             if (!user) {
                 throw new Error("No user with that ID!")
             }
@@ -101,14 +100,14 @@ module.exports = {
 
         try {
 
-            const user = await userService.getById(userId)
+            const user = await userModel.getById(userId)
             if (!user) {
                 throw new Error("No user with that ID!")
             }
 
             await model.confirmByUser(userId)
 
-        } catch(e){
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }

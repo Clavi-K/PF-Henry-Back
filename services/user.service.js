@@ -1,7 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/user.model.js");
-const reservationService = require("../services/reservation.service")
+const reservationModel = require("../models/reservation.model")
 
 const logger = require("../utils/logger.js");
 
@@ -38,16 +38,7 @@ module.exports = {
         }
 
         try {
-            obj.reservations = []
-            const result = await model.save(obj)
 
-            if (reservations.length) {
-
-                reservations = reservations.map(r => {
-                    reservationService.post({ ...r, userId: result._id.toString() })
-                })
-
-            }
 
         } catch (e) {
             logger.error(e)
@@ -80,5 +71,7 @@ module.exports = {
     }
 
 }
+
+
 
 /* ========== */

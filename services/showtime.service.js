@@ -2,8 +2,8 @@
 
 const model = require("../models/showtime.model.js")
 const apiService = require("./api.service.js")
-const roomService = require("./room.service")
-const seatService = require("./seat.service")
+const roomModel = require("../models/room.model")
+const seatService = require("../services/seat.service")
 const logger = require("../utils/logger.js")
 
 
@@ -41,7 +41,7 @@ const showtimeService = {
 
         try {
 
-            const room = await roomService.getById(obj.roomId)
+            const room = await roomModel.getById(obj.roomId)
             if (!room) {
                 throw new Error("Invaid room ID")
             }
@@ -53,7 +53,7 @@ const showtimeService = {
             }
 
             const newShowtime = await model.save(obj)
-            seatService.bulkPost(newShowtime)
+            await seatService.bulkPost(newShowtime)
 
             return newShowtime
 
@@ -203,7 +203,7 @@ async function getByRoomId(roomId) {
 
     try {
 
-        const room = await roomService.getById(roomId)
+        const room = await roomModel.getById(roomId)
         if (!room) {
             throw new Error("Invalid rooms ID")
         }

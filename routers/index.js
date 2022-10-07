@@ -23,6 +23,18 @@ router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
 router.use("/list", listRouter)
 
+const userService = require("../services/user.service")
+
+router.get("/test", async (req, res, next) => {
+
+  try {
+    console.log(await userService.getById("633f41f593ae09e524360970"))
+  } catch (e) {
+    next(e)
+  }
+
+})
+
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {
   logger.warn(
