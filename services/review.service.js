@@ -2,6 +2,7 @@
 
 const model = require("../models/review.model.js");
 const apiService = require("../services/api.service")
+const userService = require("./user.service")
 const logger = require("../utils/logger.js");
 
 /* ========== */
@@ -29,11 +30,17 @@ module.exports = {
       throw new Error("Missing description");
     }
 
-    if (!obj.stars || isNaN(Number(obj.stars))) {
+    if (!obj.stars || isNaN(Number(obj.stars) || obj.stars < 1)) {
       throw new Error("Missing stars");
     }
 
     try {
+
+      const user = await userService.getById(obj.userId)
+      if(!user) {
+        throw new Error("User ID not valid")
+      }
+
       return await model.save(obj);
     } catch (e) {
       logger.error(e);

@@ -36,6 +36,10 @@ class ReservationModel {
         await this.model.updateOne({ _id: id }, { payed: true }, { upsert: false })
     }
 
+    async confirmByUser(userId) {
+        await this.model.updateMany({ userId, payed: false }, { payed: true }, { upsert: false })
+    }
+
     async getByUser(userId) {
         const reservations = await this.model.find({ userId, deleted: false }).lean()
         return reservations

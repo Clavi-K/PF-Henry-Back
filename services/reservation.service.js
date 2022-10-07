@@ -3,7 +3,7 @@
 const model = require("../models/reservation.model.js");
 const userService = require("./user.service")
 const showtimeService = require("../models/showtime.model")
-const seatModel = require("../models/seat.model")
+const seatService = require("./seat.service")
 const logger = require("../utils/logger.js");
 
 /* ========== */
@@ -46,7 +46,7 @@ module.exports = {
                 throw new Error("No showtime with that ID!")
             }
 
-            const seat = await seatModel.getById(obj.seatId)
+            const seat = await seatService.getById(obj.seatId)
             if (!seat) {
                 throw new Error("No seat with that ID!")
             }
@@ -61,7 +61,7 @@ module.exports = {
                 throw new Error("That seat is already taken!")
             }
 
-            await seatModel.setUserId(obj.seatId, obj.userId)
+            await seatService.setUserId(obj.seatId, obj.userId)
             return await model.save(obj)
 
         } catch (e) {
@@ -81,7 +81,7 @@ module.exports = {
 
             const user = userService.getById(userId)
             if (!user) {
-                throw new Error("No user with that ID !")
+                throw new Error("No user with that ID!")
             }
 
             return await model.getByUser(userId)
@@ -93,7 +93,27 @@ module.exports = {
 
     },
 
-    
+    confirmByUser: async (userId) => {
+
+        if (!userId || typeof userId !== "string") {
+            throw new Error("Missing or invalid user ID")
+        }
+
+        try {
+
+            const user = await userService.getById(userId)
+            if (!user) {
+                throw new Error("No user with that ID!")
+            }
+
+            await model.confirmByUser(userId)
+
+        } catch(e){
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    }
 
 }
 

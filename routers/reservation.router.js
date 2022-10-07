@@ -15,6 +15,7 @@ const router = Router()
 
 router.post("/post", controller.post)
 router.get("/getByUser/:userId", controller.getByUser)
+router.put("/confirmByUser/:userId", controller.confirmByUser)
 
 /* ========== */
 
