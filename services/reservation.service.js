@@ -51,6 +51,8 @@ module.exports = {
                 throw new Error("No seat with that ID!")
             }
 
+            obj.seatLocation = seat.location
+
             if (obj.showtimeId !== seat.showtimeId) {
                 throw new Error("That seat does not belong to that function!")
             }

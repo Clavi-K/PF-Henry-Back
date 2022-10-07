@@ -52,6 +52,11 @@ class ShowtimeModel {
         return updated
     }
 
+    async getByRoomId(roomId) {
+        const showtimes = await this.model.find({roomId, deleted: false}).lean()
+        return showtimes
+    }
+
     async loigcDelete(id) {
         await this.model.updateOne({ _id: id }, { deleted: true })
     }

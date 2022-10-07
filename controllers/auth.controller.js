@@ -12,7 +12,7 @@ module.exports = {
 
     register: async (req, res, next) => {
 
-        const {user, reservations} = req.body
+        const { user, reservations } = req.body
 
         try {
             const response = await userService.post(user, reservations)
@@ -35,6 +35,10 @@ module.exports = {
             logger.error(e)
             next(e)
         }
+    },
+
+    failed: async (req, res) => {
+        return res.status(403).send({message: "Failed session log in"})
     }
 
 }

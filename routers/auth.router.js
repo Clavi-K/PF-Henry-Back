@@ -16,19 +16,20 @@ const router = Router()
 /* ===== ROUTES ===== */
 
 router.post("/login", passport.authenticate("login", {
-    successRedirect: `/auth/success`,
-    failureRedirect: `${config.auth.CLIENTURL}`
+    successRedirect: `${config.auth.CLIENTURL}`,
+    failureRedirect: `/auth/failed`
 }))
 
 router.post("/register", controller.register)
 
 router.get("/google", passport.authenticate("google", ["profile", "email"]))
 router.get("/google/callback", passport.authenticate("google", {
-    successRedirect: `/auth/success`,
-    failureRedirect: `${config.auth.CLIENTURL}`
+    successRedirect: `${config.auth.CLIENTURL}`,
+    failureRedirect: `/auth/failed`
 }))
 
 router.get("/success", controller.success)
+router.get("/failed", controller.failed)
 
 /* ========== */
 
