@@ -65,9 +65,22 @@ module.exports = {
             const result = await service.getById(showtimeId)
             return res.status(200).send(result)
 
-        } catch(e) {
+        } catch (e) {
             next(e)
         }
+    },
+
+    endById: async (req, res, next) => {
+        const { showtimeId } = req.params
+
+        try {
+
+            const result = await service.endById(showtimeId)
+            return res.status(202).send("Showtime ended successfully")
+        } catch (e) {
+            next(e)
+        }
+
     }
 }
 
