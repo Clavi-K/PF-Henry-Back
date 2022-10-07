@@ -12,9 +12,7 @@ const config = require('./config')
 const routes = require('./routers/index');
 const cors = require('cors')
 const logger = require("./utils/logger")
-const session = require('express-session')
-const MongoStore = require('connect-mongo')
-
+const cookieSession = require("cookie-session")
 const passport = require("passport")
 const localStrat = require("./auth/passport")
 
@@ -48,18 +46,13 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
   /* ===== SESSION SETTINGS ===== */
 
-  app.use(session({
-    secret: "auth",
-    resave: true,
-    saveUninitialized: true,
-    store: new MongoStore({
-      mongoUrl: `${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.PASSWORD}@${config.atlas.HOSTNAME}/${config.atlas.DATABASE}?${config.atlas.OPTIONS}`,
-      ttl: 10 * 60,
-      expires: 1000 * 10 * 60,
-      autoRemove: "native"
+  app.use(
+    cookieSession({
+      name: "session",
+      keys: ["cyberwolve"],
+      maxAge: 24 * 60 * 60 * 100,
     })
-  }))
-
+  );
   /* =========== */
 
   /* ===== PASSPORT INITIALIZATION ===== */
