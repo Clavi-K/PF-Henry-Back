@@ -13,9 +13,10 @@ const router = Router();
 
 /* ===== ROUTES ===== */
 
-router.get('/getAll', controller.getAll)
 router.post('/post', controller.post)
+router.get('/getAll', controller.getAll)
 router.put('/update', controller.update)
+router.get('/getByMovie/:movieId', controller.getByMovie)
 
 /* ========== */
 

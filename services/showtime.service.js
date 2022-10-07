@@ -28,7 +28,7 @@ module.exports = {
         if (!obj.roomId || typeof obj.roomId !== "string") {
             throw new Error("Missing or invalid room ID")
         }
-        
+
         if (!obj.format || typeof obj.format !== "string" || obj.format.trim(" ").length === 0) {
             throw new Error("Missing or invalid format")
         }
@@ -95,6 +95,29 @@ module.exports = {
         }
 
     },
+
+    getByMovie: async (movieId) => {
+
+        if (!movieId || isNaN(Number(movieId))) {
+            throw new Error("Missing or invalid movie ID!")
+        }
+
+        const movie = await apiService.getMovie(movieId)
+        if (!movie.title) {
+            throw new Error("Invalid movie ID!")
+        }
+
+        try {
+
+            const result = await model.getByMovie(movieId)
+            return result
+
+        } catch(e){
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    }
 
 }
 
