@@ -15,7 +15,7 @@ class RoomModel {
             rows: Number,
             columns: Number,
             deleted: { type: Boolean, default: false }
-        })
+        }, { versionKey: false })
 
         this.model = model('rooms', schema)
 

@@ -38,18 +38,23 @@ class ShowtimeModel {
     }
 
     async getById(id) {
-        const showtime = await this.model.findById(id).lean()
+        const showtime = await this.model.findById(id)
         return showtime
     }
 
     async getByMovie(movieId) {
-        const showtimes = await this.model.find({movieId}).lean()
+        const showtimes = await this.model.find({movieId, deleted: false}).lean()
         return showtimes
     }
 
     async update(obj) {
         const updated = await this.model.updateOne({ _id: obj._id }, obj, { new: true, upsert: false })
         return updated
+    }
+
+    async getByRoomId(roomId) {
+        const showtimes = await this.model.find({roomId, deleted: false}).lean()
+        return showtimes
     }
 
     async loigcDelete(id) {

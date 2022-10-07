@@ -38,16 +38,11 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
 
   /* ===== MIDDLEWWARES ===== */
 
-  /* ===== STRATEGY INITIALIZATION ===== */
-
-  
-  /* =========== */
-  
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
-  
+
   /* ===== SESSION SETTINGS ===== */
-  
+
   app.use(session({
     secret: "auth",
     resave: true,
@@ -61,17 +56,17 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
   }))
 
   /* =========== */
-  
+
   /* ===== PASSPORT INITIALIZATION ===== */
-  
+
   app.use(passport.initialize())
   app.use(passport.session())
   localStrat(passport)
-  
+
   /* =========== */
 
   // cors añadido 
-  app.use(cors({ origin: "http://localhost:3000", credentials: true }))
+  app.use(cors({ origin: "http://localhost:3000", credentials: true, methods: "GET,POST,PUT,DELETE" }))
 
   /* ========== */
 

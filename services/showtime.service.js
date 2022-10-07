@@ -2,6 +2,7 @@
 
 const model = require("../models/showtime.model.js")
 const apiService = require("./api.service.js")
+const roomService = require("./room.service")
 const logger = require("../utils/logger.js")
 
 
@@ -38,6 +39,17 @@ module.exports = {
         }
 
         try {
+
+            const room = await roomService.getById(obj.roomId)
+            if(!room) {
+                throw new Error("Invaid room ID")
+            }
+
+            const showtimes = await this.getByRoomId(obj.roomId)
+            if(showtimes.length > 0) {
+                throw new Error("There is already a showtime for that room")
+            }
+
             return await model.save(obj)
         } catch (e) {
             logger.error(e)
@@ -106,13 +118,57 @@ module.exports = {
         if (!movie.title) {
             throw new Error("Invalid movie ID!")
         }
+        
+        try {
+            
+            const result = await model.getByMovie(movieId)
+            return result
+            
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+        
+    },
+
+    getById: async (showtimeId) => {
+        
+        if(!showtimeId || typeof showtimeId !== "string") {
+            throw new Error("Invalid showtime ID!")
+        }
 
         try {
 
-            const result = await model.getByMovie(movieId)
-            return result
+            const showtime = await model.getById(showtimeId)
+            if(!showtime) {
+                throw new Error("Invalid showtime ID")
+            }
 
-        } catch(e){
+            return showtime
+
+        } catch(e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getByRoomId: async(roomId) => {
+
+        if(!roomId || typeof roomId !== "string") {
+            throw new Error("Missing or invalid room ID")
+        }
+
+        try {
+         
+            const room = await model.getById(roomId)
+            if(!room) {
+                throw new Error("Invalid rooms ID")
+            }
+
+            return await model.getByRoomId(roomId)
+
+        } catch(e) {
             logger.error(e)
             throw new Error(e)
         }
