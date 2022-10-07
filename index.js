@@ -71,7 +71,7 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
   /* =========== */
 
   // cors añadido 
-  app.use(cors())
+  app.use(cors({ origin: "http://localhost:3000", credentials: true }))
 
   /* ========== */
 
