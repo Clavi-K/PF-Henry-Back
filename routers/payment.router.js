@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-// const axios = require("axios");
+const axios = require("axios");
 // const CourierClient = require("@trycourier/courier").CourierClient;
 // const courier = CourierClient({
 //   authorizationToken: process.env.COURRIER_API_KEY
@@ -17,38 +17,29 @@ mercadopago.configure({
 });
 
 router.post("/payment", async (req, res) => {
-  // Crea un objeto de preferencia
-  // /cartItems=JSON.parse(req.body.cartItems)
-  // console.log(cartItems)/
-
-  // games_id = [...req.body.games_id.split(",")].map((i) => {
-  //   return { _id: i };
-  // });
-  // cartItems = [...req.body.cartItems.split(",")];
-  // const games = cartItems.map((item) => {
+  // const tickets = [...req.body.tickets.split(",")].map((item) => {
   //   return {
+  //     id: "item-ID-1234",
   //     title: item.split("%")[0],
-  //     subtotal_price: parseInt(item.split("%")[1]),
+  //     currency_id: "ARS",
+  //     picture_url: item.split("%")[2],
+  //     description: "Description",
+  //     quantity: 1,
+  //     unit_price: parseInt(item.split("%")[1]),
   //   };
   // });
 
-  // order = {
-  //   user_id: 1,
-  //   username: "Belen",
-  //   email: "manterolabelu@outlook.es",
-  //   games: "movie",
-  //   total_price: parseInt(req.body.price),
-  // };
   let preference = {
+    // items: tickets,
     items: [
       {
         id: "item-ID-1234",
-        title: "Tickets",
+        title: req.body.title,
         currency_id: "ARS",
         picture_url: "img",
-        description: "Descripción del Item",
+        description: "Description",
         quantity: 1,
-        unit_price: 750,
+        unit_price: parseInt(req.body.total),
       },
     ],
     payer: {
@@ -61,9 +52,9 @@ router.post("/payment", async (req, res) => {
       },
     },
     back_urls: {
-      success: "http://localhost:3000/",
-      failure: "http://localhost:3000/",
-      pending: "http://localhost:3000/",
+      success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
+      failure: "http://localhost:8082/payment/payment",
+      pending: "http://localhost:8082/payment/payment",
     },
   };
   try {
@@ -74,6 +65,21 @@ router.post("/payment", async (req, res) => {
     console.log(data);
   } catch (e) {
     console.log(e);
+  }
+});
+
+router.get("/payment", async (req, res, next) => {
+  const userId = req.query.userId;
+  try {
+    if (req.query.status === "approved") {
+      await axios.put(
+        `http://localhost:8082/reservation/confirmByUser/${userId}`,
+        { payed: true }
+      );
+    }
+    res.redirect("http://localhost:3000/");
+  } catch (err) {
+    next(err);
   }
 });
 
