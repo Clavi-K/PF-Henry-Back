@@ -28,7 +28,13 @@ module.exports = {
         }
 
         try {
-            console.log(obj)
+
+            const rooms = await model.getAll()
+
+            for(const room of rooms ) {
+                if(room.number === obj.number) throw new Error("There is already a room with that number!")
+            }
+
             return await model.save(obj)
         } catch (e) {
             logger.error(e)
@@ -47,6 +53,16 @@ module.exports = {
             return await model.getById(id)
         } catch(e) {
             logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getAll: async() => {
+
+        try {
+            return await model.getAll()
+        } catch(e) {
             throw new Error(e)
         }
 

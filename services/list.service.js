@@ -1,7 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/list.model")
-const userService = require("./user.service")
+const userModel = require("../models/user.model")
 const apiService = require("./api.service")
 const logger = require("../utils/logger")
 
@@ -21,7 +21,7 @@ module.exports = {
 
         try {
 
-            const user = await userService.getById(obj.userId)
+            const user = await userModel.getById(obj.userId)
             if (!user) {
                 throw new Error("Invalid user")
             }
@@ -52,7 +52,7 @@ module.exports = {
 
         try {
 
-            const user = await userService.getById(userId)
+            const user = await userModel.getById(userId)
             if (!user) {
                 throw new Error("Invalid user ID")
             }

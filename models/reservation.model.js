@@ -13,7 +13,7 @@ class ReservationModel {
         const schema = new Schema({
             userId: String,
             showtimeId: String,
-            seatId: String,
+            seatIds: [String],
             seatLocation: String,
             type: String,
             price: Number,

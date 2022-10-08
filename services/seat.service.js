@@ -1,8 +1,8 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/seat.model")
-const showtimeService = require("../services/showtime.service")
-const roomService = require("../services/room.service")
+const showtimeModel = require("../models/showtime.model")
+const roomModel = require("../models/room.model")
 const logger = require("../utils/logger")
 
 /* ========== */
@@ -23,7 +23,7 @@ module.exports = {
 
         try {
 
-            const showtime = await showtimeService.getById(obj.showtimeId)
+            const showtime = await showtimeModel.getById(obj.showtimeId)
             if (!showtime) {
                 throw new Error("Invalid showtime ID")
             }
@@ -45,12 +45,10 @@ module.exports = {
 
         try {
 
-            const room = await roomService.getById(showtime.roomId)
+            const room = await roomModel.getById(showtime.roomId)
             if (!room) {
                 throw new Error("Missing or invalid showtime room!")
             }
-
-            console.log(room)
 
             const rowsArr = customLetterArray(room.rows)
             const seats = []
@@ -65,8 +63,8 @@ module.exports = {
                         location: `${rowsArr[i]}${j}`,
                         showtimeId: `${showtime._id.toString()}`,
                         userId: "",
-
                     })
+
 
                 }
 
@@ -74,7 +72,24 @@ module.exports = {
 
             }
 
-            return await model.bulkSave(seats)
+            const newSeats = await model.bulkSave(seats)
+            const showtimeSeats = []
+
+            for(const row of newSeats) {
+
+                const showtimeRow = []
+
+                for(const seat of row) {
+
+                    showtimeRow.push(seat._id.toString())
+
+                }
+
+                showtimeSeats.push(showtimeRow)
+
+            }
+
+            await showtimeModel.update({_id: showtime._id, seats: showtimeSeats})
 
         } catch (e) {
             logger.error(e)
@@ -92,7 +107,6 @@ module.exports = {
         try {
 
             const response = await model.hardDelete(showtimeId)
-            console.log(response)
         } catch (e) {
             logger.error(e)
             throw new Error(e)
@@ -109,13 +123,13 @@ module.exports = {
         try {
 
             const seat = await model.getById(seatId)
-            if(!seat) {
+            if (!seat) {
                 throw new Error("Seat ID not valid")
             }
 
             return seat
 
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }

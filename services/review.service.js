@@ -1,8 +1,8 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const model = require("../models/review.model.js");
 const apiService = require("../services/api.service")
-const userService = require("./user.service")
+const model = require("../models/review.model.js");
+const userModel = require("./user.service")
 const logger = require("../utils/logger.js");
 
 /* ========== */
@@ -36,7 +36,7 @@ module.exports = {
 
     try {
 
-      const user = await userService.getById(obj.userId)
+      const user = await userModel.getById(obj.userId)
       if(!user) {
         throw new Error("User ID not valid")
       }
