@@ -14,6 +14,7 @@ const router = Router()
 /* ===== ROUTES ===== */
 
 router.post("/post", controller.post)
+router.get("/getAll", controller.getAll)
 
 /* ========== */
 

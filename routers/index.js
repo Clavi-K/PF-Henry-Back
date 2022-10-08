@@ -23,15 +23,12 @@ router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
 router.use("/list", listRouter)
 
-const userService = require("../services/user.service")
+const seatModel = require("../models/seat.model")
 
 router.get("/test", async (req, res, next) => {
 
-  try {
-    console.log(await userService.getById("633f41f593ae09e524360970"))
-  } catch (e) {
-    next(e)
-  }
+  seatModel.hardDelete("6340d0f04bc2dc2a36c4160d")
+  res.send("ok")
 
 })
 

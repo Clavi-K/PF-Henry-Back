@@ -19,6 +19,17 @@ module.exports = {
             next(e)
         }
 
+    },
+
+    getAll: async (req, res, next) =>  {
+
+        try {
+            const result = await service.getAll()
+            return res.status(200).send(result)
+        } catch(e) {
+            next(e)
+        }
+
     }
 
 }

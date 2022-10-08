@@ -63,8 +63,8 @@ module.exports = {
                         location: `${rowsArr[i]}${j}`,
                         showtimeId: `${showtime._id.toString()}`,
                         userId: "",
-
                     })
+
 
                 }
 
@@ -72,7 +72,24 @@ module.exports = {
 
             }
 
-            return await model.bulkSave(seats)
+            const newSeats = await model.bulkSave(seats)
+            const showtimeSeats = []
+
+            for(const row of newSeats) {
+
+                const showtimeRow = []
+
+                for(const seat of row) {
+
+                    showtimeRow.push(seat._id.toString())
+
+                }
+
+                showtimeSeats.push(showtimeRow)
+
+            }
+
+            await showtimeModel.update({_id: showtime._id, seats: showtimeSeats})
 
         } catch (e) {
             logger.error(e)
@@ -106,13 +123,13 @@ module.exports = {
         try {
 
             const seat = await model.getById(seatId)
-            if(!seat) {
+            if (!seat) {
                 throw new Error("Seat ID not valid")
             }
 
             return seat
 
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }
