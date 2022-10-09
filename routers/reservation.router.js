@@ -2,6 +2,7 @@
 
 const { Router } = require("express");
 const controller = require("../controllers/reservation.controller.js");
+const auth = require("../middlewares/auth")
 
 /* ========== */
 
@@ -13,9 +14,9 @@ const router = Router();
 
 /* ===== ROUTES ===== */
 
-router.post("/post", controller.post);
-router.get("/getByUser/:userId", controller.getByUser);
-router.put("/confirmByUser/:userId", controller.confirmByUser);
+router.post("/post", auth, controller.post);
+router.get("/getByUser/:userId", auth, controller.getByUser);
+router.put("/confirmByUser/:userId", auth, controller.confirmByUser);
 
 /* ========== */
 

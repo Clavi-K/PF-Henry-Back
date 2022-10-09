@@ -2,6 +2,7 @@
 
 const { Router } = require('express')
 const controller = require('../controllers/showtime.controller.js')
+const auth = require("../middlewares/auth")
 
 /* ==========*/
 
@@ -13,11 +14,11 @@ const router = Router();
 
 /* ===== ROUTES ===== */
 
-router.post('/post', controller.post)
+router.post('/post', auth, controller.post)
 router.get('/getAll', controller.getAll)
-router.put('/update', controller.update)
+router.put('/update', auth, controller.update)
 router.get("/getById/:showtimeId", controller.getById)
-router.delete("/endById/:showtimeId", controller.endById)
+router.delete("/endById/:showtimeId", auth, controller.endById)
 router.get('/getByMovie/:movieId', controller.getByMovie)
 
 /* ========== */
