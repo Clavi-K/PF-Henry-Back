@@ -58,7 +58,7 @@ module.exports = {
                     throw new Error("One seat is already taken")
                 }
 
-                seatModel.setUserId(seat._id.toString(), user._id.toString())
+                await seatModel.setUserId(seat._id.toString(), user.uid)
             }
 
             return await model.save(obj)

@@ -14,18 +14,13 @@
   "dependencies": {
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
-    "connect-mongo": "^4.6.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
-    "express-session": "^1.17.3",
     "log4js": "^6.6.1",
     "mercadopago": "^1.5.14",
     "moment": "^2.29.4",
-    "mongoose": "^6.6.1",
-    "passport": "^0.6.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0"
+    "mongoose": "^6.6.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
