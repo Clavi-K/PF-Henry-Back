@@ -9,7 +9,6 @@ const service = require("../services/review.service.js");
 module.exports = {
   post: async (req, res, next) => {
     const newReview = req.body;
-
     try {
       const result = await service.post(newReview);
       return res.status(201).send(result);

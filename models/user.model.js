@@ -12,11 +12,9 @@ class UserModel {
     constructor() {
 
         const schema = new Schema({
-            email: String,
-            password: String,
-            firstname: String,
-            lastname: String,
-            username: String,
+            email: { type: String, unique: true },
+            uid: { type: String, unique: true },
+            displayName: String,
             role: String,
             avatar: String,
             deleted: { type: Boolean, default: false }
@@ -29,7 +27,6 @@ class UserModel {
     /* ===== MODEL METHODS ===== */
 
     async save(obj) {
-        if (obj.password) obj.password = await bcrypt.hash(obj.password, 10)
         obj.role = "USER"
 
         const user = await this.model.create(obj)
@@ -37,12 +34,16 @@ class UserModel {
     }
 
     async getAll() {
-        const users = this.model.find({ deleted: false }).lean()
+        const users = await this.model.find({ deleted: false }).lean()
         return users
     }
 
     async existsByEmail(email) {
-        return this.model.exists({ email })
+        return await this.model.exists({ email })
+    }
+
+    async existsByUid(uid) {
+        return await this.model.exists({ uid })
     }
 
     async getByEmail(email) {
@@ -50,15 +51,8 @@ class UserModel {
         return user
     }
 
-    async isPasswordValid(email, password) {
-        const user = await this.model.findOne({ email }).lean()
-
-        if (!user.password) return false
-        return bcrypt.compare(password, user.password)
-    }
-
-    async getById(id) {
-        const user = await this.model.findById(id).lean()
+    async getById(uid) {
+        const user = await this.model.findOne({ uid }).lean()
         return user
     }
 
@@ -67,22 +61,8 @@ class UserModel {
         return user
     }
 
-    async logicDelete(id) {
-        await this.model.updateOne({ _id: id }, { deleted: true })
-    }
-
-    async getUserSession(id) {
-        const user = await this.model.findById(id).lean()
-
-        return {
-            _id: user._id,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            username: user.username,
-            email: user.email,
-            role: user.role,
-            reservations: user.reservations
-        }
+    async logicDelete(uid) {
+        await this.model.updateOne({ uid }, { deleted: true })
     }
 
     /* ========== */

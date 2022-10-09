@@ -1,7 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const { Router } = require("express")
-const controller = require("../controllers/room.controller")
+const { Router } = require("express");
+const controller = require("../controllers/user.controller.js");
 const auth = require("../middlewares/auth")
 
 /* ========== */
@@ -14,13 +14,14 @@ const router = Router()
 
 /* ===== ROUTES ===== */
 
-router.post("/post", auth, controller.post)
-router.get("/getAll", controller.getAll)
+router.post("/register", controller.register)
+router.get("/getById/:userId", auth, controller.getById)
+
 
 /* ========== */
 
 /* ===== ROUTER EXPORT ===== */
 
-module.exports = router
+module.exports = router;
 
 /* ========== */

@@ -1,7 +1,7 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/user.model.js");
-const reservationModel = require("../models/reservation.model")
+const reservationService = require("./reservation.service")
 
 const logger = require("../utils/logger.js");
 
@@ -13,6 +13,10 @@ module.exports = {
 
     post: async (obj, reservations) => {
 
+        if (!obj.uid || typeof obj.uid !== "string" || obj.uid.trim(" ").length === 0) {
+            throw new Error("Missing or invalid user UID")
+        }
+
         if (!obj.email || typeof obj.email !== "string") {
             throw new Error("Missing or invalid email!")
         }
@@ -21,24 +25,22 @@ module.exports = {
             throw new Error("User already exists")
         }
 
-        if (obj.password !== obj.password2) {
-            throw new Error("Passwords don't match!")
+        if (await model.existsByUid(obj.uid)) {
+            throw new Error("User alreday exists")
         }
 
-        if (!obj.firstname || typeof obj.firstname !== "string" || obj.firstname.trim(" ").length === 0) {
-            throw new Error("First name not valid!")
-        }
-
-        if (!obj.lastname || typeof obj.lastname !== "string" || obj.lastname.trim(" ").length === 0) {
-            throw new Error("Last name not valid!")
-        }
-
-        if (!obj.username || typeof obj.username !== "string" || obj.username.trim(" ").length === 0) {
-            throw new Error("Username not valid!")
+        if (!obj.displayName || typeof obj.displayName !== "string" || obj.displayName.trim(" ").length === 0) {
+            throw new Error("Missing or invalid display name")
         }
 
         try {
+            const response = await model.save(obj)
 
+            if (Array.isArray(reservations) && reservations.length) {
+                for (const reserv of reservations) await reservationService.post(reserv)
+            }
+
+            return response
 
         } catch (e) {
             logger.error(e)
@@ -71,7 +73,5 @@ module.exports = {
     }
 
 }
-
-
 
 /* ========== */
