@@ -17,6 +17,7 @@ class ShowtimeModel {
             dateTime: Date,
             roomId: String,
             format: String,
+            ticketPrice: Number,
             seats: { type: [[String]], default: [[]] },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
