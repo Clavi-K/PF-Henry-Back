@@ -12,9 +12,9 @@ const logger = require("../utils/logger.js")
 /* ===== EXPORT SERVICE ===== */
 
 const showtimeService = {
-
+    
     post: async (obj) => {
-
+    
         if (!obj.movieId || isNaN(Number(obj.movieId))) {
             throw new Error("Missing or invalid movie ID")
         }
@@ -33,6 +33,10 @@ const showtimeService = {
 
         if (!obj.format || typeof obj.format !== "string" || obj.format.trim(" ").length === 0) {
             throw new Error("Missing or invalid format")
+        }
+
+        if(!obj.ticketPrice || isNaN(Number(obj.ticketPrice)) || obj.ticketPrice < 1) {
+            throw new Error("Missing or invalid showtime ticket price")
         }
 
         if (!isValidDate(obj.dateTime)) {

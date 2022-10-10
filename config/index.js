@@ -14,9 +14,8 @@ module.exports = {
         GENRESURL: process.env.GENRESURL,
         GETUPCOMINGURL: process.env.GETUPCOMINGURL
     },
-    auth: {
-        GOOGLECLIENTID: process.env.GOOGLECLIENTID,
-        GOOGLESECRET: process.env.GOOGLESECRET,
-        CLIENTURL: process.env.CLIENTURL
+    notifications: {
+        GMAIL: process.env.GMAILADDRESS,
+        PWD: process.env.GMAILAPPPWD
     }
 }

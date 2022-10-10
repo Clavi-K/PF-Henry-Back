@@ -1,7 +1,8 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const {Router} = require("express")
+const { Router } = require("express")
 const controller = require("../controllers/list.controller")
+const auth = require("../middlewares/auth")
 
 /* ========== */
 
@@ -13,10 +14,10 @@ const router = Router()
 
 /* ===== ROUTES ===== */
 
-router.post("/post", controller.post)
-router.get("/getByUser/:userId", controller.getByUser)
-router.put("/addMovie/:listId/:movieId", controller.addMovie)
-router.put("/removeMovie/:listId/:movieId", controller.removeMovie)
+router.post("/post", auth, controller.post)
+router.get("/getByUser/:userId", auth, controller.getByUser)
+router.put("/addMovie/:listId/:movieId", auth, controller.addMovie)
+router.put("/removeMovie/:listId/:movieId", auth, controller.removeMovie)
 
 /* ========== */
 

@@ -14,7 +14,6 @@ class ReservationModel {
             userId: String,
             showtimeId: String,
             seatIds: [String],
-            seatLocation: String,
             type: String,
             price: Number,
             payed: { type: Boolean, default: false },
