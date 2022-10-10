@@ -13,5 +13,9 @@ module.exports = {
         GETMOVIE: process.env.GETMOVIE,
         GENRESURL: process.env.GENRESURL,
         GETUPCOMINGURL: process.env.GETUPCOMINGURL
+    },
+    notifications: {
+        GMAIL: process.env.GMAILADDRESS,
+        PWD: process.env.GMAILAPPPWD
     }
 }
