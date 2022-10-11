@@ -54,7 +54,7 @@ router.post("/payment", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success: "http://localhost:8082/payment/success?userId=holi",
+      success: "https://pf-henry-back.herokuapp.com/payment/success?userId=holi",
       failure: "https://pf-henry-back.herokuapp.com/payment/payment",
       pending: "https://pf-henry-back.herokuapp.com/payment/payment",
     },
