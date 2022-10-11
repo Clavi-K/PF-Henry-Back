@@ -23,13 +23,6 @@ router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
 router.use("/list", listRouter);
 
-const seatModel = require("../models/seat.model");
-
-router.get("/test", async (req, res, next) => {
-  seatModel.hardDelete("6340d0f04bc2dc2a36c4160d");
-  res.send("ok");
-});
-
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {
   logger.warn(

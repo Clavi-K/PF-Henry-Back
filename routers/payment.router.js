@@ -84,7 +84,7 @@ router.get("/payment", async (req, res, next) => {
       await reservationService.confirmByUser(userId);
       console.log("uwu");
     }
-    res.redirect("http://localhost:3000/");
+    res.redirect(process.env.DEPLOYCLIENTURL);
   } catch (err) {
     next(err);
   }
