@@ -54,8 +54,7 @@ router.post("/payment", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success:
-        "https://pf-henry-back.herokuapp.com/payment/payment?userId=holi",
+      success: "http://localhost:8082/payment/success?userId=holi",
       failure: "https://pf-henry-back.herokuapp.com/payment/payment",
       pending: "https://pf-henry-back.herokuapp.com/payment/payment",
     },
@@ -65,13 +64,12 @@ router.post("/payment", async (req, res) => {
 
     res.redirect(data.body.init_point);
 
-    console.log(data);
   } catch (e) {
     console.log(e);
   }
 });
 
-router.get("/payment", async (req, res, next) => {
+router.get("/success", async (req, res, next) => {
   const userId = req.query.userId;
   try {
     // if (req.query.status === "approved") {
@@ -82,9 +80,8 @@ router.get("/payment", async (req, res, next) => {
     // }
     if (req.query.status === "approved") {
       await reservationService.confirmByUser(userId);
-      console.log("uwu");
     }
-    res.redirect(process.env.DEPLOYCLIENTURL);
+    return res.redirect(process.env.DEPLOYCLIENTURL);
   } catch (err) {
     next(err);
   }
