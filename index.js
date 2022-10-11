@@ -37,7 +37,7 @@ mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.P
   app.use(express.urlencoded({ extended: true }))
 
   // cors añadido 
-  app.use(cors({ origin: "http://localhost:3000", credentials: true, methods: "GET,POST,PUT,DELETE" }))
+  app.use(cors({ origin: ["http://localhost:3000", "https://hpfc.netlify.app"], credentials: true, methods: "GET,POST,PUT,DELETE" }))
 
   /* ========== */
 
