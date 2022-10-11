@@ -89,6 +89,10 @@ module.exports = {
                 throw new Error("Invalid movie ID")
             }
 
+            if(list.moviesId.includes(movieId)) {
+                throw new Error("That movie is already in the list!")
+            }
+
             const newList = await model.addMovie(listId, movieId)
             return newList
 
