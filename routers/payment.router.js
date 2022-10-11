@@ -79,6 +79,7 @@ router.get("/success", async (req, res, next) => {
     //   );
     // }
     if (req.query.status === "approved") {
+      console.log("uwu")
       await reservationService.confirmByUser(userId);
     }
     return res.redirect(process.env.DEPLOYCLIENTURL);
