@@ -48,6 +48,10 @@ class ReservationModel {
         await this.model.updateOne({ _id: id, deleted: false }, { deleted: true }, { upsert: false })
     }
 
+    async getById(id) {
+        return await this.model.findById(id)
+    }
+
     /* ========== */
 
 }
