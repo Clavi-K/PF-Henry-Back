@@ -23,12 +23,12 @@ module.exports = {
             throw new Error("Missing or invalid showtime ID")
         }
 
-        if (!obj.seatIds || !obj.seatIds.length) {
-            throw new Error("Missing or invalid reservations seats IDs")
-        }
-
         if (!obj.price || isNaN(Number(obj.price)) || Number(obj.price) < 0) {
             throw new Error("Missing or invalid reservation price")
+        }
+
+        if (!obj.type || typeof obj.type !== "string" || obj.type.trim(" ").length === 0) {
+            throw new Error("Missing or invalid reservation type")
         }
 
         try {
@@ -41,24 +41,6 @@ module.exports = {
             const showtime = await showtimeModel.getById(obj.showtimeId)
             if (!showtime) {
                 throw new Error("Invalid reservation showtime ID")
-            }
-
-
-            for (const seatId of obj.seatIds) {
-                const seat = await seatModel.getById(seatId)
-                if (!seat) {
-                    throw new Error("Invalid reservation seat ID")
-                }
-
-                if (seat.showtimeId !== obj.showtimeId) {
-                    throw new Error("One seat does not belong to this showtime")
-                }
-
-                if (seat.userId !== "") {
-                    throw new Error("One seat is already taken")
-                }
-
-                await seatModel.setUserId(seat._id.toString(), user.uid)
             }
 
             return await model.save(obj)
@@ -106,6 +88,44 @@ module.exports = {
             }
 
             await model.confirmByUser(userId)
+
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    setSeats: async (reservationId, seatIds) => {
+
+        if (!reservationId || typeof reservationId !== "string" || reservationId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid reservation ID")
+        }
+
+        if (!Array.isArray(seatIds) || !seatIds.length) {
+            throw new Error("Missing or invalid reservation seats IDs")
+        }
+
+        try {
+
+            const reservation = await model.getById(reservationId)
+            if (!reservation) throw new Error("Invalid reservation ID")
+
+            const user = await userModel.getById(reservation.userId)
+            console.log(user)
+            if (!user) throw new Error("Invalid user ID")
+
+            for (const seatId of seatIds) {
+
+                const seat = await seatModel.getById(seatId)
+                if (!seat) throw new Error("Invalid seat ID")
+
+                if (seat.showtimeId !== reservation.showtimeId) throw new Error("One seat does not belong to this showtime")
+                if (seat.userId !== "") throw new Error("One seat is already taken")
+
+                await seatModel.setUserId(seat._id.toString(), user.uid)
+
+            }
 
         } catch (e) {
             logger.error(e)

@@ -40,7 +40,10 @@ module.exports = {
             await mailSender.send(response.email, "Account creation", templates.register(response.displayName))
             
             if (Array.isArray(reservations) && reservations.length) {
-                for (const reserv of reservations) await reservationService.post(reserv)
+                for (const reserv of reservations) {
+                    reserv.userId = response.uid
+                    await reservationService.post(reserv)
+                }
             }
             
             return response
