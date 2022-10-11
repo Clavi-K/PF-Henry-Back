@@ -6,7 +6,5 @@ module.exports = async (req, res, next) => {
         req.userId = req.headers.user
         return next()
     }
-
     return res.redirect(process.env.CLIENTURL)
-
 }

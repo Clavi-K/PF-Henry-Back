@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+const reservationService = require("../services/reservation.service");
 // const CourierClient = require("@trycourier/courier").CourierClient;
 // const courier = CourierClient({
 //   authorizationToken: process.env.COURRIER_API_KEY
@@ -39,7 +40,7 @@ router.post("/payment", async (req, res) => {
         picture_url: "img",
         description: "Description",
         quantity: 1,
-        unit_price: parseInt(req.body.total),
+        unit_price: parseInt(req.body.price),
       },
     ],
     payer: {
@@ -52,9 +53,11 @@ router.post("/payment", async (req, res) => {
       },
     },
     back_urls: {
-      success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      failure: "http://localhost:8082/payment/payment",
-      pending: "http://localhost:8082/payment/payment",
+      // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
+      success:
+        "https://pf-henry-back.herokuapp.com/payment/payment?userId=holi",
+      failure: "https://pf-henry-back.herokuapp.com/payment/payment",
+      pending: "https://pf-henry-back.herokuapp.com/payment/payment",
     },
   };
   try {
@@ -71,11 +74,15 @@ router.post("/payment", async (req, res) => {
 router.get("/payment", async (req, res, next) => {
   const userId = req.query.userId;
   try {
+    // if (req.query.status === "approved") {
+    //   await axios.put(
+    //     `http://localhost:8082/reservation/confirmByUser/${userId}`,
+    //     { payed: true }
+    //   );
+    // }
     if (req.query.status === "approved") {
-      await axios.put(
-        `http://localhost:8082/reservation/confirmByUser/${userId}`,
-        { payed: true }
-      );
+      await reservationService.confirmByUser(userId);
+      console.log("uwu");
     }
     res.redirect("http://localhost:3000/");
   } catch (err) {
