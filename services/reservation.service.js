@@ -1,10 +1,9 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-
 const model = require("../models/reservation.model.js");
-const userModel = require("../models/user.model.js")
-const seatModel = require("../models/seat.model")
-const showtimeModel = require("../models/showtime.model")
+const userModel = require("../models/user.model.js");
+const seatModel = require("../models/seat.model");
+const showtimeModel = require("../models/showtime.model");
 const logger = require("../utils/logger.js");
 
 /* ========== */
@@ -12,6 +11,14 @@ const logger = require("../utils/logger.js");
 /* ===== EXPORT SERVICE ===== */
 
 module.exports = {
+  post: async (obj) => {
+    if (
+      !obj.userId ||
+      typeof obj.userId !== "string" ||
+      obj.userId.trim(" ").length === 0
+    ) {
+      throw new Error("Missing or invalid user ID");
+    }
 
     post: async (obj) => {
 
@@ -45,54 +52,70 @@ module.exports = {
 
             return await model.save(obj)
 
-        } catch (e) {
-            logger.error(e)
-            throw new Error(e)
+
+    try {
+      const user = await userModel.getById(obj.userId);
+      if (!user) {
+        throw new Error("Invalid reservation user ID");
+      }
+
+      const showtime = await showtimeModel.getById(obj.showtimeId);
+      if (!showtime) {
+        throw new Error("Invalid reservation showtime ID");
+      }
+
+      for (const seatId of obj.seatIds) {
+        const seat = await seatModel.getById(seatId);
+        if (!seat) {
+          throw new Error("Invalid reservation seat ID");
         }
 
-    },
-
-    getByUser: async (userId) => {
-
-        if (!userId || typeof userId !== "string") {
-            throw new Error("Missing or invalid user ID")
+        if (seat.showtimeId !== obj.showtimeId) {
+          throw new Error("One seat does not belong to this showtime");
         }
 
-        try {
-
-            const user = userModel.getById(userId)
-            if (!user) {
-                throw new Error("No user with that ID!")
-            }
-
-            return await model.getByUser(userId)
-
-        } catch (e) {
-            logger.error(e)
-            throw new Error(e)
+        if (seat.userId !== "") {
+          throw new Error("One seat is already taken");
         }
 
-    },
+        await seatModel.setUserId(seat._id.toString(), user.uid);
+      }
 
-    confirmByUser: async (userId) => {
+      return await model.save(obj);
+    } catch (e) {
+      logger.error(e);
+      throw new Error(e);
+    }
+  },
 
-        if (!userId || typeof userId !== "string") {
-            throw new Error("Missing or invalid user ID")
-        }
+  getByUser: async (userId) => {
+    if (!userId || typeof userId !== "string") {
+      throw new Error("Missing or invalid user ID");
+    }
 
-        try {
+    try {
+      const user = userModel.getById(userId);
+      if (!user) {
+        throw new Error("No user with that ID!");
+      }
 
-            const user = await userModel.getById(userId)
-            if (!user) {
-                throw new Error("No user with that ID!")
-            }
+      return await model.getByUser(userId);
+    } catch (e) {
+      logger.error(e);
+      throw new Error(e);
+    }
+  },
 
-            await model.confirmByUser(userId)
+  confirmByUser: async (userId) => {
+    if (!userId || typeof userId !== "string") {
+      throw new Error("Missing or invalid user ID");
+    }
 
-        } catch (e) {
-            logger.error(e)
-            throw new Error(e)
-        }
+    try {
+      const user = await userModel.getById(userId);
+      if (!user) {
+        throw new Error("No user with that ID!");
+      }
 
     },
 
@@ -133,7 +156,7 @@ module.exports = {
         }
 
     }
-
-}
+  },
+};
 
 /* ========== */

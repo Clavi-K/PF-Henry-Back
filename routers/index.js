@@ -9,7 +9,7 @@ const roomRouter = require("./room.router");
 const reservationRouter = require("./reservation.router");
 const userRouter = require("./user.router");
 const paymentRouter = require("./payment.router");
-const listRouter = require("./list.router")
+const listRouter = require("./list.router");
 
 const router = express.Router();
 
@@ -21,16 +21,14 @@ router.use("/review", reviewRouter);
 router.use("/room", roomRouter);
 router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
-router.use("/list", listRouter)
+router.use("/list", listRouter);
 
-const seatModel = require("../models/seat.model")
+const seatModel = require("../models/seat.model");
 
 router.get("/test", async (req, res, next) => {
-
-  seatModel.hardDelete("6340d0f04bc2dc2a36c4160d")
-  res.send("ok")
-
-})
+  seatModel.hardDelete("6340d0f04bc2dc2a36c4160d");
+  res.send("ok");
+});
 
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {
