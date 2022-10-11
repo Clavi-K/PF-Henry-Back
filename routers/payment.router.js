@@ -82,7 +82,7 @@ router.get("/success", async (req, res, next) => {
       console.log("uwu")
       await reservationService.confirmByUser(userId);
     }
-    return res.redirect(process.env.DEPLOYCLIENTURL);
+    return res.redirect("https://hpfc.netlify.app");
   } catch (err) {
     next(err);
   }
