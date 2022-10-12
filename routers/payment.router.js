@@ -72,15 +72,11 @@ router.post("/payment", async (req, res) => {
 router.get("/success", async (req, res, next) => {
   const userId = req.query.userId;
   try {
-    // if (req.query.status === "approved") {
-    //   await axios.put(
-    //     `http://localhost:8082/reservation/confirmByUser/${userId}`,
-    //     { payed: true }
-    //   );
-    // }
+
     if (req.query.status === "approved") {
       await reservationService.confirmByUser(userId);
     }
+
     return res.redirect("https://hpfc.netlify.app");
   } catch (err) {
     next(err);

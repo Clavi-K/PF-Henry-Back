@@ -1,8 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-
 const model = require("../models/reservation.model.js");
-const userModel = require("../models/user.model.js")
 const seatModel = require("../models/seat.model")
 const showtimeModel = require("../models/showtime.model")
 const logger = require("../utils/logger.js");
@@ -33,11 +31,6 @@ module.exports = {
 
         try {
 
-            const user = await userModel.getById(obj.userId)
-            if (!user) {
-                throw new Error("Invalid reservation user ID")
-            }
-
             const showtime = await showtimeModel.getById(obj.showtimeId)
             if (!showtime) {
                 throw new Error("Invalid reservation showtime ID")
@@ -60,11 +53,6 @@ module.exports = {
 
         try {
 
-            const user = userModel.getById(userId)
-            if (!user) {
-                throw new Error("No user with that ID!")
-            }
-
             return await model.getByUser(userId)
 
         } catch (e) {
@@ -81,11 +69,6 @@ module.exports = {
         }
 
         try {
-
-            const user = await userModel.getById(userId)
-            if (!user) {
-                throw new Error("No user with that ID!")
-            }
 
             await model.confirmByUser(userId)
 
@@ -111,9 +94,7 @@ module.exports = {
             const reservation = await model.getById(reservationId)
             if (!reservation) throw new Error("Invalid reservation ID")
 
-            const user = await userModel.getById(reservation.userId)
-            console.log(user)
-            if (!user) throw new Error("Invalid user ID")
+            if (!reservation.userId || reservation.userId !== "") throw new Error("This reservation is not assigned to any user!")
 
             for (const seatId of seatIds) {
 
