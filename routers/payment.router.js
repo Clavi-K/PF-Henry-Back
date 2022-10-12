@@ -54,7 +54,8 @@ router.post("/payment", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success: "https://pf-henry-back.herokuapp.com/payment/success?userId=holi",
+      success:
+        "https://pf-henry-back.herokuapp.com/payment/payment?userId=holi",
       failure: "https://pf-henry-back.herokuapp.com/payment/payment",
       pending: "https://pf-henry-back.herokuapp.com/payment/payment",
     },
@@ -63,21 +64,20 @@ router.post("/payment", async (req, res) => {
     const data = await mercadopago.preferences.create(preference);
 
     res.redirect(data.body.init_point);
-
   } catch (e) {
     console.log(e);
   }
 });
 
-router.get("/success", async (req, res, next) => {
+router.get("/payment", async (req, res, next) => {
   const userId = req.query.userId;
   try {
-
     if (req.query.status === "approved") {
       await reservationService.confirmByUser(userId);
+      return res.redirect("https://hpfc.netlify.app/profile/payments");
     }
 
-    return res.redirect("https://hpfc.netlify.app");
+    return res.redirect("https://hpfc.netlify.app/cart");
   } catch (err) {
     next(err);
   }
