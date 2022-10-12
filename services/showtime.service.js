@@ -12,9 +12,9 @@ const logger = require("../utils/logger.js")
 /* ===== EXPORT SERVICE ===== */
 
 const showtimeService = {
-    
+
     post: async (obj) => {
-    
+
         if (!obj.movieId || isNaN(Number(obj.movieId))) {
             throw new Error("Missing or invalid movie ID")
         }
@@ -35,7 +35,7 @@ const showtimeService = {
             throw new Error("Missing or invalid format")
         }
 
-        if(!obj.ticketPrice || isNaN(Number(obj.ticketPrice)) || obj.ticketPrice < 1) {
+        if (!obj.ticketPrice || isNaN(Number(obj.ticketPrice)) || obj.ticketPrice < 1) {
             throw new Error("Missing or invalid showtime ticket price")
         }
 
@@ -152,6 +152,8 @@ const showtimeService = {
             if (!showtime) {
                 throw new Error("Invalid showtime ID")
             }
+            const seats = showtime.seats
+            showtime.seats = await getFormattedSeats(seats)
 
             return showtime
 
@@ -162,27 +164,29 @@ const showtimeService = {
 
     },
 
-    endById: async(showtimeId) => {
+    endById: async (showtimeId) => {
 
         if (!showtimeId || typeof showtimeId !== "string") {
             throw new Error("Invalid showtime ID!")
         }
 
-        try{
-            
+        try {
+
             const showtime = await model.getById(showtimeId)
-            if(!showtime) {
+            if (!showtime) {
                 throw new Error("Invalid showtime ID")
             }
 
             await model.loigcDelete(showtimeId)
             await seatService.hardDeleteByShowtime(showtimeId)
 
-        } catch(e) {
+        } catch (e) {
 
         }
 
-    }
+    },
+
+
 
 }
 
@@ -217,6 +221,28 @@ async function getByRoomId(roomId) {
         logger.error(e)
         throw new Error(e)
     }
+
+}
+
+async function getFormattedSeats(showtimeSeats) {
+    const formattedSeats = []
+
+
+    for (const showtimeRow of showtimeSeats) {
+
+        const formattedRow = []
+
+        for (const seat of showtimeRow) {
+            console.log(seat)
+
+            formattedRow.push(seatService.getById(seat))
+
+        }
+
+        formattedSeats.push(await Promise.all(formattedRow))
+    }
+
+    return formattedSeats
 
 }
 
