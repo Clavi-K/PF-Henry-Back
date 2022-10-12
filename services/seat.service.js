@@ -7,9 +7,8 @@ const logger = require("../utils/logger")
 
 /* ========== */
 
-/* ===== SERVICE EXPORT ===== */
-
-module.exports = {
+/* ===== SERVICE DEFINITION ===== */
+const seat_Service = {
 
     post: async (obj) => {
 
@@ -75,11 +74,11 @@ module.exports = {
             const newSeats = await model.bulkSave(seats)
             const showtimeSeats = []
 
-            for(const row of newSeats) {
+            for (const row of newSeats) {
 
                 const showtimeRow = []
 
-                for(const seat of row) {
+                for (const seat of row) {
 
                     showtimeRow.push(seat._id.toString())
 
@@ -89,7 +88,7 @@ module.exports = {
 
             }
 
-            await showtimeModel.update({_id: showtime._id, seats: showtimeSeats})
+            await showtimeModel.update({ _id: showtime._id, seats: showtimeSeats })
 
         } catch (e) {
             logger.error(e)
@@ -134,9 +133,41 @@ module.exports = {
             throw new Error(e)
         }
 
+    },
+
+    getByShowtime: async (showtimeId) => {
+
+        if (!showtimeId || typeof showtimeId !== "string" || showtimeId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid showtime ID!")
+        }
+
+        try {
+
+            const showtime = await showtimeModel.getById(showtimeId)
+            if (!showtime) {
+                throw new Error("Invalid showtime ID")
+            }
+
+            if (showtime.deleted) {
+                throw new Error("That showtime is no longer active!")
+            }
+
+            return await getFormattedSeats(showtime.seats)
+
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
     }
 
 }
+
+/* ========== */
+
+/* ===== SERVICE EXPORT ===== */
+
+module.exports = seat_Service
 
 /* ========== */
 
@@ -152,6 +183,30 @@ function customLetterArray(index) {
     const alphabet = alpha.map((x) => String.fromCharCode(x));
 
     return alphabet
+}
+
+
+async function getFormattedSeats(showtimeSeats) {
+    let formattedSeats = []
+
+
+    for (const showtimeRow of showtimeSeats) {
+
+        const formattedRow = []
+
+        for (const seat of showtimeRow) {
+            //formattedRow.push(seat_Service.getById(seat))
+            formattedSeats.push(seat_Service.getById(seat))
+        }
+
+        //formattedSeats.push(await Promise.all(formattedRow))
+    }
+
+    const result = await Promise.all(formattedSeats)
+
+    // return formattedSeats
+    return result
+
 }
 
 /* ========== */

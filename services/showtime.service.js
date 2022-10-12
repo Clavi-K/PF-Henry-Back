@@ -153,7 +153,6 @@ const showtimeService = {
                 throw new Error("Invalid showtime ID")
             }
             const seats = showtime.seats
-            showtime.seats = await getFormattedSeats(seats)
 
             return showtime
 
@@ -224,26 +223,5 @@ async function getByRoomId(roomId) {
 
 }
 
-async function getFormattedSeats(showtimeSeats) {
-    const formattedSeats = []
-
-
-    for (const showtimeRow of showtimeSeats) {
-
-        const formattedRow = []
-
-        for (const seat of showtimeRow) {
-            console.log(seat)
-
-            formattedRow.push(seatService.getById(seat))
-
-        }
-
-        formattedSeats.push(await Promise.all(formattedRow))
-    }
-
-    return formattedSeats
-
-}
 
 /* ========== */

@@ -10,7 +10,7 @@ const reservationRouter = require("./reservation.router");
 const userRouter = require("./user.router");
 const paymentRouter = require("./payment.router");
 const listRouter = require("./list.router");
-const showtimeService = require("../services/showtime.service");
+const seatRouter = require("./seat.router")
 
 const router = express.Router();
 
@@ -23,21 +23,7 @@ router.use("/room", roomRouter);
 router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
 router.use("/list", listRouter);
-
-router.get("/test/:showtimeId", async (req, res, next) => {
-
-  const { showtimeId } = req.params
-
-  try {
-
-    await showtimeService.getFormattedSeats(showtimeId)
-
-  } catch (e) {
-    logger.error(e)
-    next(e)
-  }
-
-})
+router.use("/seat", seatRouter)
 
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {
