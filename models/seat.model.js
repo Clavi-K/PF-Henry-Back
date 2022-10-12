@@ -14,7 +14,7 @@ class SeatModel {
         const schema = new Schema({
             location: String,
             userId: String,
-            showtimeId: String,
+            showtimeId: { type: String, require: true },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
 
@@ -62,8 +62,8 @@ class SeatModel {
         await this.model.updateOne({ _id: id }, { deleted: true }, { upsert: false })
     }
 
-    async hardDelete(showtimeId)  {
-        await this.model.deleteMany({showtimeId})
+    async hardDelete(showtimeId) {
+        await this.model.deleteMany({ showtimeId })
     }
 
     /* ========== */

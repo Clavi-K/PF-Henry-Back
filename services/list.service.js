@@ -1,7 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
 const model = require("../models/list.model")
-const userModel = require("../models/user.model")
 const apiService = require("./api.service")
 const logger = require("../utils/logger")
 
@@ -20,11 +19,6 @@ module.exports = {
         }
 
         try {
-
-            const user = await userModel.getById(obj.userId)
-            if (!user) {
-                throw new Error("Invalid user")
-            }
 
             return await model.save(obj)
         } catch (e) {
@@ -51,11 +45,6 @@ module.exports = {
         }
 
         try {
-
-            const user = await userModel.getById(userId)
-            if (!user) {
-                throw new Error("Invalid user ID")
-            }
 
             const lists = await model.getByUser(userId)
             return lists

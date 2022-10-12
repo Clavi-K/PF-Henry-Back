@@ -1,10 +1,29 @@
-const userModel = require("../models/user.model")
+const admin = require("../config/firebase-config")
+const logger = require("../utils/logger")
 
-module.exports = async (req, res, next) => {
+class AuthMiddleware {
 
-    if (req.headers.user && await userModel.existsByUid(req.headers.user)) {
-        req.userId = req.headers.user
-        return next()
+    async decodeToken(req, res, next) {
+        const token = req.headers.user
+
+        try {
+
+            const decodeValue = await admin.auth().verifyIdToken(token)
+
+            if (decodeValue) {
+                req.user = decodeValue
+                next()
+            } else {
+                res.redirect(process.env.DEPLOYCLIENTURL)
+            }
+
+        } catch (e) {
+            logger.log(e)
+            next(e)
+        }
+
     }
-    return res.redirect(process.env.DEPLOYCLIENTURL)
+
 }
+
+module.exports = new AuthMiddleware().decodeToken

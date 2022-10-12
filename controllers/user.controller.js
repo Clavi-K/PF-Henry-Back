@@ -1,6 +1,5 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const config = require('../config')
 const userService = require("../services/user.service")
 const logger = require('../utils/logger')
 
@@ -10,27 +9,11 @@ const logger = require('../utils/logger')
 
 module.exports = {
 
-    register: async (req, res, next) => {
-
-        const { user, reservations } = req.body
-
-        try {
-            const response = await userService.post(user, reservations)
-            return res.status(201).send(response)
-        } catch (e) {
-            logger.error(e)
-            next(e)
-        }
-
-    },
-
-    getById: async (req, res, next) => {
-
-        const { userId } = req.params
+    emailSend: async (req, res, next) => {
+        const currentUser = req.user
 
         try {
-            const response = await userService.getById(userId)
-            return res.status(200).send(response)
+            await userService.emailRegister(currentUser)
         } catch (e) {
             logger.error(e)
             next(e)

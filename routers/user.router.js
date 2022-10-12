@@ -14,9 +14,7 @@ const router = Router()
 
 /* ===== ROUTES ===== */
 
-router.post("/register", controller.register)
-router.get("/getById/:userId", auth, controller.getById)
-
+router.get("/emailSend", auth, controller.emailSend)
 
 /* ========== */
 

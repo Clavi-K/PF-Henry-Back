@@ -50,7 +50,6 @@ const showtimeService = {
                 throw new Error("Invaid room ID")
             }
 
-
             const showtimes = await getByRoomId(obj.roomId)
             if (showtimes.length > 0) {
                 throw new Error("There is already a showtime for that room")

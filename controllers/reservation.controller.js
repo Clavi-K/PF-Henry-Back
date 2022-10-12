@@ -7,10 +7,12 @@ const service = require("../services/reservation.service")
 /* ===== EXPORT CONTROLLER ===== */
 
 module.exports = {
-
+    
     post: async (req, res, next) => {
+        const {uid} = req.user
 
         const newReservation = req.body
+        newReservation.userId = uid
 
         try {
 
@@ -23,10 +25,10 @@ module.exports = {
     },
 
     getByUser: async (req, res, next) => {
+        const { uid } = req.user
 
         try {
-            const { userId } = req.params
-            const reservations = await service.getByUser(userId)
+            const reservations = await service.getByUser(uid)
 
             return res.status(200).send(reservations)
         } catch (e) {
@@ -36,11 +38,11 @@ module.exports = {
     },
 
     confirmByUser: async (req, res, next) => {
-        const { userId } = req.params
+        const { uid } = req.user
 
         try {
 
-            await service.confirmByUser(userId)
+            await service.confirmByUser(uid)
             return res.status(200).send("Reservations confirmed successfully!")
 
         } catch (e) {
