@@ -32,11 +32,11 @@ class ReservationModel {
     }
 
     async confirm(id) {
-        await this.model.updateOne({ _id: id }, { payed: true }, { upsert: false })
+        await this.model.updateOne({ _id: id, deleted: false }, { payed: true }, { upsert: false })
     }
 
     async confirmByUser(userId) {
-        await this.model.updateMany({ userId, payed: false }, { payed: true }, { upsert: false })
+        await this.model.updateMany({ userId, payed: false, deleted: false }, { payed: true }, { upsert: false })
     }
 
     async getByUser(userId) {
@@ -48,8 +48,8 @@ class ReservationModel {
         return await this.model.findById(id)
     }
 
-    async cancel(id) {
-        await this.model.updateOne({ _id: id, deleted: false }, { deleted: true }, { upsert: false })
+    async cancelById(id) {
+        await this.model.updateOne({ _id: id, deleted: false, payed: false }, { deleted: true }, { upsert: false })
     }
 
     async setUserSeats(reservationId, seatLocations) {

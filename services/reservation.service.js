@@ -99,7 +99,7 @@ module.exports = {
             if (!showtime) throw new Error("Invalid reservation showtime ID")
 
             const showtimeSeats = [...showtime.seats]
-            
+
             for (const seat of seatLocations) {
                 const row = seat[0].charCodeAt() - 65
                 const column = Number(seat.slice(1))
@@ -117,6 +117,36 @@ module.exports = {
             throw new Error(e)
         }
 
+    },
+
+    cancelById: async (reservationId) => {
+
+        if (!reservationId || typeof reservationId !== "string" || reservationId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid reservation ID")
+        }
+
+        try {
+
+            const reservation = await model.getById(reservationId)
+            if(!reservation) {
+                throw new Error("Invalid reservation ID")
+            }
+
+            if(reservation.payed) {
+                throw new Error("You can't cancel a reservation that is already payed!")
+            }
+
+            if(reservation.deleted) {
+                throw new Error("You can't cancel a deleted reservation")
+            }
+
+            await model.cancelById(reservation._id)
+            await showtimeService.cancelSeatsById(reservation.showtimeId, reservation.seatLocations)
+
+        } catch(e) {
+            logger.error(e)
+            throw new Error(e)
+        }
     }
 
 }

@@ -216,6 +216,41 @@ module.exports = {
             throw new Error(e)
         }
 
+    },
+
+    cancelSeatsById: async (showtimeId, seatLocations) => {
+
+        if (!showtimeId || typeof showtimeId !== "string" || showtimeId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid showtime ID")
+        }
+
+        if (!seatLocations || !Array.isArray(seatLocations) || !seatLocations) {
+            throw new Error("Missing or invalid seats!")
+        }
+
+        try {
+
+            const showtime = await model.getById(showtimeId)
+            if (!showtime) {
+                throw new Error("Invalid showtime ID")
+            }
+
+            const showtimeSeats = [...showtime.seats]
+
+            for (const location of seatLocations) {
+                const row = location[0].charCodeAt() - 65
+                const column = location.slice(1)
+
+                showtimeSeats[row][column].userId = ""
+            }
+
+            return await model.setUserSeats(showtimeId, showtimeSeats)
+
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
     }
 
 }
