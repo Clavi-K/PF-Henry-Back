@@ -15,8 +15,9 @@ const router = Router()
 
 /* ===== ROUTES ===== */
 
-router.post("/post", auth, adminAuth, controller.post)
 router.get("/getAll", controller.getAll)
+router.post("/post", auth, adminAuth, controller.post)
+router.delete("/delete/:roomId", auth, adminAuth, controller.deleteById)
 
 /* ========== */
 

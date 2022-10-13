@@ -2,6 +2,7 @@
 
 const model = require("../models/room.model")
 const logger = require("../utils/logger")
+const showtimeService = require("./showtime.service")
 
 /* ========== */
 
@@ -67,6 +68,37 @@ module.exports = {
         try {
             return await model.getAll()
         } catch (e) {
+            throw new Error(e)
+        }
+
+    },
+
+    deleteById: async (roomId) => {
+
+        if (!roomId || typeof roomId !== "string" || roomId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid room ID")
+        }
+
+        try {
+
+            const room = await model.getById(roomId)
+            if (!room) {
+                throw new Error("Invalid room ID")
+            }
+
+            if (room.deleted) {
+                throw new Error("This room is already deleted!")
+            }
+
+            const showtimes = await showtimeService.getByRoomId(roomId)
+            if (showtimes.length) {
+                throw new Error("You can't delete a room if it has showtimes associated")
+            }
+
+            await model.logicDelete(roomId)
+
+        } catch (e) {
+            logger.error(e)
             throw new Error(e)
         }
 
