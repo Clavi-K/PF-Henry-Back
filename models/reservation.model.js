@@ -40,7 +40,7 @@ class ReservationModel {
     }
 
     async getByUser(userId) {
-        const reservations = await this.model.find({ userId, deleted: false }).lean()
+        const reservations = await this.model.find({ userId }).lean()
         return reservations
     }
 

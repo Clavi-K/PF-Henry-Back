@@ -105,7 +105,7 @@ module.exports = {
                 const column = Number(seat.slice(1))
 
                 if (!showtimeSeats[row][column]) throw new Error("Invaalid showtime seat location")
-                if (showtimeSeats[row][column].userId !== "") throw new Error("That seat is already taken!")
+                if (showtimeSeats[row][column].userId !== undefined) throw new Error("That seat is already taken!")
 
             }
 

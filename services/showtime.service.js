@@ -204,7 +204,11 @@ module.exports = {
                 const row = location[0].charCodeAt() - 65
                 const column = location.slice(1)
 
-                showtimeSeats[row][column].userId = userId
+                if (showtimeSeats[row][column].userId === undefined) {
+                    showtimeSeats[row][column].userId = userId
+                } else {
+                    throw new Error("One seat is already taken!")
+                }
 
             }
 
@@ -241,7 +245,7 @@ module.exports = {
                 const row = location[0].charCodeAt() - 65
                 const column = location.slice(1)
 
-                showtimeSeats[row][column].userId = ""
+                showtimeSeats[row][column].userId = undefined
             }
 
             return await model.setUserSeats(showtimeId, showtimeSeats)
@@ -308,7 +312,7 @@ function createSeats(rows, columns) {
 
             row.push({
                 location: `${alphabetArr[i]}${j}`,
-                userId: ""
+                userId: undefined
             })
 
         }
