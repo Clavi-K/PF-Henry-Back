@@ -18,7 +18,7 @@ class ShowtimeModel {
             roomId: String,
             format: String,
             ticketPrice: Number,
-            seats: { type: [[String]], default: [[]] },
+            seats: { type: [[Object]], default: [[]] },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
 
@@ -60,6 +60,13 @@ class ShowtimeModel {
 
     async loigcDelete(id) {
         await this.model.updateOne({ _id: id }, { deleted: true })
+    }
+
+    async setUserSeats(showtimeId, seats) {
+        const showtime = await this.model.findById(showtimeId)
+        showtime.seats = seats
+
+        await showtime.save()
     }
 
     /* ========== */

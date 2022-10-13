@@ -7,9 +7,9 @@ const service = require("../services/reservation.service")
 /* ===== EXPORT CONTROLLER ===== */
 
 module.exports = {
-    
+
     post: async (req, res, next) => {
-        const {uid} = req.user
+        const { uid } = req.user
 
         const newReservation = req.body
         newReservation.userId = uid
@@ -51,15 +51,29 @@ module.exports = {
 
     },
 
-    setSeats: async (req, res, next) => {
-        const { reservationId, seatIds } = req.body
+    setUserSeats: async (req, res, next) => {
+        const { reservationId, seatLocations } = req.body
 
         try {
 
-            await service.setSeats(reservationId, seatIds)
+            await service.setUserSeats(reservationId, seatLocations)
             return res.status(200).send("Seats are now reserved!")
 
-        } catch(e){
+        } catch (e) {
+            next(e)
+        }
+
+    },
+
+    cancelById: async (req, res, next) => {
+        const { reservationId } = req.body
+
+        try {
+
+            await service.cancelById(reservationId)
+            return res.status(200).send("The reservation is now cancelled!")
+
+        } catch (e) {
             next(e)
         }
 

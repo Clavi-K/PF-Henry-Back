@@ -18,8 +18,8 @@ module.exports = {
         }
 
         try {
-
-            if (! await emailService.exists(currentUser.email)) {
+            const emailExists = await emailService.exists(currentUser.email)
+            if (!emailExists) {
                 await emailService.save(currentUser.email)
                 await mailSender.send(currentUser.email, "Account creation", templates.register(currentUser.name || ""))
             }

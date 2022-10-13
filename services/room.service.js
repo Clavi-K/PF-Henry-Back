@@ -19,20 +19,24 @@ module.exports = {
             throw new Error("Missing or invalid room rows number")
         }
 
-        if (Number(obj.rows) > 24) {
-            throw new Error("Room rows cant be more than 26")
+        if (Number(obj.rows) > 7) {
+            throw new Error("Room rows cant be more than 7")
         }
 
         if (!obj.columns || !Number(obj.columns)) {
             throw new Error("Missing or invalid room columns number")
         }
 
+        if (Number(obj.columns) > 15) {
+            throw new Error("Room columns cant be more thanb 15!")
+        }
+
         try {
 
             const rooms = await model.getAll()
 
-            for(const room of rooms ) {
-                if(room.number === obj.number) throw new Error("There is already a room with that number!")
+            for (const room of rooms) {
+                if (room.number === obj.number) throw new Error("There is already a room with that number!")
             }
 
             return await model.save(obj)
@@ -43,26 +47,26 @@ module.exports = {
 
     },
 
-    getById: async(id) => {
+    getById: async (id) => {
 
-        if(!id || typeof id !== "string") {
+        if (!id || typeof id !== "string") {
             throw new Error("Missing or invalid room ID")
         }
 
         try {
             return await model.getById(id)
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }
 
     },
 
-    getAll: async() => {
+    getAll: async () => {
 
         try {
             return await model.getAll()
-        } catch(e) {
+        } catch (e) {
             throw new Error(e)
         }
 
