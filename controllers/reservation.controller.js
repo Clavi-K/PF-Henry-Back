@@ -51,12 +51,12 @@ module.exports = {
 
     },
 
-    setSeats: async (req, res, next) => {
-        const { reservationId, seatIds } = req.body
+    setUserSeats: async (req, res, next) => {
+        const { reservationId, seatLocations} = req.body
 
         try {
 
-            await service.setSeats(reservationId, seatIds)
+            await service.setUserSeats(reservationId, seatLocations)
             return res.status(200).send("Seats are now reserved!")
 
         } catch(e){

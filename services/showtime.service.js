@@ -3,7 +3,6 @@
 const model = require("../models/showtime.model.js")
 const apiService = require("./api.service.js")
 const roomModel = require("../models/room.model")
-const seatService = require("../services/seat.service")
 const logger = require("../utils/logger.js")
 
 
@@ -11,7 +10,7 @@ const logger = require("../utils/logger.js")
 
 /* ===== EXPORT SERVICE ===== */
 
-const showtimeService = {
+module.exports = {
 
     post: async (obj) => {
 
@@ -55,10 +54,8 @@ const showtimeService = {
                 throw new Error("There is already a showtime for that room")
             }
 
-            const newShowtime = await model.save(obj)
-            await seatService.bulkPost(newShowtime)
-
-            return newShowtime
+            obj.seats = createSeats(room.rows, room.columns)
+            return await model.save(obj)
 
         } catch (e) {
             logger.error(e)
@@ -177,7 +174,6 @@ const showtimeService = {
             }
 
             await model.loigcDelete(showtimeId)
-            await seatService.hardDeleteByShowtime(showtimeId)
 
         } catch (e) {
 
@@ -185,11 +181,45 @@ const showtimeService = {
 
     },
 
+    setUserSeats: async (showtimeId, userId, seatLocations) => {
 
+        if (!showtimeId || typeof showtimeId !== "string" || showtimeId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid showtime ID")
+        }
+
+        if (!seatLocations || !Array.isArray(seatLocations) || !seatLocations) {
+            throw new Error("Missing or invalid seats!")
+        }
+
+        try {
+
+            const showtime = await model.getById(showtimeId)
+            if (!showtime) {
+                throw new Error("Invalid showtime ID")
+            }
+
+            const showtimeSeats = [...showtime.seats]
+
+            for (const location of seatLocations) {
+                const row = location[0].charCodeAt() - 65
+                const column = location.slice(1)
+
+                showtimeSeats[row][column].userId = userId
+
+            }
+
+            return await model.setUserSeats(showtimeId, showtimeSeats)
+
+
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    }
 
 }
 
-module.exports = showtimeService
 
 /* ========== */
 
@@ -220,6 +250,39 @@ async function getByRoomId(roomId) {
         logger.error(e)
         throw new Error(e)
     }
+
+}
+
+function customLetterArray(index) {
+
+    const alpha = Array.from(Array(index)).map((e, i) => i + 65);
+    const alphabet = alpha.map((x) => String.fromCharCode(x));
+
+    return alphabet
+}
+
+function createSeats(rows, columns) {
+    const alphabetArr = customLetterArray(rows)
+    const result = []
+
+    for (let i = 0; i < rows; i++) {
+
+        const row = []
+
+        for (let j = 0; j < columns; j++) {
+
+            row.push({
+                location: `${alphabetArr[i]}${j}`,
+                userId: ""
+            })
+
+        }
+
+        result.push(row)
+
+    }
+
+    return result
 
 }
 

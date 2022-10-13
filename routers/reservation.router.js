@@ -15,8 +15,8 @@ const router = Router();
 /* ===== ROUTES ===== */
 
 router.post("/post", auth, controller.post);
-router.put("/setSeats", auth, controller.setSeats)
 router.get("/getByUser", auth, controller.getByUser);
+router.put("/setUserSeats", /* auth, */ controller.setUserSeats)
 router.put("/confirmByUser", auth, controller.confirmByUser);
 
 /* ========== */
