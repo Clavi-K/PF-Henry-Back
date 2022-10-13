@@ -38,9 +38,10 @@ module.exports = {
     },
 
     confirmByUser: async (req, res, next) => {
-        const { uid } = req.user
-
+        
         try {
+            const user = req.user
+            const { uid } = user
 
             await service.confirmByUser(uid)
             return res.status(200).send("Reservations confirmed successfully!")

@@ -308,7 +308,7 @@ function createSeats(rows, columns) {
 
         const row = []
 
-        for (let j = 0; j < columns; j++) {
+        for (let j = 1; j <= columns; j++) {
 
             row.push({
                 location: `${alphabetArr[i]}${j}`,
