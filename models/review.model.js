@@ -11,6 +11,7 @@ class ReviewModel {
   constructor() {
     const schema = new Schema({
       userId: String,
+      username: String,
       movieId: Number,
       type: { type: String, default: "MOVIE" },
       stars: Number,

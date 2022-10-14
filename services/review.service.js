@@ -18,6 +18,10 @@ module.exports = {
       throw new Error("Missing  or invalid user ID");
     }
 
+    if (!obj.username || typeof obj.username !== "string") {
+      throw new Error("Missing  or invalid user email");
+    }
+
     if (!obj.movieId || isNaN(Number(obj.movieId))) {
       throw new Error("Missing or invalid movie ID");
     }
@@ -74,6 +78,10 @@ module.exports = {
       throw new Error("Missing  or invalid user ID");
     }
 
+    if (!obj.username || typeof obj.username !== "string") {
+      throw new Error("Missing  or invalid user email");
+    }
+
     if (obj.movieId) {
       throw new Error("Invalid website review: It can't contain a movie ID");
     }
@@ -92,27 +100,27 @@ module.exports = {
 
       const userPayedReservations = await reservationService.getPayedByUser(obj.userId)
 
-      if(userPayedReservations.length || await subscriptionService.hasActiveSubscription(obj.userId)) {
-        return await model.save(obj) 
+      if (userPayedReservations.length || await subscriptionService.hasActiveSubscription(obj.userId)) {
+        return await model.save(obj)
       } else {
         throw new Error("You need to confirm a reservation or subscribe in order to post a webiste review!")
       }
 
-    } catch(e) {
+    } catch (e) {
       logger.error(e)
       throw new Error(e)
     }
 
   },
 
-  getAllWebsite: async() => {
+  getAllWebsite: async () => {
 
     try {
 
       const reviews = await model.getAllWebsite()
       return reviews
 
-    } catch(e) {
+    } catch (e) {
       logger.error(e)
       throw new Error(e)
     }

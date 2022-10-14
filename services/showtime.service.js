@@ -2,7 +2,7 @@
 
 const model = require("../models/showtime.model.js")
 const apiService = require("./api.service.js")
-const reservationService = require("./reservation.service")
+const reservationModel = require("../models/reservation.model")
 const roomModel = require("../models/room.model")
 const logger = require("../utils/logger.js")
 
@@ -177,7 +177,7 @@ module.exports = {
                 throw new Error("Invalid showtime ID")
             }
 
-            const reservations = await reservationService.getByShowtime(showtimeId)
+            const reservations = await reservationModel.getByShowtime(showtimeId)
             if (reservations.length) {
                 throw new Error("You can't delete a showtime that has active reservations!")
             }

@@ -3,6 +3,7 @@
 const model = require("../models/reservation.model.js");
 const logger = require("../utils/logger.js");
 const showtimeService = require("./showtime.service.js");
+const showtimeModel = require("../models/showtime.model")
 
 /* ========== */
 
@@ -30,7 +31,7 @@ module.exports = {
 
         try {
 
-            const showtime = await showtimeService.getById(obj.showtimeId)
+            const showtime = await showtimeModel.getById(obj.showtimeId)
             if (!showtime) {
                 throw new Error("Invalid reservation showtime ID")
             }
@@ -95,7 +96,7 @@ module.exports = {
 
             if (!reservation.userId || reservation.userId === "") throw new Error("This reservation is not assigned to any user!")
 
-            const showtime = await showtimeService.getById(reservation.showtimeId)
+            const showtime = await showtimeModel.getById(reservation.showtimeId)
             if (!showtime) throw new Error("Invalid reservation showtime ID")
 
             const showtimeSeats = [...showtime.seats]
