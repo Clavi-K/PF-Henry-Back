@@ -1,8 +1,9 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const apiService = require("../services/api.service")
+const apiService = require("./api.service")
+const subscriptionService = require("./subscription.service")
+const reservationService = require("./reservation.service")
 const model = require("../models/review.model.js");
-const userModel = require("./user.service")
 const logger = require("../utils/logger.js");
 
 /* ========== */
@@ -37,7 +38,7 @@ module.exports = {
     try {
 
       return await model.save(obj);
-      
+
     } catch (e) {
       logger.error(e);
       throw new Error(e);
@@ -65,6 +66,57 @@ module.exports = {
       logger.error(e);
       throw new Error(e);
     }
+  },
+
+  postWebsite: async (obj) => {
+
+    if (!obj.userId || typeof obj.userId !== "string" || obj.userId.trim(" ").length === 0) {
+      throw new Error("Missing  or invalid user ID");
+    }
+
+    if (obj.movieId) {
+      throw new Error("Invalid website review: It can't contain a movie ID");
+    }
+
+    if (!obj.description || typeof obj.description !== "string" || obj.description.trim(" ").length === 0) {
+      throw new Error("Missing description");
+    }
+
+    if (!obj.stars || isNaN(Number(obj.stars) || obj.stars < 1)) {
+      throw new Error("Missing stars");
+    }
+
+    obj.type = "WEBSITE"
+
+    try {
+
+      const userPayedReservations = await reservationService.getPayedByUser(obj.userId)
+
+      if(userPayedReservations.length || await subscriptionService.hasActiveSubscription(obj.userId)) {
+        return await model.save(obj) 
+      } else {
+        throw new Error("You need to confirm a reservation or subscribe in order to post a webiste review!")
+      }
+
+    } catch(e) {
+      logger.error(e)
+      throw new Error(e)
+    }
+
+  },
+
+  getAllWebsite: async() => {
+
+    try {
+
+      const reviews = await model.getAllWebsite()
+      return reviews
+
+    } catch(e) {
+      logger.error(e)
+      throw new Error(e)
+    }
+
   }
 
 };

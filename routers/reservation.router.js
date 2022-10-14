@@ -19,6 +19,7 @@ router.get("/getByUser", auth, controller.getByUser);
 router.put("/setUserSeats", auth, controller.setUserSeats)
 router.put("/cancelById", auth, controller.cancelById)
 router.put("/confirmByUser", auth, controller.confirmByUser);
+router.get("/getPayedByUser", auth, controller.getPayedByUser)
 
 /* ========== */
 

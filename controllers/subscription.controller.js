@@ -55,11 +55,24 @@ module.exports = {
 
         try {
 
-            const {uid} = req.user
+            const { uid } = req.user
 
             const bool = await service.hasActiveSubscription(uid)
             return res.status(200).send(bool)
 
+        } catch (e) {
+            next(e)
+        }
+
+    },
+
+    getByUser: async (req, res, next) => {
+
+        try {
+            const {uid} = req.user
+
+            const sub = await service.getByUser(uid)
+            return res.status(200).send(sub)
         } catch(e) {
             next(e)
         }
