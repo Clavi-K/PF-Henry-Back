@@ -38,7 +38,7 @@ module.exports = {
     },
 
     confirmByUser: async (req, res, next) => {
-        
+
         try {
             const user = req.user
             const { uid } = user
@@ -75,6 +75,19 @@ module.exports = {
             return res.status(200).send("The reservation is now cancelled!")
 
         } catch (e) {
+            next(e)
+        }
+
+    },
+
+    getPayedByUser: async (req, res, next) => {
+
+        try{
+            const {uid} = req.user
+
+            const reservations = await service.getPayedByUser(uid)
+            return res.status(200).send(reservations)
+        } catch(e) {
             next(e)
         }
 

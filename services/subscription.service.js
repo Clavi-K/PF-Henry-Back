@@ -43,7 +43,12 @@ module.exports = {
 
         try {
 
-            return await this.model.getByUser(userId)[0]
+            const sub = await model.getByUser(userId)
+            if (!sub) {
+                throw new Error("This user is not subscribed!")
+            }
+
+            return sub
 
         } catch (e) {
             logger.error(e)
@@ -119,7 +124,7 @@ module.exports = {
 
             return true
 
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }

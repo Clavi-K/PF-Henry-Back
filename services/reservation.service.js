@@ -147,6 +147,23 @@ module.exports = {
             logger.error(e)
             throw new Error(e)
         }
+    },
+
+    getPayedByUser: async(userId) => {
+        
+        if (!userId || typeof userId !== "string" || userId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid reservation ID")
+        }
+
+        try {
+
+            const reservations = await model.getPayedByUser(userId)
+            return reservations
+        } catch(e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
     }
 
 }
