@@ -340,9 +340,10 @@ function oneDayGap(lastDateInput, newDateInput) {
     const lastDate = new Date(lastDateInput)
     const newDate = new Date(newDateInput)
 
-    const dayInterval = (lastDate.getTime() - newDate.getTime()) / (1000 * 60 * 60)
+    const dayInterval = (lastDate.getTime() - newDate.getTime()) / (1000 * 60 * 60 )
 
-    return !(dayInterval >= -24)
+    return (dayInterval <= -24)
+
 }
 
 function getLastDate(showtimes) {
