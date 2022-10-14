@@ -36,6 +36,11 @@ module.exports = {
                 throw new Error("Invalid reservation showtime ID")
             }
 
+            const repeated = await model.getRepeated(obj.userId, obj.showtimeId )
+            if(repeated.length) {
+                throw new Error("This user already has a reservation in this showtime!")
+            }
+
             return await model.save(obj)
 
         } catch (e) {
