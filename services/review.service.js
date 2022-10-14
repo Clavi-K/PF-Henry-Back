@@ -36,12 +36,8 @@ module.exports = {
 
     try {
 
-      const user = await userModel.getById(obj.userId)
-      if(!user) {
-        throw new Error("User ID not valid")
-      }
-
       return await model.save(obj);
+      
     } catch (e) {
       logger.error(e);
       throw new Error(e);
