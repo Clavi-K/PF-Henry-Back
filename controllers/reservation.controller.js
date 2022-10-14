@@ -68,10 +68,11 @@ module.exports = {
 
     cancelById: async (req, res, next) => {
         const { reservationId } = req.body
+        const { uid } = req.user
 
         try {
 
-            await service.cancelById(reservationId)
+            await service.cancelById(uid, reservationId)
             return res.status(200).send("The reservation is now cancelled!")
 
         } catch (e) {
@@ -82,12 +83,25 @@ module.exports = {
 
     getPayedByUser: async (req, res, next) => {
 
-        try{
-            const {uid} = req.user
+        try {
+            const { uid } = req.user
 
             const reservations = await service.getPayedByUser(uid)
             return res.status(200).send(reservations)
-        } catch(e) {
+        } catch (e) {
+            next(e)
+        }
+
+    },
+
+    getByShowtime: async (req, res, next) => {
+
+        try {
+            const { showtimeId } = req.params
+
+            const reservations = await service.getByShowtime(showtimeId)
+            return res.status(200).send(reservations)
+        } catch (e) {
             next(e)
         }
 

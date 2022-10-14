@@ -16,6 +16,7 @@ const router = Router();
 
 router.post("/post", auth, controller.post);
 router.get("/getByUser", auth, controller.getByUser);
+router.delete("/removeById/:listId", auth, controller.removeById)
 router.put("/addMovie/:listId/:movieId", auth, controller.addMovie);
 router.put("/removeMovie/:listId/:movieId", auth, controller.removeMovie);
 

@@ -65,7 +65,6 @@ router.get("/payment", async (req, res, next) => {
   try {
     if (status === "approved") {
       await reservationService.confirmByUser(userId);
-      console.log(userId);
       return res.redirect(
         `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
       );

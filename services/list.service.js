@@ -6,6 +6,8 @@ const logger = require("../utils/logger")
 
 /* ========== */
 
+/* ===== SERVICE EXPORT ===== */
+
 module.exports = {
 
     post: async (obj) => {
@@ -37,6 +39,8 @@ module.exports = {
             throw new Error(e)
         }
     },
+
+    getById: getById,
 
     getByUser: async (userId) => {
 
@@ -78,7 +82,7 @@ module.exports = {
                 throw new Error("Invalid movie ID")
             }
 
-            if(list.moviesId.includes(movieId)) {
+            if (list.moviesId.includes(movieId)) {
                 throw new Error("That movie is already in the list!")
             }
 
@@ -119,6 +123,50 @@ module.exports = {
         } catch (e) {
             throw new Error(e)
         }
+    },
+
+    removeById: async (userId, listId) => {
+
+        if (!listId || typeof listId !== "string" || listId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid list ID")
+        }
+
+        if (!userId || typeof userId !== "string" || userId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid list ID")
+        }
+
+        try {
+
+            const list = await getById(listId)
+            if (list.userId !== userId) {
+                throw new Error("This list does not belong to the user in this session!")
+            }
+
+            await model.logicDelete(listId)
+
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
     }
 
 }
+
+/* ========== */
+
+/* ===== LOCAL FUNCTIONS ===== */
+async function getById(listId) {
+    if (!listId || typeof listId !== "string" || listId.trim(" ").length === 0) {
+        throw new Error("Missing or invalid list ID")
+    }
+
+    try {
+        return await model.getById(listId)
+    } catch (e) {
+        logger.error(e)
+        throw new Error(e)
+    }
+
+}
+
+/* ========== */

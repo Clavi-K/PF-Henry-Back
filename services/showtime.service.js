@@ -2,6 +2,7 @@
 
 const model = require("../models/showtime.model.js")
 const apiService = require("./api.service.js")
+const reservationService = require("./reservation.service")
 const roomModel = require("../models/room.model")
 const logger = require("../utils/logger.js")
 
@@ -50,8 +51,12 @@ module.exports = {
             }
 
             const showtimes = await getByRoomId(obj.roomId)
-            if (showtimes.length > 0) {
-                throw new Error("There is already a showtime for that room")
+
+            if (showtimes.length) {
+                const lastDate = getLastDate(showtimes)
+                if (!oneDayGap(lastDate, new Date(obj.dateTime))) {
+                    throw new Error("The new showtime must be at least 24 hours later than the last showtime!")
+                }
             }
 
             obj.seats = createSeats(room.rows, room.columns)
@@ -149,7 +154,6 @@ module.exports = {
             if (!showtime) {
                 throw new Error("Invalid showtime ID")
             }
-            const seats = showtime.seats
 
             return showtime
 
@@ -173,10 +177,16 @@ module.exports = {
                 throw new Error("Invalid showtime ID")
             }
 
+            const reservations = await reservationService.getByShowtime(showtimeId)
+            if (reservations.length) {
+                throw new Error("You can't delete a showtime that has active reservations!")
+            }
+
             await model.loigcDelete(showtimeId)
 
         } catch (e) {
-
+            logger.log(e)
+            throw new Error(e)
         }
 
     },
@@ -325,5 +335,30 @@ function createSeats(rows, columns) {
 
 }
 
+function oneDayGap(lastDateInput, newDateInput) {
+
+    const lastDate = new Date(lastDateInput)
+    const newDate = new Date(newDateInput)
+
+    const dayInterval = (lastDate.getTime() - newDate.getTime()) / (1000 * 60 * 60)
+
+    return !(dayInterval >= -24)
+}
+
+function getLastDate(showtimes) {
+
+    let lastDate = new Date(showtimes[0].dateTime)
+
+    for (const showtime of showtimes) {
+
+        if (lastDate < new Date(showtime.dateTime)) {
+            lastDate = new Date(showtime.dateTime)
+        }
+
+    }
+
+    return lastDate
+
+}
 
 /* ========== */
