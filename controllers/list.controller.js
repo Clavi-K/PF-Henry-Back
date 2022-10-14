@@ -38,6 +38,7 @@ module.exports = {
 
         try {
             const result = await service.addMovie(listId, movieId)
+            console.log(result)
             return res.status(200).send(result)
 
         } catch (e) {
