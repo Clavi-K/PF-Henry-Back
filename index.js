@@ -56,11 +56,11 @@ mongoose
       })
     );
     // app.use(express.static("public", options));
-    // app.use(
-    //   "/images",
-    //   express.static(path.join(__dirname, "/notifications/views/images"))
-    // );
-    app.use(express.static(path.join(__dirname, "public")));
+    app.use(
+      "/images",
+      express.static(path.join(__dirname, "/notifications/views/images"))
+    );
+    // app.use(express.static(path.join(__dirname, "public")));
     // app.use('/images', express.static('images'));
     /* ========== */
 
