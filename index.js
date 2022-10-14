@@ -1,71 +1,89 @@
 /* ===== ENVIROMENT VARIBALES FILE CONFIG ===== */
 
-require('dotenv').config({ path: '.env' })
+require("dotenv").config({ path: ".env" });
 
 /* ========== */
 
 /* ===== REQUIRED IMPORTS  ===== */
-
-const express = require('express')
-const mongoose = require('mongoose')
-const config = require('./config')
-const routes = require('./routers/index');
-const cors = require('cors')
-const logger = require("./utils/logger")
+const path = require("path");
+const express = require("express");
+const mongoose = require("mongoose");
+const config = require("./config");
+const routes = require("./routers/index");
+const cors = require("cors");
+const logger = require("./utils/logger");
 
 /* ========== */
 
 /* ===== VARIABLES ===== */
 
-const PORT = process.env.PORT || 8082
+const PORT = process.env.PORT || 8082;
 
 /* ========== */
 
 /* ===== APP INITIALIZATION ===== */
 
-const app = express()
-
+const app = express();
+// let options = {
+//   dotfiles: "ignore",
+//   etag: true,
+//   extensions: ["html", "handlebars"],
+//   redirect: false,
+//   setHeaders: function (res, path, stat) {
+//     res.set("x-timestamp", Date.now());
+//   },
+// };
 /* =========== */
 
 /* ===== DATABASE CONNECTION ===== */
 
-mongoose.connect(`${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.PASSWORD}@${config.atlas.HOSTNAME}/${config.atlas.DATABASE}?${config.atlas.OPTIONS}`).then(() => {
+mongoose
+  .connect(
+    `${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.PASSWORD}@${config.atlas.HOSTNAME}/${config.atlas.DATABASE}?${config.atlas.OPTIONS}`
+  )
+  .then(() => {
 
-  /* ===== MIDDLEWWARES ===== */
+    app.set("view engine", "handlebars");
+    app.engine("handlebars", engine({
+      layoutDir: path.join(__dirname, "notifications/views"),
+    }))
 
-  app.use(express.json())
-  app.use(express.urlencoded({ extended: true }))
+    /* ===== MIDDLEWWARES ===== */
 
-  // cors añadido 
-  app.use(cors({ origin: ["http://localhost:3000", "https://hpfc.netlify.app"], credentials: true, methods: "GET,POST,PUT,DELETE" }))
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
 
-  /* ========== */
+    // cors añadido
+    app.use(
+      cors({
+        origin: ["http://localhost:3000", "https://hpfc.netlify.app"],
+        credentials: true,
+        methods: "GET,POST,PUT,DELETE",
+      })
+    );
 
-  /* ===== ROUTERS ===== */
 
-  app.use("/", routes)
+    /* ===== ROUTERS ===== */
 
-  /* ========== */
+    app.use("/static", express.static(path.join(__dirname, "notifications")));
+    app.use("/", routes);
 
-  /* ===== APP LISTENING ===== */
+    /* ========== */
 
-  // Error catching endware.
-  app.use((err, req, res, next) => {
+    /* ===== APP LISTENING ===== */
 
-    const status = err.status || 500;
-    const message = err.message || err;
-    logger.error(err)
+    // Error catching endware.
+    app.use((err, req, res, next) => {
+      const status = err.status || 500;
+      const message = err.message || err;
+      logger.error(err);
 
-    res.status(status).send(message);
+      res.status(status).send(message);
+    });
 
+    app.listen(PORT, () => logger.log(`Listening on port ${PORT}`));
+
+    /* ========== */
   });
 
-  app.listen(PORT, () => logger.log(`Listening on port ${PORT}`))
-
-  /* ========== */
-
-})
-
 /* ========== */
-
-
