@@ -30,7 +30,7 @@ class ListModel {
     }
 
     async getAll() {
-        const lists = await this.model.find({deleted: false}).lean()
+        const lists = await this.model.find({ deleted: false }).lean()
         return lists
     }
 
@@ -56,6 +56,10 @@ class ListModel {
         list.moviesId = newMovies
 
         return await list.save()
+    }
+
+    async logicDelete(listId) {
+        await this.model.updateOne({ _id: listId, deleted: false }, { deleted: true }, { upsert: false })
     }
 
     /* ========== */

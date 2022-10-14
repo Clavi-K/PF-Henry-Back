@@ -64,6 +64,11 @@ class ReservationModel {
         return reservations
     }
 
+    async getByShowtimeId(showtimeId) {
+        const reservations = await this.model.find({showtimeId, deleted: false}).lean()
+        return reservations
+    }
+
     /* ========== */
 
 }

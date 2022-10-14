@@ -119,7 +119,7 @@ module.exports = {
 
     },
 
-    cancelById: async (reservationId) => {
+    cancelById: async (userId, reservationId) => {
 
         if (!reservationId || typeof reservationId !== "string" || reservationId.trim(" ").length === 0) {
             throw new Error("Missing or invalid reservation ID")
@@ -128,29 +128,33 @@ module.exports = {
         try {
 
             const reservation = await model.getById(reservationId)
-            if(!reservation) {
+            if (!reservation) {
                 throw new Error("Invalid reservation ID")
             }
 
-            if(reservation.payed) {
+            if(reservation.userId !== userId) {
+                throw new Error("This reservation does not belong to the user in this session!")
+            }
+
+            if (reservation.payed) {
                 throw new Error("You can't cancel a reservation that is already payed!")
             }
 
-            if(reservation.deleted) {
+            if (reservation.deleted) {
                 throw new Error("You can't cancel a deleted reservation")
             }
 
             await model.cancelById(reservation._id)
             await showtimeService.cancelSeatsById(reservation.showtimeId, reservation.seatLocations)
 
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }
     },
 
-    getPayedByUser: async(userId) => {
-        
+    getPayedByUser: async (userId) => {
+
         if (!userId || typeof userId !== "string" || userId.trim(" ").length === 0) {
             throw new Error("Missing or invalid reservation ID")
         }
@@ -159,7 +163,25 @@ module.exports = {
 
             const reservations = await model.getPayedByUser(userId)
             return reservations
-        } catch(e) {
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getByShowtime: async (showtimeId) => {
+
+        if (!showtimeId || typeof showtimeId !== "string" || showtimeId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid showtime ID")
+        }
+
+        try {
+
+            const reservations = await model.getByShowtimeId(showtimeId)
+            return reservations
+
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }

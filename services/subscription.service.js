@@ -140,7 +140,6 @@ module.exports = {
 function activePayment(lastPayment) {
 
     const lastPaymentDate = new Date(lastPayment)
-    console.log(lastPaymentDate)
     const dayInterval = Math.floor((lastPaymentDate.getTime() - new Date(Date.now()).getTime()) / (1000 * 60 * 60 * 24))
 
     return !dayInterval >= -30
