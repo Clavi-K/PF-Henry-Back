@@ -2,14 +2,8 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const reservationService = require("../services/reservation.service");
-const auth = require("../middlewares/auth");
-// const CourierClient = require("@trycourier/courier").CourierClient;
-// const courier = CourierClient({
-//   authorizationToken: process.env.COURRIER_API_KEY
+const mailSender = require("../notifications/mail.sender");
 
-// let order;
-// let games_id;
-// let cartItems;
 const mercadopago = require("mercadopago");
 // const { dataApi } = require("../controllers/game.controller");
 const { ACCESS_TOKEN_MP } = process.env;
@@ -20,7 +14,7 @@ mercadopago.configure({
 
 router.post("/payment", async (req, res) => {
   const userId = req.query.userId;
-
+  const { email, name } = req.body;
   let preference = {
     // items: tickets,
     items: [
@@ -45,8 +39,8 @@ router.post("/payment", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success: `https://pf-henry-back.herokuapp.com/payment/payment?userId=${userId}`,
-      failure: "https://pf-henry-back.herokuapp.com/payment/payment",
+      success: `http://localhost:8082/payment/payment?userId=${userId}&email=${email}&name=${name}`,
+      failure: "http://localhost:8082/payment/payment",
       pending: "https://pf-henry-back.herokuapp.com/payment/payment",
     },
   };
@@ -60,19 +54,21 @@ router.post("/payment", async (req, res) => {
 });
 
 router.get("/payment", async (req, res, next) => {
-  const { userId, payment_type, collection_id, status } = req.query;
+  const { userId, payment_type, collection_id, status, email, name } =
+    req.query;
 
   try {
     if (status === "approved") {
       await reservationService.confirmByUser(userId);
       console.log(userId);
+      await mailSender.payment(email, "Payment successful");
       return res.redirect(
-        `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
+        `http://localhost:3000/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
       );
     }
 
     return res.redirect(
-      `https://hpfc.netlify.app/cart?collection_id=${collection_id}&status=failed&payment_type=${payment_type}`
+      `http://localhost:3000/cart?collection_id=${collection_id}&status=failed&payment_type=${payment_type}`
     );
   } catch (err) {
     next(err);
