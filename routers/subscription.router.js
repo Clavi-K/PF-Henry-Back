@@ -17,6 +17,7 @@ const router = Router();
 router.post("/subscribe", auth, controller.subscribe);
 router.put("/addPayment", auth, controller.addPayment);
 router.delete("/cancelPayment", auth, controller.cancelPayment)
+router.get("/hasActiveSubscription", auth, controller.hasActiveSubscription)
 
 /* ========== */
 

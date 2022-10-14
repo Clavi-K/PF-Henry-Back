@@ -45,7 +45,22 @@ module.exports = {
             await service.cancelSub(uid)
 
             return res.status(200).send("Subscription cancelled successfully!")
-        } catch(e){
+        } catch (e) {
+            next(e)
+        }
+
+    },
+
+    hasActiveSubscription: async (req, res, next) => {
+
+        try {
+
+            const {uid} = req.user
+
+            const bool = await service.hasActiveSubscription(uid)
+            return res.status(200).send(bool)
+
+        } catch(e) {
             next(e)
         }
 

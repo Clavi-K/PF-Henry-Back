@@ -21,8 +21,8 @@ module.exports = {
 
         try {
 
-            const subs = await model.getByUser(obj.userId)
-            if (subs.length) {
+            const sub = await model.getByUser(obj.userId)
+            if (sub) {
                 throw new Error("You are already subscribed!")
             }
 
@@ -98,6 +98,28 @@ module.exports = {
             await model.addPayment(userId, sub.payments)
 
         } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    hasActiveSubscription: async (userId) => {
+
+        if (!userId || typeof userId !== "string" || userId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid user ID")
+        }
+
+        try {
+
+            const sub = await model.getByUser(userId)
+            if (!sub) {
+                return false
+            }
+
+            return true
+
+        } catch(e) {
             logger.error(e)
             throw new Error(e)
         }
