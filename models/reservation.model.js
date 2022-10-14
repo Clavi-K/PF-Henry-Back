@@ -69,6 +69,11 @@ class ReservationModel {
         return reservations
     }
 
+    async getRepeated(userId, showtimeId) {
+        const reservations = await this.model.find({userId, showtimeId}).lean()
+        return reservations
+    }
+
     /* ========== */
 
 }
