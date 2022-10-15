@@ -15,6 +15,7 @@ class ReservationModel {
             showtimeId: String,
             type: String,
             price: Number,
+            ticketAmount: { type: Number, require: true },
             seatLocations: [String],
             payed: { type: Boolean, default: false },
             deleted: { type: Boolean, default: false }

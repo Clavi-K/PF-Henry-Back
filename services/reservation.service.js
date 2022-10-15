@@ -25,6 +25,10 @@ module.exports = {
             throw new Error("Missing or invalid reservation price")
         }
 
+        if (!obj.ticketAmount || isNaN(Number(obj.ticketAmount)) || Number(obj.ticketAmount) < 1) {
+            throw new Error("Missing or invalid reservation ticket amount")
+        }
+
         if (!obj.type || typeof obj.type !== "string" || obj.type.trim(" ").length === 0) {
             throw new Error("Missing or invalid reservation type")
         }
