@@ -36,10 +36,16 @@ module.exports = {
                 throw new Error("Invalid reservation showtime ID")
             }
 
-            const repeated = await model.getRepeated(obj.userId, obj.showtimeId )
-            if(repeated.length) {
+            const repeated = await model.getRepeated(obj.userId, obj.showtimeId)
+
+            if (repeated.length) {
                 throw new Error("This user already has a reservation in this showtime!")
             }
+
+            obj.movieId = showtime.movieId
+            obj.movieTitle = showtime.movieTitle
+            obj.image = showtime.image
+            obj.dateTime = showtime.dateTime
 
             return await model.save(obj)
 
@@ -84,10 +90,14 @@ module.exports = {
 
     },
 
-    setUserSeats: async (reservationId, seatLocations) => {
+    setUserSeats: async (userId, showtimeId, seatLocations) => {
 
-        if (!reservationId || typeof reservationId !== "string" || reservationId.trim(" ").length === 0) {
-            throw new Error("Missing or invalid reservation ID")
+        if (!userId || typeof userId !== "string" || userId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid user ID")
+        }
+
+        if (!showtimeId || typeof showtimeId !== "string" || showtimeId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid showtime ID")
         }
 
         if (!Array.isArray(seatLocations) || !seatLocations.length) {
@@ -96,13 +106,15 @@ module.exports = {
 
         try {
 
-            const reservation = await model.getById(reservationId)
-            if (!reservation) throw new Error("Invalid reservation ID")
+            const showtime = await showtimeService.getById(showtimeId)
+            if (!showtime) throw new Error("Invalid reservation ID")
 
-            if (!reservation.userId || reservation.userId === "") throw new Error("This reservation is not assigned to any user!")
+            const reservationArr = await model.getRepeated(userId, showtimeId) 
+            if(!reservationArr.length) {
+                throw new Error("This user does not have a reservation for this showtime!")
+            }
 
-            const showtime = await showtimeModel.getById(reservation.showtimeId)
-            if (!showtime) throw new Error("Invalid reservation showtime ID")
+            const reservation = reservationArr[0]
 
             const showtimeSeats = [...showtime.seats]
 
@@ -110,13 +122,13 @@ module.exports = {
                 const row = seat[0].charCodeAt() - 65
                 const column = Number(seat.slice(1))
 
-                if (!showtimeSeats[row][column]) throw new Error("Invaalid showtime seat location")
+                if (!showtimeSeats[row][column]) throw new Error("Invalid showtime seat location")
                 if (showtimeSeats[row][column].userId !== undefined) throw new Error("That seat is already taken!")
 
             }
 
             await showtimeService.setUserSeats(reservation.showtimeId, reservation.userId, seatLocations)
-            return await model.setUserSeats(reservationId, seatLocations)
+            return await model.setUserSeats(reservation._id.toString(), seatLocations)
 
         } catch (e) {
             logger.error(e)
@@ -138,7 +150,7 @@ module.exports = {
                 throw new Error("Invalid reservation ID")
             }
 
-            if(reservation.userId !== userId) {
+            if (reservation.userId !== userId) {
                 throw new Error("This reservation does not belong to the user in this session!")
             }
 

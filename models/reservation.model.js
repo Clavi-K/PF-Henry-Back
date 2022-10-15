@@ -13,6 +13,10 @@ class ReservationModel {
         const schema = new Schema({
             userId: String,
             showtimeId: String,
+            movieId: Number,
+            movieTitle: String,
+            image: String,
+            dateTime: Date,
             type: String,
             price: Number,
             seatLocations: [String],
@@ -60,17 +64,17 @@ class ReservationModel {
     }
 
     async getPayedByUser(userId) {
-        const reservations = await this.model.find({userId, payed: true}).lean()
+        const reservations = await this.model.find({ userId, payed: true }).lean()
         return reservations
     }
 
     async getByShowtimeId(showtimeId) {
-        const reservations = await this.model.find({showtimeId, deleted: false}).lean()
+        const reservations = await this.model.find({ showtimeId, deleted: false }).lean()
         return reservations
     }
 
     async getRepeated(userId, showtimeId) {
-        const reservations = await this.model.find({userId, showtimeId}).lean()
+        const reservations = await this.model.find({ userId, showtimeId }).lean()
         return reservations
     }
 
