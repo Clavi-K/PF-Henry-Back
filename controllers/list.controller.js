@@ -37,6 +37,7 @@ module.exports = {
         const { listId, movieId } = req.params
 
         try {
+            
             const result = await service.addMovie(listId, movieId)
             return res.status(200).send(result)
 
@@ -52,6 +53,22 @@ module.exports = {
         try {
             const result = await service.removeMovie(listId, movieId)
             return res.status(200).send(result)
+
+        } catch (e) {
+            next(e)
+        }
+
+    },
+
+
+    removeById: async (req, res, next) => {
+
+        try {
+            const { uid } = req.user
+            const { listId } = req.params
+
+            await service.removeById(uid, listId)
+            return res.status(200).send("List removed successfully!")
 
         } catch (e) {
             next(e)

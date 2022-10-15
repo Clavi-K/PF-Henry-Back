@@ -42,6 +42,14 @@ mongoose
     `${config.atlas.SCHEMA}://${config.atlas.USER}:${config.atlas.PASSWORD}@${config.atlas.HOSTNAME}/${config.atlas.DATABASE}?${config.atlas.OPTIONS}`
   )
   .then(() => {
+    // app.set("view engine", "handlebars");
+    // app.engine(
+    //   "handlebars",
+    //   engine({
+    //     layoutDir: path.join(__dirname, "notifications/views"),
+    //   })
+    // );
+
     /* ===== MIDDLEWWARES ===== */
 
     app.use(express.json());
@@ -55,17 +63,10 @@ mongoose
         methods: "GET,POST,PUT,DELETE",
       })
     );
-    // app.use(express.static("public", options));
-    app.use(
-      "/images",
-      express.static(path.join(__dirname, "/notifications/views/images"))
-    );
-    // app.use(express.static(path.join(__dirname, "public")));
-    // app.use('/images', express.static('images'));
-    /* ========== */
 
     /* ===== ROUTERS ===== */
 
+    // app.use("/static", express.static(path.join(__dirname, "notifications")));
     app.use("/", routes);
 
     /* ========== */

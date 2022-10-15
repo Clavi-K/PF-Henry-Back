@@ -12,6 +12,7 @@ class ReviewModel {
     const schema = new Schema({
       userId: String,
       movieId: Number,
+      type: { type: String, default: "MOVIE" },
       stars: Number,
       description: String,
       deleted: { type: Boolean, default: false },
@@ -29,12 +30,15 @@ class ReviewModel {
   }
 
   async getAll() {
-    const reviews = await this.model.find({ deleted: false }).lean()
-    return reviews
+    return await this.model.find({ deleted: false, type: "MOVIE" }).lean()
+  }
+
+  async getAllWebsite() {
+    return await this.model.find({ deleted: false, type: "WEBSITE" }).lean()
   }
 
   async getByMovie(movieId) {
-    const reviews = await this.model.find({ movieId, deleted: false }).lean()
+    const reviews = await this.model.find({ movieId, deleted: false, type: "MOVIE" }).lean()
     return reviews
   }
 

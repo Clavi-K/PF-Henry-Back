@@ -41,7 +41,7 @@ module.exports = {
             const { roomId } = req.params
 
             await service.deleteById(roomId)
-            return res.status(200).send("Room deleted successfully!")
+            return res.status(202).send("Room deleted successfully!")
 
         } catch (e) {
             next(e)

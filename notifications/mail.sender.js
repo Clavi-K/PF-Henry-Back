@@ -30,7 +30,17 @@ class MailSender {
 
     await this.transporter.sendMail(mailOptions);
   }
-  async payment(email, subject) {
+  async payment(
+    subject,
+    name,
+    orderId,
+    userId,
+    email,
+    date,
+    payment_type,
+    order,
+    total
+  ) {
     const handlebarOptions = {
       viewEngine: {
         extName: ".handlebars",
@@ -46,13 +56,16 @@ class MailSender {
       subject,
       to: email,
       template: "payment",
-      attachments: [
-        {
-          filename: "image-1.jpeg",
-          path: "./views/images/image-1.jpeg",
-          cid: "image-1",
-        },
-      ],
+      context: {
+        name: name,
+        orderId: orderId,
+        userId: userId,
+        email: email,
+        date: date,
+        payment_type: payment_type,
+        order: order,
+        total: total,
+      },
     };
     this.transporter.use("compile", hbs(handlebarOptions));
     await this.transporter.sendMail(mailOptions);

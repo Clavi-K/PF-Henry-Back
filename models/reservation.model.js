@@ -59,6 +59,16 @@ class ReservationModel {
         await reservation.save()
     }
 
+    async getPayedByUser(userId) {
+        const reservations = await this.model.find({userId, payed: true}).lean()
+        return reservations
+    }
+
+    async getByShowtimeId(showtimeId) {
+        const reservations = await this.model.find({showtimeId, deleted: false}).lean()
+        return reservations
+    }
+
     /* ========== */
 
 }

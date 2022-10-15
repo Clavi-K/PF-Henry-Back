@@ -16,6 +16,8 @@ const router = Router();
 
 router.get("/getAll", controller.getAll);
 router.post("/post", auth, controller.post);
+router.post("/postWebsite", auth, controller.postWebiste)
+router.get("/getAllWebsite", controller.getAllWebsite)
 router.get("/:movieId", controller.getByMovie)
 
 /* ========== */

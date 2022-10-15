@@ -47,6 +47,39 @@ module.exports = {
     } catch (e) {
       next(e)
     }
+  },
+
+  postWebiste: async (req, res, next) => {
+    const { uid } = req.user
+
+    const newReview = req.body;
+    newReview.userId = uid
+
+    console.log(newReview)
+
+    try {
+
+      const result = await service.postWebsite(newReview)
+
+      return res.status(201).send(result)
+
+    } catch (e) {
+      next(e)
+    }
+
+  },
+
+  getAllWebsite: async(req, res, next) => {
+
+    try {
+
+      const reviews = await service.getAllWebsite()
+      return res.status(200).send(reviews)
+
+    } catch(e) {
+      next(e)
+    }
+
   }
 
 };

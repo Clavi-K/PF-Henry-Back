@@ -167,7 +167,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
 <!--[if (mso)|(IE)]><td align="center" width="600" style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
 <div class="u-col u-col-100" style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
   <div style="height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-  <!--[if (!mso)&(!IE)]><!--><div style="height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;"><!--<![endif]-->
+  <!--[if (!mso)&(!IE)]><!--><div style="background-color:#141518;height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;"><!--<![endif]-->
   
 <table id="u_content_heading_1" style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
   <tbody>
@@ -200,7 +200,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
   <tr>
     <td style="padding-right: 0px;padding-left: 0px;" align="center">
       
-      <img align="center" border="0" src="images/image-1.jpeg" alt="Hero Image" title="Hero Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: 350px;float: none;width: 100%;max-width: 250px;" width="250"/>
+      <img align="center" border="0" src="https://media.istockphoto.com/photos/woman-in-redblue-3d-glasses-holding-popcorn-bucket-and-jumping-picture-id1217596482?k=20&m=1217596482&s=170667a&w=0&h=DnP9vAXLmi-7JyuEAhAzlge4Y1kYPVe9D-2HcHzjRdk=" alt="Hero Image" title="Hero Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: 350px;float: none;width: 100%;max-width: 250px;" width="250"/>
       
     </td>
   </tr>
@@ -238,7 +238,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:50px 10px 5px 40px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <h3 class="v-font-size" style="margin: 0px; color: #ff315a; line-height: 140%; text-align: left; word-wrap: break-word; font-weight: normal; font-family: 'Montserrat',sans-serif; font-size: 26px;">
-    <strong>Shipping Details:</strong>
+    <strong>Order Details:</strong>
   </h3>
 
       </td>
@@ -252,7 +252,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 10px 40px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="color: #ecf0f1; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; font-family: Rubik, sans-serif;">Order Number: 02088</span></p>
+    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 18px; line-height: 25.2px; font-family: Rubik, sans-serif;">Order Number: {{orderId}}</span></p>
   </div>
 
       </td>
@@ -264,11 +264,11 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
   <tbody>
     <tr>
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 15px 40px;font-family:arial,helvetica,sans-serif;" align="left">
-        
+     <hr>   
   <div style="color: #b4b4b4; line-height: 180%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Customer ID</span><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">: A423S1436</span></p>
-<p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Full name:  Angela Testino </span></p>
-<p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Email: angie<strong>@gmail.com </strong></span></p>
+    <p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Customer ID</span><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">: {{userId}}</span></p>
+<p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Name: {{name}}</span></p>
+<p style="font-size: 14px; line-height: 180%;"><span style="font-size: 18px; line-height: 32.4px; font-family: Rubik, sans-serif;">Email: {{email}}</span></p>
   </div>
 
       </td>
@@ -280,11 +280,11 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
   <tbody>
     <tr>
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 50px 40px;font-family:arial,helvetica,sans-serif;" align="left">
-        
+        <hr>
   <div style="color: #b4b4b4; line-height: 170%; text-align: left; word-wrap: break-word;">
     <p style="font-size: 14px; line-height: 170%;"> </p>
-<p style="font-size: 14px; line-height: 170%;"><span style="font-size: 18px; line-height: 30.6px; font-family: Rubik, sans-serif;">Date: June 13, 20XX</span></p>
-<p style="font-size: 14px; line-height: 170%;"><span style="font-family: Rubik, sans-serif; font-size: 18px; line-height: 30.6px;">Payment Type: credit card </span></p>
+<p style="font-size: 14px; line-height: 170%;"><span style="font-size: 18px; line-height: 30.6px; font-family: Rubik, sans-serif;">Date: {{date}}</span></p>
+<p style="font-size: 14px; line-height: 170%;"><span style="font-family: Rubik, sans-serif; font-size: 18px; line-height: 30.6px;">Payment Type: {{payment_type}} </span></p>
   </div>
 
       </td>
@@ -383,7 +383,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
 </div>
 
 
-
+{{#each order}}
 <div class="u-row-container" style="padding: 0px;background-image: url('images/image-8.jpeg');background-repeat: no-repeat;background-position: center top;background-color: transparent">
   <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #f4f8fb;">
     <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
@@ -400,7 +400,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 15px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <h4 class="v-font-size" style="margin: 0px; color: #6a71a8; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Rubik',sans-serif; font-size: 16px;">
-    <div>Minions</div>
+    <div>{{description}}</div>
   </h4>
 
       </td>
@@ -423,7 +423,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <h4 class="v-font-size" style="margin: 0px; color: #6a71a8; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Rubik',sans-serif; font-size: 16px;">
-    1
+    {{quantity}}
   </h4>
 
       </td>
@@ -446,7 +446,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 30px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <h4 class="v-font-size" style="margin: 0px; color: #6a71a8; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Rubik',sans-serif; font-size: 16px;">
-    <div>USD 10</div>
+    <div>USD {{price}}</div>
   </h4>
 
       </td>
@@ -462,10 +462,11 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
     </div>
   </div>
 </div>
+{{/each}}
 
 
 
-<div class="u-row-container" style="padding: 0px;background-image: url('images/image-8.jpeg');background-repeat: no-repeat;background-position: center top;background-color: transparent">
+{{!-- <div class="u-row-container" style="padding: 0px;background-image: url('images/image-8.jpeg');background-repeat: no-repeat;background-position: center top;background-color: transparent">
   <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;">
     <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
       <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-image: url('images/image-8.jpeg');background-repeat: no-repeat;background-position: center top;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #ffffff;"><![endif]-->
@@ -625,7 +626,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
       <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
     </div>
   </div>
-</div>
+</div> --}}
 
 
 
@@ -691,7 +692,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 30px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <h4 class="v-font-size" style="margin: 0px; color: #6a71a8; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Rubik',sans-serif; font-size: 19px;">
-    <div><strong>USD 50</strong></div>
+    <div><strong>{{total}}</strong></div>
   </h4>
 
       </td>
@@ -819,7 +820,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
     <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 15px">
       <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
         <a href="https://twitter.com/" title="Twitter" target="_blank">
-          <img src="images/image-6.png" alt="Twitter" title="Twitter" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
+          <img src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png" alt="Twitter" title="Twitter" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
         </a>
       </td></tr>
     </tbody></table>
@@ -829,7 +830,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
     <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 15px">
       <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
         <a href="https://linkedin.com/" title="LinkedIn" target="_blank">
-          <img src="images/image-2.png" alt="LinkedIn" title="LinkedIn" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
+          <img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" title="LinkedIn" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
         </a>
       </td></tr>
     </tbody></table>
@@ -839,7 +840,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
     <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 15px">
       <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
         <a href="https://instagram.com/" title="Instagram" target="_blank">
-          <img src="images/image-3.png" alt="Instagram" title="Instagram" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCoxDcs-j2icCVV0_OWdDpzHPDXd3IpDhABQk2V7GRUEfXGs8fGCETRJ6urQFD_B0IeWA&usqp=CAU" alt="Instagram" title="Instagram" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border-radius:50%;height: auto;float: none;max-width: 32px !important">
         </a>
       </td></tr>
     </tbody></table>
@@ -848,8 +849,8 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
     <!--[if (mso)|(IE)]><td width="32" style="width:32px; padding-right: 15px;" valign="top"><![endif]-->
     <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 15px">
       <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-        <a href="https://vimeo.com/" title="Vimeo" target="_blank">
-          <img src="images/image-4.png" alt="Vimeo" title="Vimeo" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
+        <a href="https://www.facebook.com/" title="Facebook" target="_blank">
+          <img src="https://cdn3.iconfinder.com/data/icons/capsocial-round/500/facebook-512.png?width=32&height=32&mode=max" alt="Facebook" title="Facebook" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
         </a>
       </td></tr>
     </tbody></table>
@@ -859,7 +860,7 @@ table, td { color: #ffffff; } #u_body a { color: #0000ee; text-decoration: under
     <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 0px">
       <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
         <a href="https://youtube.com/" title="YouTube" target="_blank">
-          <img src="images/image-5.png" alt="YouTube" title="YouTube" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
+          <img src="https://www.freepnglogos.com/uploads/play-youtube-youtube-app-logo-youtube-logo-youtube--24.png" alt="YouTube" title="YouTube" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
         </a>
       </td></tr>
     </tbody></table>

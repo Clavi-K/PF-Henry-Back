@@ -10,6 +10,7 @@ const reservationRouter = require("./reservation.router");
 const userRouter = require("./user.router");
 const paymentRouter = require("./payment.router");
 const listRouter = require("./list.router");
+const subRouter = require("./subscription.router")
 
 const router = express.Router();
 
@@ -22,6 +23,7 @@ router.use("/room", roomRouter);
 router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
 router.use("/list", listRouter);
+router.use("/subscription", subRouter)
 
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {
