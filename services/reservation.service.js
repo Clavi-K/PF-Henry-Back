@@ -42,12 +42,7 @@ module.exports = {
                 throw new Error("This user already has a reservation in this showtime!")
             }
 
-            obj.movieId = showtime.movieId
-            obj.movieTitle = showtime.movieTitle
-            obj.image = showtime.image
-            obj.dateTime = showtime.dateTime
-
-            return await model.save(obj)
+            return { reservation: await model.save(obj), showtime }
 
         } catch (e) {
             logger.error(e)
@@ -109,8 +104,8 @@ module.exports = {
             const showtime = await showtimeService.getById(showtimeId)
             if (!showtime) throw new Error("Invalid reservation ID")
 
-            const reservationArr = await model.getRepeated(userId, showtimeId) 
-            if(!reservationArr.length) {
+            const reservationArr = await model.getRepeated(userId, showtimeId)
+            if (!reservationArr.length) {
                 throw new Error("This user does not have a reservation for this showtime!")
             }
 
