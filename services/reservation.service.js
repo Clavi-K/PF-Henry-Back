@@ -42,7 +42,7 @@ module.exports = {
                 throw new Error("This user already has a reservation in this showtime!")
             }
 
-            return reservation
+            return await model.save(obj), showtime
 
         } catch (e) {
             logger.error(e)
