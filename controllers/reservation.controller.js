@@ -58,8 +58,8 @@ module.exports = {
 
         try {
 
-            await service.setUserSeats(uid, showtimeId, seatLocations)
-            return res.status(200).send("Seats are now reserved!")
+            const newReservation = await service.setUserSeats(uid, showtimeId, seatLocations)
+            return res.status(200).send(newReservation)
 
         } catch (e) {
             next(e)
