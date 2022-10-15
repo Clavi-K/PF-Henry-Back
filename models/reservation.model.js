@@ -11,9 +11,12 @@ class ReservationModel {
     constructor() {
 
         const schema = new Schema({
-            _id: { type: String, unique: true, require: true },
             userId: String,
             showtimeId: String,
+            movieId: Number,
+            movieTitle: String,
+            image: String,
+            dateTime: Date,
             type: String,
             price: Number,
             seatLocations: [String],
