@@ -13,6 +13,10 @@ module.exports = {
 
     post: async (obj) => {
 
+        if (!obj._id || typeof obj._id !== "string" || obj._id.trim(" ").length === 0) {
+            throw new Error("Missing or invalid reservation ID")
+        }
+
         if (!obj.userId || typeof obj.userId !== "string" || obj.userId.trim(" ").length === 0) {
             throw new Error("Missing or invalid user ID")
         }
@@ -36,8 +40,9 @@ module.exports = {
                 throw new Error("Invalid reservation showtime ID")
             }
 
-            const repeated = await model.getRepeated(obj.userId, obj.showtimeId )
-            if(repeated.length) {
+            const repeated = await model.getRepeated(obj.userId, obj.showtimeId)
+            console.log(repeated)
+            if (repeated.length) {
                 throw new Error("This user already has a reservation in this showtime!")
             }
 
@@ -138,7 +143,7 @@ module.exports = {
                 throw new Error("Invalid reservation ID")
             }
 
-            if(reservation.userId !== userId) {
+            if (reservation.userId !== userId) {
                 throw new Error("This reservation does not belong to the user in this session!")
             }
 

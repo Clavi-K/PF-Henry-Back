@@ -11,6 +11,7 @@ class ReservationModel {
     constructor() {
 
         const schema = new Schema({
+            _id: { type: String, unique: true, require: true },
             userId: String,
             showtimeId: String,
             type: String,
@@ -60,17 +61,17 @@ class ReservationModel {
     }
 
     async getPayedByUser(userId) {
-        const reservations = await this.model.find({userId, payed: true}).lean()
+        const reservations = await this.model.find({ userId, payed: true }).lean()
         return reservations
     }
 
     async getByShowtimeId(showtimeId) {
-        const reservations = await this.model.find({showtimeId, deleted: false}).lean()
+        const reservations = await this.model.find({ showtimeId, deleted: false }).lean()
         return reservations
     }
 
     async getRepeated(userId, showtimeId) {
-        const reservations = await this.model.find({userId, showtimeId}).lean()
+        const reservations = await this.model.find({ userId, showtimeId }).lean()
         return reservations
     }
 

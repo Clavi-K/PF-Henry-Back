@@ -1,5 +1,6 @@
 const express = require("express");
 const logger = require("../utils/logger");
+const { Types } = require("mongoose")
 
 //Se importan todas las rutas
 const ApiRouter = require("./api.router.js");
@@ -24,6 +25,18 @@ router.use("/reservation", reservationRouter);
 router.use("/payment", paymentRouter);
 router.use("/list", listRouter);
 router.use("/subscription", subRouter)
+
+const reservationService = require("../services/reservation.service")
+
+router.post("/test", async (req, res) => {
+
+  console.log(req.body)
+
+  const result = await reservationService.post(req.body)
+
+  res.send(result)
+
+})
 
 //Por si se ingresa una ruta no definida previamente
 router.use("*/*", (req, res, next) => {
