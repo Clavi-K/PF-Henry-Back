@@ -58,6 +58,7 @@ class ReservationModel {
         reservation.seatLocations = seatLocations
 
         await reservation.save()
+        return reservation
     }
 
     async getPayedByUser(userId) {
