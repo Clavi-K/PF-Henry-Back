@@ -15,6 +15,7 @@ class ReservationModel {
             showtimeId: String,
             type: String,
             price: Number,
+            ticketAmount: { type: Number, require: true },
             seatLocations: [String],
             payed: { type: Boolean, default: false },
             deleted: { type: Boolean, default: false }
@@ -57,15 +58,21 @@ class ReservationModel {
         reservation.seatLocations = seatLocations
 
         await reservation.save()
+        return reservation
     }
 
     async getPayedByUser(userId) {
-        const reservations = await this.model.find({userId, payed: true}).lean()
+        const reservations = await this.model.find({ userId, payed: true }).lean()
         return reservations
     }
 
     async getByShowtimeId(showtimeId) {
-        const reservations = await this.model.find({showtimeId, deleted: false}).lean()
+        const reservations = await this.model.find({ showtimeId, deleted: false }).lean()
+        return reservations
+    }
+
+    async getRepeated(userId, showtimeId) {
+        const reservations = await this.model.find({ userId, showtimeId }).lean()
         return reservations
     }
 

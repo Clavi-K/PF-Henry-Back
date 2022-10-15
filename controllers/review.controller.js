@@ -8,10 +8,11 @@ const service = require("../services/review.service.js");
 
 module.exports = {
   post: async (req, res, next) => {
-    const { uid } = req.user
+    const { uid, name } = req.user
 
     const newReview = req.body;
     newReview.userId = uid
+    newReview.username = name
 
     try {
 
@@ -50,12 +51,11 @@ module.exports = {
   },
 
   postWebiste: async (req, res, next) => {
-    const { uid } = req.user
+    const { uid, name } = req.user
 
     const newReview = req.body;
     newReview.userId = uid
-
-    console.log(newReview)
+    newReview.username = name
 
     try {
 
@@ -69,14 +69,14 @@ module.exports = {
 
   },
 
-  getAllWebsite: async(req, res, next) => {
+  getAllWebsite: async (req, res, next) => {
 
     try {
 
       const reviews = await service.getAllWebsite()
       return res.status(200).send(reviews)
 
-    } catch(e) {
+    } catch (e) {
       next(e)
     }
 
