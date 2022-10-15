@@ -2,14 +2,9 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const reservationService = require("../services/reservation.service");
-const auth = require("../middlewares/auth");
-// const CourierClient = require("@trycourier/courier").CourierClient;
-// const courier = CourierClient({
-//   authorizationToken: process.env.COURRIER_API_KEY
+const showtimeService = require("../services/showtime.service");
+const mailSender = require("../notifications/mail.sender");
 
-// let order;
-// let games_id;
-// let cartItems;
 const mercadopago = require("mercadopago");
 // const { dataApi } = require("../controllers/game.controller");
 const { ACCESS_TOKEN_MP } = process.env;
@@ -18,20 +13,33 @@ mercadopago.configure({
   access_token: ACCESS_TOKEN_MP,
 });
 
+let order;
+
 router.post("/payment", async (req, res) => {
   const userId = req.query.userId;
+  const { email, name, price, title } = req.body;
+  const reservations = await reservationService.getByUser(userId);
+  order = await Promise.all(
+    reservations.map(async (e) => {
+      const showtime = await showtimeService.getById(e.showtimeId);
+      return {
+        description: showtime.movieTitle,
+        quantity: e.seatLocations.length ? e.seatLocations.length : 1,
+        price: e.price,
+      };
+    })
+  );
 
   let preference = {
-    // items: tickets,
     items: [
       {
         id: "item-ID-1234",
-        title: req.body.title,
+        title: title,
         currency_id: "ARS",
         picture_url: "img",
         description: "Description",
         quantity: 1,
-        unit_price: parseInt(req.body.price),
+        unit_price: parseInt(price),
       },
     ],
     payer: {
@@ -45,7 +53,7 @@ router.post("/payment", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success: `https://pf-henry-back.herokuapp.com/payment/payment?userId=${userId}`,
+      success: `https://pf-henry-back.herokuapp.com/payment/payment?userId=${userId}&email=${email}&name=${name}&total=${price}`,
       failure: "https://pf-henry-back.herokuapp.com/payment/payment",
       pending: "https://pf-henry-back.herokuapp.com/payment/payment",
     },
@@ -60,11 +68,33 @@ router.post("/payment", async (req, res) => {
 });
 
 router.get("/payment", async (req, res, next) => {
-  const { userId, payment_type, collection_id, status } = req.query;
+  const {
+    userId,
+    payment_type,
+    collection_id,
+    status,
+    email,
+    name,
+    payment_id,
+    total,
+  } = req.query;
 
   try {
     if (status === "approved") {
       await reservationService.confirmByUser(userId);
+
+      console.log(userId);
+      await mailSender.payment(
+        "Payment Successful",
+        name,
+        payment_id,
+        userId,
+        email,
+        new Date().toLocaleString().replace(",", " -"),
+        payment_type,
+        order,
+        total
+      );
       return res.redirect(
         `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
       );
