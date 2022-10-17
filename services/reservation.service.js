@@ -33,21 +33,21 @@ module.exports = {
             throw new Error("Missing or invalid reservation type")
         }
 
-        obj.movieTitle = showtime.movieTitle
-
+        
         try {
-
+            
             const showtime = await showtimeModel.getById(obj.showtimeId)
             if (!showtime) {
                 throw new Error("Invalid reservation showtime ID")
             }
-
+            
             const repeated = await model.getRepeated(obj.userId, obj.showtimeId)
-
+            
             if (repeated.length) {
                 throw new Error("This user already has a reservation in this showtime!")
             }
-
+            
+            obj.movieTitle = showtime.movieTitle
             return await model.save(obj)
 
         } catch (e) {
