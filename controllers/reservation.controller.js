@@ -9,10 +9,11 @@ const service = require("../services/reservation.service")
 module.exports = {
 
     post: async (req, res, next) => {
-        const { uid } = req.user
+        const { uid, email } = req.user
 
         const newReservation = req.body
         newReservation.userId = uid
+        newReservation.email = email
 
         try {
 
@@ -130,7 +131,7 @@ module.exports = {
             console.log(reservations)
             return res.status(200).send(reservations)
 
-        } catch(e) {
+        } catch (e) {
             next(e)
         }
 

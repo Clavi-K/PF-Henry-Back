@@ -12,6 +12,7 @@ class SubscriptionModel {
 
         const schema = new Schema({
             userId: String,
+            email: String,
             payments: { type: [Object], default: [] },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })

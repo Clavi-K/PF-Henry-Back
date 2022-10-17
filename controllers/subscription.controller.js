@@ -13,7 +13,7 @@ module.exports = {
         try {
 
             const sub = req.body
-            const newSub = await service.save({ ...sub, userId: req.user.uid })
+            const newSub = await service.save({ ...sub, userId: req.user.uid, email: req.user.email })
 
             return res.status(201).send(newSub)
 
@@ -69,23 +69,23 @@ module.exports = {
     getByUser: async (req, res, next) => {
 
         try {
-            const {uid} = req.user
+            const { uid } = req.user
 
             const sub = await service.getByUser(uid)
             return res.status(200).send(sub)
-        } catch(e) {
+        } catch (e) {
             next(e)
         }
 
     },
 
-    getAll: async(req,res,next) => {
+    getAll: async (req, res, next) => {
 
         try {
 
             const result = await service.getAll()
             return res.status(200).send(result)
-        } catch(e) {
+        } catch (e) {
             next(e)
         }
 
