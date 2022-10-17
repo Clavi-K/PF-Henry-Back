@@ -33,6 +33,8 @@ module.exports = {
             throw new Error("Missing or invalid reservation type")
         }
 
+        obj.movieTitle = showtime.movieTitle
+
         try {
 
             const showtime = await showtimeModel.getById(obj.showtimeId)
@@ -46,7 +48,7 @@ module.exports = {
                 throw new Error("This user already has a reservation in this showtime!")
             }
 
-            return await model.save(obj), showtime
+            return await model.save(obj)
 
         } catch (e) {
             logger.error(e)
