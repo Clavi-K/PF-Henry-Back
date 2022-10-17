@@ -177,11 +177,12 @@ module.exports = {
                 throw new Error("Invalid showtime ID")
             }
 
-            const reservations = await reservationModel.getByShowtime(showtimeId)
+            const reservations = await reservationModel.getByShowtimeId(showtimeId)
             if (reservations.length) {
                 throw new Error("You can't delete a showtime that has active reservations!")
             }
 
+            await reservationModel.deleteByShowtimeId(showtimeId)
             await model.loigcDelete(showtimeId)
 
         } catch (e) {
@@ -212,7 +213,7 @@ module.exports = {
 
             for (const location of seatLocations) {
                 const row = location[0].charCodeAt() - 65
-                const column = location.slice(1)
+                const column = Number(location.slice(1)) - 1
 
                 if (showtimeSeats[row][column].userId === undefined) {
                     showtimeSeats[row][column].userId = userId
@@ -253,7 +254,7 @@ module.exports = {
 
             for (const location of seatLocations) {
                 const row = location[0].charCodeAt() - 65
-                const column = location.slice(1)
+                const column = Number(location.slice(1)) - 1
 
                 showtimeSeats[row][column].userId = undefined
             }
@@ -340,7 +341,7 @@ function oneDayGap(lastDateInput, newDateInput) {
     const lastDate = new Date(lastDateInput)
     const newDate = new Date(newDateInput)
 
-    const dayInterval = (lastDate.getTime() - newDate.getTime()) / (1000 * 60 * 60 )
+    const dayInterval = (lastDate.getTime() - newDate.getTime()) / (1000 * 60 * 60)
 
     return (dayInterval <= -24)
 

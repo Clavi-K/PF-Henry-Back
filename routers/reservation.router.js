@@ -18,6 +18,7 @@ router.post("/post", auth, controller.post);
 router.get("/getByUser", auth, controller.getByUser);
 router.put("/setUserSeats", auth, controller.setUserSeats)
 router.put("/cancelById", auth, controller.cancelById)
+router.put("/deleteByUser", auth, controller.deleteByUser)
 router.put("/confirmByUser", auth, controller.confirmByUser);
 router.get("/getPayedByUser", auth, controller.getPayedByUser);
 router.get("/getByShowtime/:showtimeId", auth, controller.getByShowtime)

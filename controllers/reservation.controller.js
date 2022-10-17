@@ -54,7 +54,7 @@ module.exports = {
 
     setUserSeats: async (req, res, next) => {
         const { showtimeId, seatLocations } = req.body
-        const {uid} = req.user
+        const { uid } = req.user
 
         try {
 
@@ -103,6 +103,20 @@ module.exports = {
             const reservations = await service.getByShowtime(showtimeId)
             return res.status(200).send(reservations)
         } catch (e) {
+            next(e)
+        }
+
+    },
+
+    deleteByUser: async (req, res, next) => {
+
+        try{ 
+
+            const {uid} = req.user
+            await service.deleteByUser(uid)
+            return res.status(200).send("Deleted by user successfully!")
+
+        } catch(e) {
             next(e)
         }
 

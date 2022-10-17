@@ -15,8 +15,9 @@ class ReservationModel {
             showtimeId: String,
             type: String,
             price: Number,
-            ticketAmount: { type: Number, require: true },
             seatLocations: [String],
+            ticketAmount: { type: Number, require: true },
+            createdAt: { type: Date, default: Date.now() },
             payed: { type: Boolean, default: false },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
@@ -41,7 +42,12 @@ class ReservationModel {
     }
 
     async getByUser(userId) {
-        const reservations = await this.model.find({ userId }).lean()
+        const reservations = await this.model.find({ userId, deleted: false, payed: false }).lean()
+        return reservations
+    }
+
+    async getDeletedByUser(userId) {
+        const reservations = await this.model.find({ userId, deleted: true })
         return reservations
     }
 
@@ -67,13 +73,21 @@ class ReservationModel {
     }
 
     async getByShowtimeId(showtimeId) {
-        const reservations = await this.model.find({ showtimeId, deleted: false }).lean()
+        const reservations = await this.model.find({ showtimeId, deleted: false })
         return reservations
+    }
+
+    async deleteByShowtimeId(showtimeId) {
+        await this.model.updateMany({ showtimeId }, { deleted: true }, { upsert: false })
     }
 
     async getRepeated(userId, showtimeId) {
         const reservations = await this.model.find({ userId, showtimeId }).lean()
         return reservations
+    }
+
+    async deleteByUser(userId) {
+        await this.model.updateMany({ userId, payed: false }, { deleted: true }, { upsert: false })
     }
 
     /* ========== */
