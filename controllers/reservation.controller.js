@@ -110,11 +110,25 @@ module.exports = {
 
     deleteByUser: async (req, res, next) => {
 
-        try{ 
+        try {
 
-            const {uid} = req.user
+            const { uid } = req.user
             await service.deleteByUser(uid)
             return res.status(200).send("Deleted by user successfully!")
+
+        } catch (e) {
+            next(e)
+        }
+
+    },
+
+    getAll: async (req, res, next) => {
+
+        try {
+
+            const reservations = await service.getAll()
+            console.log(reservations)
+            return res.status(200).send(reservations)
 
         } catch(e) {
             next(e)

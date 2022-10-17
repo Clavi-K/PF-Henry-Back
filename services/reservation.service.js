@@ -216,7 +216,20 @@ module.exports = {
         try {
 
             await model.deleteByUser(userId)
-        } catch(e) {
+        } catch (e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
+    },
+
+    getAll: async () => {
+
+        try {
+
+            const result = await model.getAll()
+            return result
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }

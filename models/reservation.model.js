@@ -91,6 +91,10 @@ class ReservationModel {
         await this.model.updateMany({ userId, payed: false }, { deleted: true }, { upsert: false })
     }
 
+    async getAll() {
+        return await this.model.find({}).lean()
+    }
+
     /* ========== */
 
 }
