@@ -17,6 +17,10 @@ module.exports = {
             throw new Error("Missing or invalid user ID")
         }
 
+        if(!obj.email || typeof obj.email !== "string" || obj.email.trim(" ").length === 0) {
+            throw new Error("Missing or invalid user email")
+        }
+
         if (!obj.showtimeId || typeof obj.showtimeId !== "string" || obj.showtimeId.trim(" ").length === 0) {
             throw new Error("Missing or invalid showtime ID")
         }

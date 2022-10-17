@@ -15,6 +15,10 @@ module.exports = {
             throw new Error("Missing or invalid user ID")
         }
 
+        if (!obj.email || typeof obj.email !== "string" || obj.email.trim(" ").length === 0) {
+            throw new Error("Missing or ivalid user email")
+        }
+
         if (!obj.price || isNaN(Number(obj.price))) {
             throw new Error("Mssing or invalid subscription price")
         }
@@ -138,7 +142,7 @@ module.exports = {
             const result = await model.getAll()
             return result
 
-        } catch(e) {
+        } catch (e) {
             logger.error(e)
             throw new Error(e)
         }
