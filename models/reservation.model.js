@@ -18,7 +18,7 @@ class ReservationModel {
             movieTitle: String,
             seatLocations: [String],
             ticketAmount: { type: Number, require: true },
-            peaydAt: { type: Date, default: undefined },
+            payedAt: { type: Date, default: undefined },
             payed: { type: Boolean, default: false },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
