@@ -119,7 +119,7 @@ module.exports = {
 
             for (const seat of seatLocations) {
                 const row = seat[0].charCodeAt() - 65
-                const column = Number(seat.slice(1))
+                const column = Number(seat.slice(1)) - 1
 
                 if (!showtimeSeats[row][column]) throw new Error("Invalid showtime seat location")
                 if (showtimeSeats[row][column].userId !== undefined) throw new Error("That seat is already taken!")

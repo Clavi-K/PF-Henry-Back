@@ -213,7 +213,7 @@ module.exports = {
 
             for (const location of seatLocations) {
                 const row = location[0].charCodeAt() - 65
-                const column = location.slice(1)
+                const column = Number(location.slice(1)) - 1
 
                 if (showtimeSeats[row][column].userId === undefined) {
                     showtimeSeats[row][column].userId = userId
@@ -254,7 +254,7 @@ module.exports = {
 
             for (const location of seatLocations) {
                 const row = location[0].charCodeAt() - 65
-                const column = location.slice(1)
+                const column = Number(location.slice(1)) - 1
 
                 showtimeSeats[row][column].userId = undefined
             }
