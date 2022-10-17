@@ -45,6 +45,10 @@ class SubscriptionModel {
         await this.model.updateOne({ userId, deleted: false }, { deleted: true }, { upsert: false })
     }
 
+    async getAll() {
+        return await this.model.find({}).lean()
+    }
+
     /* ========== */
 
 }

@@ -15,9 +15,10 @@ class ReservationModel {
             showtimeId: String,
             type: String,
             price: Number,
+            movieTitle: String,
             seatLocations: [String],
             ticketAmount: { type: Number, require: true },
-            createdAt: { type: Date, default: Date.now() },
+            payedAt: { type: Date, default: undefined },
             payed: { type: Boolean, default: false },
             deleted: { type: Boolean, default: false }
         }, { versionKey: false })
@@ -34,11 +35,11 @@ class ReservationModel {
     }
 
     async confirm(id) {
-        await this.model.updateOne({ _id: id, deleted: false }, { payed: true }, { upsert: false })
+        await this.model.updateOne({ _id: id, deleted: false }, { payed: true, payedAt: Date.now() }, { upsert: false })
     }
 
     async confirmByUser(userId) {
-        await this.model.updateMany({ userId, payed: false, deleted: false }, { payed: true }, { upsert: false })
+        await this.model.updateMany({ userId, payed: false, deleted: false }, { payed: true, payedAt: Date.now() }, { upsert: false })
     }
 
     async getByUser(userId) {

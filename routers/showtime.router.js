@@ -16,7 +16,7 @@ const router = Router();
 /* ===== ROUTES ===== */
 
 router.post('/post', auth, adminAuth, controller.post)
-router.get('/getAll', controller.getAll)
+router.get('/getAll', auth, adminAuth, controller.getAll)
 router.put('/update', adminAuth, auth, controller.update)
 router.get("/getById/:showtimeId", controller.getById)
 router.delete("/endById/:showtimeId", auth, adminAuth, controller.endById)

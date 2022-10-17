@@ -15,6 +15,7 @@ const router = Router()
 /* ===== ROUTES ===== */
 
 router.get("/emailSend", auth, controller.emailSend)
+router.get("/role", auth, controller.getRole)
 
 /* ========== */
 
