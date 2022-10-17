@@ -44,7 +44,7 @@ class ShowtimeModel {
     }
 
     async getByMovie(movieId) {
-        const showtimes = await this.model.find({movieId, deleted: false}).lean()
+        const showtimes = await this.model.find({ movieId, deleted: false }).lean()
         return showtimes
     }
 
@@ -54,8 +54,12 @@ class ShowtimeModel {
     }
 
     async getByRoomId(roomId) {
-        const showtimes = await this.model.find({roomId, deleted: false}).lean()
+        const showtimes = await this.model.find({ roomId, deleted: false }).lean()
         return showtimes
+    }
+
+    async getDeleted() {
+        return await this.model.find({ deleted: true })
     }
 
     async loigcDelete(id) {

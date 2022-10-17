@@ -2,7 +2,7 @@
 
 const model = require("../models/room.model")
 const logger = require("../utils/logger")
-const showtimeService = require("./showtime.service")
+const showtimeModel = require("../models/showtime.model")
 
 /* ========== */
 
@@ -90,7 +90,7 @@ module.exports = {
                 throw new Error("This room is already deleted!")
             }
 
-            const showtimes = await showtimeService.getByRoomId(roomId)
+            const showtimes = await showtimeModel.getByRoomId(roomId)
             if (showtimes.length) {
                 throw new Error("You can't delete a room if it has showtimes associated")
             }

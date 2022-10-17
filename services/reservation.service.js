@@ -203,6 +203,22 @@ module.exports = {
             throw new Error(e)
         }
 
+    },
+
+    deleteByUser: async (userId) => {
+
+        if (!userId || typeof userId !== "string" || userId.trim(" ").length === 0) {
+            throw new Error("Missing or invalid reservation ID")
+        }
+
+        try {
+
+            await model.deleteByUser(userId)
+        } catch(e) {
+            logger.error(e)
+            throw new Error(e)
+        }
+
     }
 
 }
