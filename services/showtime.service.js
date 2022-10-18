@@ -72,7 +72,13 @@ module.exports = {
     getAll: async () => {
 
         try {
-            return await model.getAll()
+            const reservations = await model.getAll()
+
+            const filtered = reservations.filter(r => new Date(r.dateTime) < new Date(Date.now()))
+            deletePast(filtered)
+
+            return reservations.filter(r => new Date(r.dateTime) > new Date(Date.now()))
+
         } catch (e) {
             logger.error(e)
             throw new Error(e)
@@ -361,6 +367,13 @@ function getLastDate(showtimes) {
 
     return lastDate
 
+}
+
+function deletePast(showtimes) {
+    showtimes.map(f => {
+        reservationModel.deleteByShowtimeId(f._id.toString())
+        model.loigcDelete(f._id.toString())
+    })
 }
 
 /* ========== */
