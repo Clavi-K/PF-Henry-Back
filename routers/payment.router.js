@@ -53,8 +53,8 @@ router.post("/payment", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success: `https://pf-henry-back.herokuapp.com/payment/payment?userId=${userId}&email=${email}&name=${name}&total=${price}`,
-      failure: "https://pf-henry-back.herokuapp.com/payment/payment",
+      success: `http://localhost:8082/payment/payment?userId=${userId}&email=${email}&name=${name}&total=${price}`,
+      failure: "http://localhost:8082/payment/payment",
       pending: "https://pf-henry-back.herokuapp.com/payment/payment",
     },
   };
@@ -93,15 +93,17 @@ router.get("/payment", async (req, res, next) => {
         new Date().toLocaleString().replace(",", " -"),
         payment_type,
         order,
-        total
+        total,
+        "https://noticias.iruya.com/newnex/images/stories/cultura/audiovisuales/cine_pochoclo.jpg",
+        "your purchase"
       );
       return res.redirect(
-        `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
+        `http://localhost:3000/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
       );
     }
 
     return res.redirect(
-      `https://hpfc.netlify.app/cart?collection_id=${collection_id}&status=failed&payment_type=${payment_type}`
+      `http://localhost:3000/cart?collection_id=${collection_id}&status=failed&payment_type=${payment_type}`
     );
   } catch (err) {
     next(err);
@@ -142,9 +144,8 @@ router.post("/paymentSubscription", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success: `https://pf-henry-back.herokuapp.com/payment/paymentSubscription?userId=${userId}&email=${email}&name=${name}&total=${price}`,
-      failure:
-        "https://pf-henry-back.herokuapp.com/payment/paymentSubscription",
+      success: `http://localhost:8082/payment/paymentSubscription?userId=${userId}&email=${email}&name=${name}&total=${price}`,
+      failure: "http://localhost:8082/payment/paymentSubscription",
       pending:
         "https://pf-henry-back.herokuapp.com/payment/paymentSubscription",
     },
@@ -183,15 +184,17 @@ router.get("/paymentSubscription", async (req, res, next) => {
         new Date().toLocaleString().replace(",", " -"),
         payment_type,
         order,
-        total
+        total,
+        "https://st3.depositphotos.com/3889193/12521/i/600/depositphotos_125219864-stock-photo-movie-streaming-app.jpg",
+        "your subscription"
       );
       return res.redirect(
-        `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
+        `http://localhost:3000/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
       );
     }
 
     return res.redirect(
-      `https://hpfc.netlify.app/subscribe?collection_id=${collection_id}&status=failed&payment_type=${payment_type}`
+      `http://localhost:3000/subscribe?collection_id=${collection_id}&status=failed&payment_type=${payment_type}`
     );
   } catch (err) {
     next(err);
