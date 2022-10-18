@@ -4,7 +4,7 @@ const axios = require("axios");
 const reservationService = require("../services/reservation.service");
 const showtimeService = require("../services/showtime.service");
 const mailSender = require("../notifications/mail.sender");
-
+const subscriptionService = require("../services/subscription.service");
 const mercadopago = require("mercadopago");
 // const { dataApi } = require("../controllers/game.controller");
 const { ACCESS_TOKEN_MP } = process.env;
@@ -102,6 +102,96 @@ router.get("/payment", async (req, res, next) => {
 
     return res.redirect(
       `https://hpfc.netlify.app/cart?collection_id=${collection_id}&status=failed&payment_type=${payment_type}`
+    );
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/paymentSubscription", async (req, res) => {
+  const userId = req.query.userId;
+  const { email, name, price, title } = req.body;
+  order = [
+    {
+      description: title,
+      quantity: 1,
+      price: price,
+    },
+  ];
+
+  let preference = {
+    items: [
+      {
+        id: "item-ID-1234",
+        title: title,
+        currency_id: "ARS",
+        picture_url: "img",
+        description: "Description",
+        quantity: 1,
+        unit_price: parseInt(price),
+      },
+    ],
+    payer: {
+      name: "Belen",
+      surname: "Manterola",
+      email: "user@email.com",
+      phone: {
+        area_code: "3444",
+        number: 4444 - 4444,
+      },
+    },
+    back_urls: {
+      // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
+      success: `https://pf-henry-back.herokuapp.com/payment/paymentSubscription?userId=${userId}&email=${email}&name=${name}&total=${price}`,
+      failure:
+        "https://pf-henry-back.herokuapp.com/payment/paymentSubscription",
+      pending:
+        "https://pf-henry-back.herokuapp.com/payment/paymentSubscription",
+    },
+  };
+  try {
+    const data = await mercadopago.preferences.create(preference);
+
+    res.redirect(data.body.init_point);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.get("/paymentSubscription", async (req, res, next) => {
+  const {
+    userId,
+    payment_type,
+    collection_id,
+    status,
+    email,
+    name,
+    payment_id,
+    total,
+  } = req.query;
+
+  try {
+    if (status === "approved") {
+      await subscriptionService.save({ userId: userId, price: total });
+
+      await mailSender.payment(
+        "Payment Successful",
+        name,
+        payment_id,
+        userId,
+        email,
+        new Date().toLocaleString().replace(",", " -"),
+        payment_type,
+        order,
+        total
+      );
+      return res.redirect(
+        `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
+      );
+    }
+
+    return res.redirect(
+      `https://hpfc.netlify.app/subscribe?collection_id=${collection_id}&status=failed&payment_type=${payment_type}`
     );
   } catch (err) {
     next(err);
