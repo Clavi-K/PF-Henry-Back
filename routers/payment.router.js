@@ -173,7 +173,7 @@ router.get("/paymentSubscription", async (req, res, next) => {
 
   try {
     if (status === "approved") {
-      await subscriptionService.save({ userId: userId, price: total });
+      await subscriptionService.save({ userId: userId, price: total, email: email });
 
       await mailSender.payment(
         "Payment Successful",
