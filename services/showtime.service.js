@@ -54,8 +54,8 @@ module.exports = {
 
             if (showtimes.length) {
                 const lastDate = getLastDate(showtimes)
-                if (!oneDayGap(lastDate, new Date(obj.dateTime))) {
-                    throw new Error("The new showtime must be at least 24 hours later than the last showtime!")
+                if (!threeHourGap(lastDate, new Date(obj.dateTime))) {
+                    throw new Error("The new showtime must be at least 3 hours later than the last showtime!")
                 }
             }
 
@@ -342,14 +342,14 @@ function createSeats(rows, columns) {
 
 }
 
-function oneDayGap(lastDateInput, newDateInput) {
+function threeHourGap(lastDateInput, newDateInput) {
 
     const lastDate = new Date(lastDateInput)
     const newDate = new Date(newDateInput)
 
     const dayInterval = (lastDate.getTime() - newDate.getTime()) / (1000 * 60 * 60)
 
-    return (dayInterval <= -24)
+    return (dayInterval <= -3)
 
 }
 
