@@ -54,8 +54,8 @@ module.exports = {
 
             if (showtimes.length) {
                 const lastDate = getLastDate(showtimes)
-                if (!oneDayGap(lastDate, new Date(obj.dateTime))) {
-                    throw new Error("The new showtime must be at least 24 hours later than the last showtime!")
+                if (!threeHourGap(lastDate, new Date(obj.dateTime))) {
+                    throw new Error("The new showtime must be at least 3 hours later than the last showtime!")
                 }
             }
 
@@ -72,7 +72,13 @@ module.exports = {
     getAll: async () => {
 
         try {
-            return await model.getAll()
+            const reservations = await model.getAll()
+
+            const filtered = reservations.filter(r => new Date(r.dateTime) < new Date(Date.now()))
+            deletePast(filtered)
+
+            return reservations.filter(r => new Date(r.dateTime) > new Date(Date.now()))
+
         } catch (e) {
             logger.error(e)
             throw new Error(e)
@@ -336,14 +342,14 @@ function createSeats(rows, columns) {
 
 }
 
-function oneDayGap(lastDateInput, newDateInput) {
+function threeHourGap(lastDateInput, newDateInput) {
 
     const lastDate = new Date(lastDateInput)
     const newDate = new Date(newDateInput)
 
     const dayInterval = (lastDate.getTime() - newDate.getTime()) / (1000 * 60 * 60)
 
-    return (dayInterval <= -24)
+    return (dayInterval <= -3)
 
 }
 
@@ -361,6 +367,13 @@ function getLastDate(showtimes) {
 
     return lastDate
 
+}
+
+function deletePast(showtimes) {
+    showtimes.map(f => {
+        reservationModel.deleteByShowtimeId(f._id.toString())
+        model.loigcDelete(f._id.toString())
+    })
 }
 
 /* ========== */
