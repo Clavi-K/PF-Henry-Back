@@ -30,7 +30,7 @@ module.exports = {
                 throw new Error("You are already subscribed!")
             }
 
-            return await model.save({ userId: obj.userId, payments: [{ price: obj.price, dateTime: Date.now() }] })
+            return await model.save({ userId: obj.userId, email: obj.email, payments: [{ price: obj.price, dateTime: Date.now() }] })
 
         } catch (e) {
             logger.error(e)
