@@ -17,7 +17,7 @@ module.exports = {
             throw new Error("Missing or invalid user ID")
         }
 
-        if(!obj.email || typeof obj.email !== "string" || obj.email.trim(" ").length === 0) {
+        if (!obj.email || typeof obj.email !== "string" || obj.email.trim(" ").length === 0) {
             throw new Error("Missing or invalid user email")
         }
 
@@ -37,20 +37,20 @@ module.exports = {
             throw new Error("Missing or invalid reservation type")
         }
 
-        
+
         try {
-            
+
             const showtime = await showtimeModel.getById(obj.showtimeId)
             if (!showtime) {
                 throw new Error("Invalid reservation showtime ID")
             }
-            
+
             const repeated = await model.getRepeated(obj.userId, obj.showtimeId)
-            
+
             if (repeated.length) {
                 throw new Error("This user already has a reservation in this showtime!")
             }
-            
+
             obj.movieTitle = showtime.movieTitle
             return await model.save(obj)
 
@@ -128,7 +128,7 @@ module.exports = {
                 const column = Number(seat.slice(1)) - 1
 
                 if (!showtimeSeats[row][column]) throw new Error("Invalid showtime seat location")
-                if (showtimeSeats[row][column].userId !== undefined) throw new Error("That seat is already taken!")
+                if (showtimeSeats[row][column].userId) throw new Error("That seat is already taken!")
 
             }
 
