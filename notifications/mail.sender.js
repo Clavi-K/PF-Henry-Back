@@ -39,7 +39,9 @@ class MailSender {
     date,
     payment_type,
     order,
-    total
+    total,
+    image,
+    type
   ) {
     const handlebarOptions = {
       viewEngine: {
@@ -65,6 +67,8 @@ class MailSender {
         payment_type: payment_type,
         order: order,
         total: total,
+        image: image,
+        type: type,
       },
     };
     this.transporter.use("compile", hbs(handlebarOptions));

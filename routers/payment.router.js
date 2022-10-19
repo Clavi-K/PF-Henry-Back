@@ -93,7 +93,9 @@ router.get("/payment", async (req, res, next) => {
         new Date().toLocaleString().replace(",", " -"),
         payment_type,
         order,
-        total
+        total,
+        "https://noticias.iruya.com/newnex/images/stories/cultura/audiovisuales/cine_pochoclo.jpg",
+        "your purchase"
       );
       return res.redirect(
         `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
@@ -172,7 +174,11 @@ router.get("/paymentSubscription", async (req, res, next) => {
 
   try {
     if (status === "approved") {
-      await subscriptionService.save({ userId: userId, price: total, email: email });
+      await subscriptionService.save({
+        userId: userId,
+        price: total,
+        email: email,
+      });
 
       await mailSender.payment(
         "Payment Successful",
@@ -183,7 +189,9 @@ router.get("/paymentSubscription", async (req, res, next) => {
         new Date().toLocaleString().replace(",", " -"),
         payment_type,
         order,
-        total
+        total,
+        "https://st3.depositphotos.com/3889193/12521/i/600/depositphotos_125219864-stock-photo-movie-streaming-app.jpg",
+        "your subscription"
       );
       return res.redirect(
         `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
