@@ -13,8 +13,7 @@ module.exports = {
         if (!email || typeof email !== "string" || email.trim(" ").length === 0 || !email.includes("@")) throw new Error("Missing or invalid email")
 
         try {
-            console.log(email)
-            console.log(await model.save({ email }))
+            await model.save({ email })
         } catch (e) {
             logger.error(e)
             throw new Error(e)
