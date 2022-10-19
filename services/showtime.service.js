@@ -221,7 +221,7 @@ module.exports = {
                 const row = location[0].charCodeAt() - 65
                 const column = Number(location.slice(1)) - 1
 
-                if (showtimeSeats[row][column].userId === undefined) {
+                if (!showtimeSeats[row][column].userId) {
                     showtimeSeats[row][column].userId = userId
                 } else {
                     throw new Error("One seat is already taken!")
