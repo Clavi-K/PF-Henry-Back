@@ -20,14 +20,26 @@ class MailSender {
     });
   }
 
-  async send(email, subject, template) {
+  async send(email, subject, name) {
+    const handlebarOptions = {
+      viewEngine: {
+        extName: ".handlebars",
+        partialsDir: path.resolve("./notifications/views"),
+        defaultLayout: false,
+      },
+      viewPath: path.resolve("./notifications/views"),
+      extName: ".handlebars",
+    };
     const mailOptions = {
       from: "Notifications <no-reply>",
       subject,
       to: email,
-      html: template,
+      template: "welcome",
+      context: {
+        name: name,
+      },
     };
-
+    this.transporter.use("compile", hbs(handlebarOptions));
     await this.transporter.sendMail(mailOptions);
   }
   async payment(
