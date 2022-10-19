@@ -128,7 +128,6 @@ module.exports = {
         try {
 
             const reservations = await service.getAll()
-            console.log(reservations)
             return res.status(200).send(reservations)
 
         } catch (e) {
