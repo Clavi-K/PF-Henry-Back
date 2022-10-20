@@ -194,7 +194,7 @@ router.get("/paymentSubscription", async (req, res, next) => {
         "your subscription"
       );
       return res.redirect(
-        `https://hpfc.netlify.app/profile/payments?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
+        `https://hpfc.netlify.app/profile/edit?collection_id=${collection_id}&status=${status}&payment_type=${payment_type}`
       );
     }
 
