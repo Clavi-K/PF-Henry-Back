@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 const reservationService = require("../services/reservation.service");
 const showtimeService = require("../services/showtime.service");
 const mailSender = require("../notifications/mail.sender");
@@ -78,7 +77,12 @@ router.get("/payment", async (req, res, next) => {
     payment_id,
     total,
   } = req.query;
+  var hoy = new Date();
+  var fecha =
+    hoy.getDate() + "-" + (hoy.getMonth() + 1) + "-" + hoy.getFullYear();
 
+  var hora = hoy.getHours() + ":" + hoy.getMinutes() + ":" + hoy.getSeconds();
+  var fechaYHora = fecha + " " + hora;
   try {
     if (status === "approved") {
       await reservationService.confirmByUser(userId);
@@ -90,7 +94,7 @@ router.get("/payment", async (req, res, next) => {
         payment_id,
         userId,
         email,
-        new Date().toLocaleString().replace(",", " -"),
+        fechaYHora,
         payment_type,
         order,
         total,
@@ -171,7 +175,12 @@ router.get("/paymentSubscription", async (req, res, next) => {
     payment_id,
     total,
   } = req.query;
+  var hoy = new Date();
+  var fecha =
+    hoy.getDate() + "-" + (hoy.getMonth() + 1) + "-" + hoy.getFullYear();
 
+  var hora = hoy.getHours() + ":" + hoy.getMinutes() + ":" + hoy.getSeconds();
+  var fechaYHora = fecha + " " + hora;
   try {
     if (status === "approved") {
       await subscriptionService.save({
@@ -186,7 +195,7 @@ router.get("/paymentSubscription", async (req, res, next) => {
         payment_id,
         userId,
         email,
-        new Date().toLocaleString().replace(",", " -"),
+        fechaYHora,
         payment_type,
         order,
         total,
