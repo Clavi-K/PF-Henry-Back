@@ -1,6 +1,6 @@
 /* ===== REQUIRED IMPORTS ===== */
 
-const service = require('../services/function.service.js')
+const service = require("../services/room.service.js");
 
 /* ========== */
 
@@ -9,24 +9,24 @@ const service = require('../services/function.service.js')
 module.exports = {
 
     post: async (req, res, next) => {
-        const newFunction = req.body
+        const newRoom = req.body
 
         try {
-
-            const result = await service.post(newFunction)
+            const result = await service.post(newRoom)
             return res.status(201).send(result)
 
         } catch (e) {
             next(e)
         }
+
     },
 
     getAll: async (req, res, next) => {
 
         try {
 
-            const functions = await service.getAll()
-            return res.status(200).send(functions)
+            const result = await service.getAll()
+            return res.status(200).send(result)
 
         } catch (e) {
             next(e)
@@ -34,18 +34,21 @@ module.exports = {
 
     },
 
-    update: async (req, res, next) => {
-        const updatedFunction = req.body
+    deleteById: async (req, res, next) => {
 
         try {
 
-            const result = await service.update(updatedFunction)
-            return res.status(201).send(result)
+            const { roomId } = req.params
+
+            await service.deleteById(roomId)
+            return res.status(202).send("Room deleted successfully!")
 
         } catch (e) {
             next(e)
         }
-    },
+
+    }
+
 }
 
 /* ========== */

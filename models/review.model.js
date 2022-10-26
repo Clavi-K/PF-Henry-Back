@@ -9,35 +9,41 @@ const logger = require("../utils/logger");
 
 class ReviewModel {
   constructor() {
-    const schema = new Schema(
-      {
-        userId: String,
-        movieId: Number,
-        stars: Number,
-        description: String,
-        deleted: { type: Boolean, default: false },
-      },
-      { versionKey: false }
-    );
+    const schema = new Schema({
+      userId: String,
+      username: String,
+      movieId: Number,
+      type: { type: String, default: "MOVIE" },
+      stars: Number,
+      description: String,
+      deleted: { type: Boolean, default: false },
+    }, { versionKey: false });
 
     this.model = model("reviews", schema);
+
   }
 
   /* ===== MODEL METHODS ===== */
+
   async save(obj) {
     const result = await this.model.create(obj);
     return result;
   }
 
   async getAll() {
-    const reviews = await this.model.find({}).lean();
-    return reviews;
+    return await this.model.find({ deleted: false, type: "MOVIE" }).lean()
+  }
+
+  async getAllWebsite() {
+    return await this.model.find({ deleted: false, type: "WEBSITE" }).lean()
   }
 
   async getByMovie(movieId) {
-    const reviews = this.model.find({movieId}).lean()
+    const reviews = await this.model.find({ movieId, deleted: false, type: "MOVIE" }).lean()
     return reviews
   }
+
+  /* ========== */
 
 }
 
