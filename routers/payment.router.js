@@ -52,9 +52,9 @@ router.post("/payment", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success: `https://pf-henry-back.herokuapp.com/payment/payment?userId=${userId}&email=${email}&name=${name}&total=${price}`,
-      failure: "https://pf-henry-back.herokuapp.com/payment/payment",
-      pending: "https://pf-henry-back.herokuapp.com/payment/payment",
+      success: `https://pf-henry-back2.herokuapp.com/payment/payment?userId=${userId}&email=${email}&name=${name}&total=${price}`,
+      failure: "https://pf-henry-back2.herokuapp.com/payment/payment",
+      pending: "https://pf-henry-back2.herokuapp.com/payment/payment",
     },
   };
   try {
@@ -148,11 +148,11 @@ router.post("/paymentSubscription", async (req, res) => {
     },
     back_urls: {
       // success: `http://localhost:8082/payment/payment?userId=${req.body.userId}`,
-      success: `https://pf-henry-back.herokuapp.com/payment/paymentSubscription?userId=${userId}&email=${email}&name=${name}&total=${price}`,
+      success: `https://pf-henry-back2.herokuapp.com/payment/paymentSubscription?userId=${userId}&email=${email}&name=${name}&total=${price}`,
       failure:
-        "https://pf-henry-back.herokuapp.com/payment/paymentSubscription",
+        "https://pf-henry-back2.herokuapp.com/payment/paymentSubscription",
       pending:
-        "https://pf-henry-back.herokuapp.com/payment/paymentSubscription",
+        "https://pf-henry-back2.herokuapp.com/payment/paymentSubscription",
     },
   };
   try {
